@@ -1,0 +1,73 @@
+﻿@model Tienda.Models.Producto
+@{
+    Layout = null;
+}
+
+<div>
+    <h4>Producto</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Imagen)
+                </dt>
+
+                <dd>
+                    <img alt="@Html.DisplayFor(model => model.Imagen)" src="@Html.DisplayFor(model => model.Imagen)" class="img-thumbnail " style="width:400px;height:200px;max-width: 100%; max-height: 100%;" />
+
+                </dd>
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Categoria.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Categoria.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Barcode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Barcode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Precio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Precio)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Descripcion)
+                </dd>
+            </dl>
+
+        </div>
+    </div>
+</div>
+<p>
+
+    @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-default" })
+</p>

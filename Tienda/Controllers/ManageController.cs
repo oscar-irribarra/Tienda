@@ -1,21 +1,20 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using Tienda.Models;
-
 namespace Tienda.Controllers
 {
     [Authorize]
+    [RoutePrefix("Configuracion")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+       
         public ManageController()
         {
         }
@@ -52,6 +51,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Manage/Index
+        [Route("Perfil")]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -215,6 +215,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Manage/ChangePassword
+        [Route("CambiarContraseña")]
         public ActionResult ChangePassword()
         {
             return View();
@@ -222,6 +223,7 @@ namespace Tienda.Controllers
 
         //
         // POST: /Manage/ChangePassword
+        [Route("CambiarContraseña")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)

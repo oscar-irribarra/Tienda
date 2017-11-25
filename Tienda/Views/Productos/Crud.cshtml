@@ -1,0 +1,243 @@
+﻿@model Tienda.ViewModels.FormProductoViewModel
+
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+
+@using (Html.BeginForm("Guardar", "Productos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <section class="content">
+        <ol class="breadcrumb box">
+            <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Productos")">Productos</a></li>
+            <li class="active">Formulario</li>
+        </ol>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Producto</h3>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="box-body">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(x => x.Productofrm.Id)
+                            @Html.HiddenFor(x => x.DetalleProductofrm.Id)
+
+
+                            <div class="form-group frm_cantidad">
+                                @Html.LabelFor(model => model.Productofrm.TipoProductoId, "Negocio", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Productofrm.TipoProductoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.TipoProductoId, "", new { @class = "text-danger" })                                 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Productofrm.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Productofrm.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.Barcode, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("Codigoproducto", null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Productofrm.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Productofrm.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.Nombre, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Productofrm.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Productofrm.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.Precio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group frm_cantidad">
+                                @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Productofrm.CategoriaId, "Categoria", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Productofrm.CategoriaId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.CategoriaId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Productofrm.ImpuestoId, "Impuesto", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.Productofrm.ImpuestoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.ImpuestoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group frm_fecha">
+                                @Html.LabelFor(model => model.Productofrm.FechaVencimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Productofrm.FechaVencimiento, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Productofrm.FechaVencimiento, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <input type="submit" value="Guardar" class="btn btn-default" />
+                            @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default pull-right" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 box-detalle">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            Detalles
+                        </h3>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="box-body">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetalleProductofrm.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DetalleProductofrm.Marca, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DetalleProductofrm.Marca, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetalleProductofrm.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DetalleProductofrm.Modelo, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DetalleProductofrm.Modelo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetalleProductofrm.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DetalleProductofrm.Color, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DetalleProductofrm.Color, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetalleProductofrm.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.DetalleProductofrm.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DetalleProductofrm.Descripcion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetalleProductofrm.ImagenFile, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="file-input-new">
+                                        <div class="input-group">
+                                            <div tabindex="500" class="form-control file-caption">
+                                                <div class="file-caption-name" id="NombreArchivo">
+                                                </div>
+                                            </div>
+                                            <div class="input-group-btn" style="height:auto">
+                                                <div tabindex="500" class="btn btn-primary btn-file">
+                                                    <i class="ion-android-folder-open"></i>
+                                                    Buscar...
+                                                    @Html.TextBoxFor(modelo => modelo.DetalleProductofrm.ImagenFile, new { type = "file", id = "files" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               @* <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ImagenUrl, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.TextBoxFor(model => model.DetalleProductofrm.ImagenFile, new { type = "file", id = "files", @class = "btn btn-default" })
+                                    @Html.ValidationMessageFor(model => model.ImagenUrl, "", new { @class = "text-danger" })
+                                </div>*@
+                            </div>
+                            @if (Model.DetalleProductofrm != null)
+                            {
+                                if (Model.DetalleProductofrm.ImagenUrl != null)
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetalleProductofrm.ImagenUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+
+                                            <img src="@Url.Content(Model.DetalleProductofrm.ImagenUrl)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                        <div class="box-footer">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+}
+
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            ComprobarProducto();           
+        });
+        function ComprobarProducto() {
+            $("#Productofrm_FechaVencimiento").attr("required", true);
+            $(".box-detalle").hide();
+            $(".frm_cantidad").hide();
+
+            ($("#Productofrm_Id").val() != 0) ? $(".frm_cantidad").hide() : $(".frm_cantidad").show();
+
+            $("#Productofrm_TipoProductoId").change(function () { metodo(); });
+
+            ($("#Productofrm_TipoProductoId").find('option:selected').val() == 2) ? metodo() : false;
+        }      
+
+        function metodo() {
+            if ($("#Productofrm_TipoProductoId").find('option:selected').val() == 1) {
+                $(".box-detalle").hide();
+                $(".frm_fecha").show();
+                $("#Productofrm_FechaVencimiento").attr("required", true);
+                frm_detalleimputs(false);
+            } else {
+                $(".box-detalle").show();
+                $(".frm_fecha").hide();
+                $("#Productofrm_FechaVencimiento").attr("required", false);
+                frm_detalleimputs(true);
+            }
+            function frm_detalleimputs(bool) {
+                $("#DetalleProductofrm_Marca").attr("required", bool);
+                $("#DetalleProductofrm_Modelo").attr("required", bool);
+                $("#DetalleProductofrm_Color").attr("required", bool);
+                $("#DetalleProductofrm_Descripcion").attr("required", bool);
+            }
+        }
+
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Content/Scripts/error-jquery.js"></script>
+<script src="~/Content/Scripts/FileUpload.js"></script>
+
+}

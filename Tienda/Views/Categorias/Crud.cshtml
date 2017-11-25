@@ -1,0 +1,67 @@
+﻿@model Tienda.Models.Categoria
+
+@{
+    ViewBag.Title = "Formulario";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+
+
+@using (Html.BeginForm( "Guardar", "Categorias", FormMethod.Post ))
+{
+    @Html.AntiForgeryToken()
+    <section class="content">
+        <ol class="breadcrumb box">
+            <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Categorias")">Categorias</a></li>
+            <li class="active">Formulario</li>
+        </ol>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Formulario
+                </h3>
+            </div>
+            <div class="form-horizontal">
+                <div class="box-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="form-group frm_negocio">
+                        @Html.LabelFor(model => model.TipoProductoId, "Negocio", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.TipoProductoId, null, "Seleccione...", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TipoProductoId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <input type="submit" value="Guardar" class="btn btn-default" />
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default pull-right" })
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+        $(document).ready(function () {
+            $(".frm_negocio").hide();
+            ComprobarId();
+        });
+        function ComprobarId() {
+            ($("#Id").val() != 0) ? $(".frm_negocio").hide() : $(".frm_negocio").show();
+        }
+        
+</script>
+}

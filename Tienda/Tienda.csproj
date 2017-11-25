@@ -19,7 +19,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -185,46 +186,212 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DefinedBundleOrderer.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\AdquisicionesController.cs" />
+    <Compile Include="Controllers\ArriendosController.cs" />
+    <Compile Include="Controllers\CategoriasController.cs" />
+    <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\GestionController.cs" />
+    <Compile Include="Controllers\InicioController.cs" />
+    <Compile Include="Controllers\ImpuestosController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductosController.cs" />
+    <Compile Include="Controllers\ProveedoresController.cs" />
+    <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="EntityConfigurations\TipoProductoConfiguration.cs" />
+    <Compile Include="EntityConfigurations\AdquisicionConfiguration.cs" />
+    <Compile Include="EntityConfigurations\ArriendoConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DetalleAdquisicionConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DetalleArriendoConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DetalleProductoConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DetalleVentaConfiguration.cs" />
+    <Compile Include="EntityConfigurations\InventarioConfiguration.cs" />
+    <Compile Include="EntityConfigurations\ContactoConfiguration.cs" />
+    <Compile Include="EntityConfigurations\ProductoConfiguration.cs" />
+    <Compile Include="EntityConfigurations\VentaConfiguration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\IdentityExtensions.cs" />
+    <Compile Include="Helpers\ImagenHelper.cs" />
+    <Compile Include="Helpers\IndexValidacion.cs" />
+    <Compile Include="Helpers\RootHelper.cs" />
+    <Compile Include="Migrations\201710072236017_tablasentitymodel.cs" />
+    <Compile Include="Migrations\201710072236017_tablasentitymodel.Designer.cs">
+      <DependentUpon>201710072236017_tablasentitymodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711102201137_Tablas_Negocio.cs" />
+    <Compile Include="Migrations\201711102201137_Tablas_Negocio.Designer.cs">
+      <DependentUpon>201711102201137_Tablas_Negocio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711102246514_AgregadaFechaVencimiento_Productos.cs" />
+    <Compile Include="Migrations\201711102246514_AgregadaFechaVencimiento_Productos.Designer.cs">
+      <DependentUpon>201711102246514_AgregadaFechaVencimiento_Productos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711110535007_AñadidoVendedorA_Venta_Adq_Arriendo.cs" />
+    <Compile Include="Migrations\201711110535007_AñadidoVendedorA_Venta_Adq_Arriendo.Designer.cs">
+      <DependentUpon>201711110535007_AñadidoVendedorA_Venta_Adq_Arriendo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711120025228_AñadidoRut_Isbloqued_Usuarios.cs" />
+    <Compile Include="Migrations\201711120025228_AñadidoRut_Isbloqued_Usuarios.Designer.cs">
+      <DependentUpon>201711120025228_AñadidoRut_Isbloqued_Usuarios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711140155284_NuevosAtributosDetalleAdq_Producto.cs" />
+    <Compile Include="Migrations\201711140155284_NuevosAtributosDetalleAdq_Producto.Designer.cs">
+      <DependentUpon>201711140155284_NuevosAtributosDetalleAdq_Producto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711140325512_telefonoproveedor_null.cs" />
+    <Compile Include="Migrations\201711140325512_telefonoproveedor_null.Designer.cs">
+      <DependentUpon>201711140325512_telefonoproveedor_null.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711140332440_telefonoclienteNotnull_datetimaproductoNull.cs" />
+    <Compile Include="Migrations\201711140332440_telefonoclienteNotnull_datetimaproductoNull.Designer.cs">
+      <DependentUpon>201711140332440_telefonoclienteNotnull_datetimaproductoNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711140357084_barcodeisunique.cs" />
+    <Compile Include="Migrations\201711140357084_barcodeisunique.Designer.cs">
+      <DependentUpon>201711140357084_barcodeisunique.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711150632238_NuevosatributosTablaMensaje.cs" />
+    <Compile Include="Migrations\201711150632238_NuevosatributosTablaMensaje.Designer.cs">
+      <DependentUpon>201711150632238_NuevosatributosTablaMensaje.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711150657405_cambiodenombreMensajeContacto.cs" />
+    <Compile Include="Migrations\201711150657405_cambiodenombreMensajeContacto.Designer.cs">
+      <DependentUpon>201711150657405_cambiodenombreMensajeContacto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711150715235_CambioTipoTelefonoContacto.cs" />
+    <Compile Include="Migrations\201711150715235_CambioTipoTelefonoContacto.Designer.cs">
+      <DependentUpon>201711150715235_CambioTipoTelefonoContacto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.cs" />
+    <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.Designer.cs">
+      <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711151555586_Inidicesclienteproveedor.cs" />
+    <Compile Include="Migrations\201711151555586_Inidicesclienteproveedor.Designer.cs">
+      <DependentUpon>201711151555586_Inidicesclienteproveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711151616467_Inidicesclienteproveedor1.cs" />
+    <Compile Include="Migrations\201711151616467_Inidicesclienteproveedor1.Designer.cs">
+      <DependentUpon>201711151616467_Inidicesclienteproveedor1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.cs" />
+    <Compile Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.Designer.cs">
+      <DependentUpon>201711232218581_nuevocampoPrecioenDetalleVenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DatosCorreo.cs" />
+    <Compile Include="Models\Respuesta.cs" />
+    <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\TipoProducto.cs" />
+    <Compile Include="Models\Adquisicion.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Arriendo.cs" />
+    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\DetalleAdquisicion.cs" />
+    <Compile Include="Models\DetalleArriendo.cs" />
+    <Compile Include="Models\DetalleProducto.cs" />
+    <Compile Include="Models\DetalleVenta.cs" />
+    <Compile Include="Models\Documento.cs" />
+    <Compile Include="Models\Empresa.cs" />
+    <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Impuesto.cs" />
+    <Compile Include="Models\Inventario.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Contacto.cs" />
+    <Compile Include="Models\Producto.cs" />
+    <Compile Include="Models\Proveedor.cs" />
+    <Compile Include="Models\Venta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AgregarProductoView.cs" />
+    <Compile Include="ViewModels\FormProductoViewModel.cs" />
+    <Compile Include="ViewModels\ProductoViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\VentaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Css\AdminLTE.min.css" />
+    <Content Include="Content\Css\bootstrap-datepicker.min.css" />
+    <Content Include="Content\Css\bootstrap-theme.css" />
+    <Content Include="Content\Css\bootstrap-theme.min.css" />
+    <Content Include="Content\Css\bootstrap.css" />
+    <Content Include="Content\Css\bootstrap.min.css" />
+    <Content Include="Content\Css\bootstrap3-wysihtml5.min.css" />
+    <Content Include="Content\Css\font-awesome.min.css" />
+    <Content Include="Content\Elegant\css\style.css" />
+    <Content Include="Content\Elegant\images\arr.png" />
+    <Content Include="Content\Elegant\images\banner.jpg" />
+    <Content Include="Content\Elegant\js\bars.js" />
+    <Content Include="Content\Elegant\js\bootstrap.js" />
+    <Content Include="Content\Elegant\js\easing.js" />
+    <Content Include="Content\Elegant\js\jquery-2.1.4.min.js" />
+    <Content Include="Content\Elegant\js\move-top.js" />
+    <Content Include="Content\Fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Fonts\FontSourceSansPro.css" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Fonts\ionicons.svg" />
+    <Content Include="Content\Css\ionicons.min.css" />
+    <Content Include="Content\Css\jquery-jvectormap.css" />
+    <Content Include="Content\Css\morris.css" />
+    <Content Include="Content\ImagenesPortal\abarrotes1.jpg" />
+    <Content Include="Content\ImagenesPortal\Seguridad1.png" />
+    <Content Include="Content\ImagenesPortal\seguridad2.jpg" />
+    <Content Include="Content\Scripts\AdminLte\adminlte.min.js" />
+    <Content Include="Content\Scripts\AdminLte\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="Content\Scripts\AdminLte\demo.js" />
+    <Content Include="Content\Scripts\AdminLte\fastclick.js" />
+    <Content Include="Content\Scripts\AdminLte\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="Content\Scripts\FileUpload.js" />
+    <Content Include="Content\Scripts\jquery-ui.min.js" />
+    <Content Include="Content\Scripts\AdminLte\jquery.knob.min.js" />
+    <Content Include="Content\Scripts\AdminLte\jquery.slimscroll.min.js" />
+    <Content Include="Content\Scripts\AdminLte\jquery.sparkline.min.js" />
+    <Content Include="Content\Scripts\AdminLte\moment.min.js" />
+    <Content Include="Content\Scripts\AdminLte\raphael.min.js" />
+    <Content Include="Content\Scripts\bootstrap.js" />
+    <Content Include="Content\Scripts\bootstrap.min.js" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Content\Scripts\error-jquery.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.js" />
+    <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
+    <None Include="Content\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Content\Scripts\jquery.validate.js" />
+    <Content Include="Content\Scripts\jquery.validate.min.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Content\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Content\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Content\Scripts\respond.js" />
+    <Content Include="Content\Scripts\respond.min.js" />
+    <Content Include="Content\Css\_all-skins.min.css" />
+    <Content Include="Content\user1.png" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\Css\Site.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Content\Css\bootstrap-theme.css.map" />
+    <Content Include="Content\Css\bootstrap-theme.min.css.map" />
+    <Content Include="Content\Css\bootstrap.css.map" />
+    <Content Include="Content\Css\bootstrap.min.css.map" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -235,9 +402,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Inicio\About.cshtml" />
+    <Content Include="Views\Inicio\Contact.cshtml" />
+    <Content Include="Views\Inicio\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -258,22 +425,105 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_AdminLteLayout.cshtml" />
+    <Content Include="Views\Categorias\Index.cshtml" />
+    <Content Include="Views\Categorias\Crud.cshtml" />
+    <Content Include="Views\Impuestos\Index.cshtml" />
+    <Content Include="Views\Impuestos\Crud.cshtml" />
+    <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Productos\Crud.cshtml" />
+    <Content Include="Views\Productos\Detalles.cshtml" />
+    <Content Include="Views\Clientes\Index.cshtml" />
+    <Content Include="Views\Clientes\Crud.cshtml" />
+    <Content Include="Views\Ventas\PuntodeVenta.cshtml" />
+    <Content Include="Views\Proveedores\Index.cshtml" />
+    <Content Include="Views\Proveedores\Crud.cshtml" />
+    <Content Include="Views\Ventas\Index.cshtml" />
+    <Content Include="Views\Ventas\Crud.cshtml" />
+    <Content Include="Views\Ventas\Detalles.cshtml" />
+    <Content Include="Views\Gestion\Index.cshtml" />
+    <Content Include="Views\Account\Update.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Adquisiciones\Index.cshtml" />
+    <Content Include="Views\Adquisiciones\Detalles.cshtml" />
+    <Content Include="Views\Adquisiciones\Crud.cshtml" />
+    <Content Include="Views\Adquisiciones\PuntodeAdquisicion.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\Tienda2017Demo - Web Deploy.pubxml" />
+    <Content Include="Views\Error\_ErrorPage.cshtml" />
+    <Content Include="Views\Arriendos\Index.cshtml" />
+    <Content Include="Views\Arriendos\Detalles.cshtml" />
+    <Content Include="Views\Arriendos\Crud.cshtml" />
+    <Content Include="Views\Arriendos\PuntodeArriendo.cshtml" />
+    <Content Include="Views\Inicio\Detalles.cshtml" />
+    <Content Include="Views\Inicio\Catalogo.cshtml" />
+    <Content Include="Views\Inicio\_ItemCesta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\ImagenesProductos\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Fonts\FontAwesome.otf" />
+    <Content Include="Content\Fonts\ionicons.eot" />
+    <Content Include="Content\Fonts\ionicons.ttf" />
+    <Content Include="Content\Fonts\ionicons.woff" />
+    <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201710072236017_tablasentitymodel.resx">
+      <DependentUpon>201710072236017_tablasentitymodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711102201137_Tablas_Negocio.resx">
+      <DependentUpon>201711102201137_Tablas_Negocio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711102246514_AgregadaFechaVencimiento_Productos.resx">
+      <DependentUpon>201711102246514_AgregadaFechaVencimiento_Productos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711110535007_AñadidoVendedorA_Venta_Adq_Arriendo.resx">
+      <DependentUpon>201711110535007_AñadidoVendedorA_Venta_Adq_Arriendo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711120025228_AñadidoRut_Isbloqued_Usuarios.resx">
+      <DependentUpon>201711120025228_AñadidoRut_Isbloqued_Usuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711140155284_NuevosAtributosDetalleAdq_Producto.resx">
+      <DependentUpon>201711140155284_NuevosAtributosDetalleAdq_Producto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711140325512_telefonoproveedor_null.resx">
+      <DependentUpon>201711140325512_telefonoproveedor_null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711140332440_telefonoclienteNotnull_datetimaproductoNull.resx">
+      <DependentUpon>201711140332440_telefonoclienteNotnull_datetimaproductoNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711140357084_barcodeisunique.resx">
+      <DependentUpon>201711140357084_barcodeisunique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150632238_NuevosatributosTablaMensaje.resx">
+      <DependentUpon>201711150632238_NuevosatributosTablaMensaje.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150657405_cambiodenombreMensajeContacto.resx">
+      <DependentUpon>201711150657405_cambiodenombreMensajeContacto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150715235_CambioTipoTelefonoContacto.resx">
+      <DependentUpon>201711150715235_CambioTipoTelefonoContacto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150815015_cambiomodeloclienteproveedor.resx">
+      <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711151555586_Inidicesclienteproveedor.resx">
+      <DependentUpon>201711151555586_Inidicesclienteproveedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711151616467_Inidicesclienteproveedor1.resx">
+      <DependentUpon>201711151616467_Inidicesclienteproveedor1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.resx">
+      <DependentUpon>201711232218581_nuevocampoPrecioenDetalleVenta.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -289,7 +539,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>16107</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

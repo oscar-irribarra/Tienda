@@ -5,7 +5,7 @@ namespace Tienda.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
@@ -41,19 +41,19 @@ namespace Tienda.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Correo electrónico")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="El campo {0} es obligatorio")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
@@ -64,12 +64,25 @@ namespace Tienda.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]   
+        public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public string Apellido { get; set; }
+        [Required(ErrorMessage = "Seleccione un {0}")]
+        [Display(Name = "Rol")]
+        public int RoleID { get; set; }
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public string Rut { get; set; }
+
+        public bool Isbloqued { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
@@ -83,16 +96,16 @@ namespace Tienda.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
-        public string Password { get; set; }
+        public string Password { get; set; }        
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
@@ -104,7 +117,7 @@ namespace Tienda.Models
 
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }

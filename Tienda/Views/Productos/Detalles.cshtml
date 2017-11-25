@@ -1,0 +1,148 @@
+﻿@model Tienda.Models.Producto
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+<section class="content">
+    <ol class="breadcrumb box hidden-print" >
+        <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+        <li><a href="@Url.Action("Index","Productos")">Productos</a></li>
+        <li class="active">@Model.Nombre</li>
+    </ol>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">
+                        Producto: <b> @Html.DisplayFor(model => model.Nombre) </b>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Negocio
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TipoProducto.Nombre)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Categoria.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Categoria.Nombre)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Impuesto.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Impuesto.Nombre)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Precio)
+                        </dt>
+
+                        <dd>
+                          @string.Format("{0:c0}", Model.Precio)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Inventario.SingleOrDefault().Stock)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Inventario.SingleOrDefault().Stock)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Barcode)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Barcode)
+                        </dd>
+                        @if ((Model.TipoProductoId == 1))
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FechaVencimiento)
+                            </dt>
+
+                            <dd>
+                             @string.Format("{0:dd-MM-yyyy}", Model.FechaVencimiento) 
+                            </dd>
+                        }
+                    </dl>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Editar", "Crud", new { id = Model.Id }, new { @class = "btn btn-default hidden-print" })
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default pull-right hidden-print" })
+                </div>
+
+            </div>
+        </div>
+        @if (!(Model.TipoProductoId == 1))
+            {
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <div class="box-title">
+                            Detalles
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <dl class="dl-horizontal">
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DetalleProducto.SingleOrDefault().Marca)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.DetalleProducto.SingleOrDefault().Marca)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DetalleProducto.SingleOrDefault().Modelo)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.DetalleProducto.SingleOrDefault().Modelo)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DetalleProducto.SingleOrDefault().Color)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.DetalleProducto.SingleOrDefault().Color)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DetalleProducto.SingleOrDefault().Descripcion)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.DetalleProducto.SingleOrDefault().Descripcion)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DetalleProducto.SingleOrDefault().ImagenUrl)
+                            </dt>
+
+                            <dd>
+                                @if (!(Model.DetalleProducto.Select(dt => dt.ImagenUrl).FirstOrDefault() == null))
+                                {
+                                    <br />
+                                        <br />
+                                        <img src="@Url.Content(Model.DetalleProducto.SingleOrDefault().ImagenUrl)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+                                }
+
+                            </dd>
+
+
+                        </dl>
+                    </div>
+
+
+                </div>
+            </div>
+        }
+    </div>
+</section>

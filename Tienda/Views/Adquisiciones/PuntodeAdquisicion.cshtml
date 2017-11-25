@@ -1,0 +1,135 @@
+﻿@model Tienda.ViewModels.AgregarProductoView
+@{
+    ViewBag.Title = "PuntodeAdquisicion";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <section class="content">
+        <ol class="breadcrumb box">
+            <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Adquisiciones")">Adquisiciones</a></li>
+            <li class="active">Punto de Compra</li>
+        </ol>
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Añadir Productos</h3>
+            </div>
+            <div class="form-horizontal">
+                <div class="box-body">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Barcode, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Barcode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Precio,  htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button id="addCart" class="btn btn-default pull-right">Agregar Producto</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-default" })
+                    @if (!(Convert.ToInt32(Session["ConteoAdquisicion"]) == 0))
+                    {
+                        @Html.ActionLink("Finalizar Adquisicion", "Crud", new { }, new { @class = "btn btn-default pull-right" })
+                    }
+                    <label>@Session["ConteoAdquisicion"]</label>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.DetalleCart != null)
+        {
+            <div class="box">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Cantidad</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.DetalleCart)
+                    {
+                            <tr>
+                                <td>
+                                    @item.IdProducto
+                                </td>
+                                <td>
+                                    @item.Nombre
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-2 .col-xs-6 .col-sm-4">
+
+                                        </div>
+                                        <div class="col-md-2 .col-xs-6 .col-sm-4">
+                                            @item.Cantidad
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    @item.Precio
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Eliminar", "EliminarProducto", new { id = item.IdProducto }, new { @class = "btn btn-danger", onclick = "return confirm ('Esta seguro que desea eliminar este producto')" })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        }
+    </section>
+}
+
+@section scripts
+{
+    <script>
+
+        window.onload = function () {
+            $("#Barcode").val("");
+            $("#Cantidad").val("");
+            $("#Precio").val("");
+            var input = document.getElementById("Barcode").focus();
+        }
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Content/Scripts/error-jquery.js"></script>
+}
+

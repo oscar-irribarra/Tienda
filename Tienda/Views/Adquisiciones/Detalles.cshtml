@@ -1,0 +1,114 @@
+﻿@model Tienda.Models.Adquisicion
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+
+<section class="content">
+    <ol class="breadcrumb box hidden-print">
+        <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+        <li><a href="@Url.Action("Index","Adquisiciones")">Ventas</a></li>
+        <li class="active">Adquisicion N° @Model.Id</li>
+    </ol>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">
+                        Adquisicion n° #@Model.Id
+                    </div>
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Fecha
+                        </dt>
+                        <dd>
+                            @string.Format("{0:dd-MM-yyyy}", Model.Fecha)
+                        </dd>
+                        <dt>
+                            Estado
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Estado.Nombre)
+                        </dd>
+                        <dt>
+                            Proveedor
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Proveedor.Nombre)
+                        </dd>
+                        <dt>
+                            Vendedor
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Vendedor.FullName)
+                        </dd>
+                        <dt>
+                            Documento
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Documento.Nombre)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-primary hidden-print" onclick="window.print();">Imprimir</button>
+                    @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default pull-right hidden-print" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-title">
+                        Detalle Compra
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Id</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Monto</th>
+                        </tr>
+                        @foreach (var item in Model.DetalleAdquisicion)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Precio)
+                                </td>
+                                <td>
+                                    @string.Format("{0:c0}",(item.Cantidad*item.Precio))
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="3" align="right"><strong>Total</strong></td>
+                            <td colspan="4" align="right">@string.Format("{0:c0}", @Model.DetalleAdquisicion.Sum(x => x.Cantidad * x.Precio))</td>
+                        </tr>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+

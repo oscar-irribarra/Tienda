@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Tienda.Models.Arriendo>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+
+
+<section class="content">
+    <ol class="breadcrumb box">
+        <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+        <li class="active">Arriendos</li>
+    </ol>
+
+    <div class="box">
+        <div class="box-header">
+            <div class="box-title">
+                <small>Arriendos</small>
+            </div>
+            <div class="box-tools">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li> @Html.ActionLink("Nueva", "PuntodeArriendo", null, new { @class = "btn btn-default" })</li>
+                </ul>
+            </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Fecha Inicio
+                    </th>
+                    <th>
+                        Fecha Fin
+                    </th>
+                    <th>
+                        Cliente
+                    </th>
+                    <th>
+                        Estado
+                    </th>
+                    <th>Vendedor</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @string.Format("{0:dd-MM-yyyy}", item.FechaInicio)
+                        </td>
+                        <td>
+                            @string.Format("{0:dd-MM-yyyy}", item.FechaFin)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cliente.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Vendedor.FullName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "Detalles", "Arriendos", new { id = item.Id }, new { @class = "btn btn-default" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="box-footer">
+
+        </div>
+    </div>
+
+
+</section>
+
+

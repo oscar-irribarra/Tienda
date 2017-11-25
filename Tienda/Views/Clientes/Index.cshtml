@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Tienda.Models.Cliente>
+
+@{
+    ViewBag.Title = "Clientes";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+<section class="content">
+    <ol class="breadcrumb box">
+        <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+        <li class="active">Clientes</li>        
+    </ol>
+    <div class="box">
+        <div class="box-header">
+            <div class="box-title">
+                <small>Clientes</small>
+            </div>
+            <div class="box-tools">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li> @Html.ActionLink("Nuevo", "Crud", null, new { @class = "btn btn-default" })</li>
+                </ul>
+            </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rut)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FullName)
+                    </th>
+                    
+                    <th>
+                        @Html.DisplayNameFor(model => model.Comuna)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Ciudad)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Telefono)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rut)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>                       
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comuna)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ciudad)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefono)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Crud", new { id = item.Id }, new { @class = "btn btn-default" })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="box-footer">
+
+        </div>
+    </div>
+</section>

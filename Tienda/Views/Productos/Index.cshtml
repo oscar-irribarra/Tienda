@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Tienda.Models.Producto>
+
+@{
+    ViewBag.Title = "Productos";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+<section class="content">
+    <ol class="breadcrumb box">
+        <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+        <li class="active">Productos</li>
+    </ol>
+   
+    <div class="box">
+        <div class="box-header">
+            <div class="box-title">
+                <small>Productos</small>
+            </div>
+            <div class="box-tools">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li> @Html.ActionLink("Nuevo", "Crud", null, new { @class = "btn btn-default" })</li>
+                </ul>
+            </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Barcode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Categoria.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Precio)
+                    </th>                    
+                    <th>
+                        Negocio
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Barcode)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Nombre, "Detalles", new { id = item.Id })
+                        </td>                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Precio)
+                        </td>                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TipoProducto.Nombre)
+                        </td>
+                        
+                        <td>
+                            @Html.ActionLink("Detalles", "Detalles", new { id = item.Id }, new { @class = "btn btn-default" }) |
+                            @Html.ActionLink("Editar", "Crud", new { id = item.Id }, new { @class = "btn btn-default" })
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="box-footer">
+
+        </div>
+    </div>
+
+
+
+</section>
