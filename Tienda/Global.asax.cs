@@ -26,6 +26,7 @@ namespace Tienda
         protected void Check_aspusers()
         {
             RootHelper.CheckRole(Rol.Admin);
+            RootHelper.CheckRole(Rol.Usuario);
             RootHelper.CheckRole(Rol.Vendedor);
             RootHelper.CheckSuperUser();
         }

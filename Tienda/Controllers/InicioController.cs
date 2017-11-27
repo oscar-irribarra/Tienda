@@ -14,7 +14,7 @@ namespace Tienda.Controllers
     public class InicioController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
-       
+
         public ActionResult Index()
         {
             var productos = _context.Productos.Include(x => x.DetalleProducto).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
@@ -90,6 +90,7 @@ namespace Tienda.Controllers
             _cestaProductos.RemoveAll(x => x.IdProducto == itemId);
             return GetCartItems();
         }
+       
 
     }
 }

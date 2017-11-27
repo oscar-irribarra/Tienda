@@ -78,6 +78,7 @@ namespace Tienda.Controllers
                 Fecha = DateTime.Now,
                 EstadoId = Estados.Finalizada,
                 EmpresaId = Empresas.Sostel,
+                EsOnline = false,
                 TipoProductoId = _TipoProducto,
                 VendedorId = User.Identity.GetUserId()
             };

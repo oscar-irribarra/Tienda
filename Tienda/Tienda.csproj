@@ -286,6 +286,10 @@
     <Compile Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.Designer.cs">
       <DependentUpon>201711232218581_nuevocampoPrecioenDetalleVenta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711262329508_EsonlineTablaVentas.cs" />
+    <Compile Include="Migrations\201711262329508_EsonlineTablaVentas.Designer.cs">
+      <DependentUpon>201711262329508_EsonlineTablaVentas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DatosCorreo.cs" />
@@ -458,6 +462,7 @@
     <Content Include="Views\Inicio\Detalles.cshtml" />
     <Content Include="Views\Inicio\Catalogo.cshtml" />
     <Content Include="Views\Inicio\_ItemCesta.cshtml" />
+    <Content Include="Views\Gestion\Reportes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -523,6 +528,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.resx">
       <DependentUpon>201711232218581_nuevocampoPrecioenDetalleVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711262329508_EsonlineTablaVentas.resx">
+      <DependentUpon>201711262329508_EsonlineTablaVentas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

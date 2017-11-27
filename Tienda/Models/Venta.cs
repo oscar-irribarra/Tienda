@@ -32,6 +32,9 @@ namespace Tienda.Models
         public int TipoProductoId { get; set; }
 
         [Required]
+        public bool EsOnline { get; set; }
+
+        [Required]
         public string VendedorId { get; set; }
         public virtual ApplicationUser Vendedor { get; set; }
 
