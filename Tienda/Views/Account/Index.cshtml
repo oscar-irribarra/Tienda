@@ -21,62 +21,66 @@
                 </ul>
             </div>
         </div>
-        <div class="box-body table-responsive no-padding">
-            <table class="table table-bordered">
-                <tr>
-                    <th>
-                        Rut
-                    </th>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>
-                        Apellido
-                    </th>
-                    <th>
-                        Correo
-                    </th>
-
-                    <th>Rol</th>
-                    <th>Estado Bloqueo</th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+        <div class="box-body table-responsive">
+            <br />
+            <table id="Usuarios" class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            @item.Rut
-                        </td>
-                        <td>
-                            @item.Nombre
-                        </td>
-                        <td>
-                            @item.Apellido
-                        </td>
-                        <td>
-                            @item.UserName
-                        </td>
-                        @foreach (var role in item.RoleNames)
-                        {
-                            <td>
-                                @role
-                            </td>
-                        }
-                    
-                        <td>
-                            @if (item.Isbloqued == true)
-                            {
-                                @Html.ActionLink("Desbloquear", "BloquearUsuario","Account", new { _username = item.UserName, bloqueado = false }, new { @class = "btn btn-danger" })
-                            }
-                            else
-                            {
-                                @Html.ActionLink("Bloquear", "BloquearUsuario", "Account", new { _username = item.UserName, bloqueado = true }, new { @class = "btn btn-success" })
-                            }
-                        </td>
-                    </tr>
-                }
+                        <th>
+                            Rut
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Apellido
+                        </th>
+                        <th>
+                            Correo
+                        </th>
 
+                        <th>Rol</th>
+                        <th>Estado Bloqueo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Rut
+                            </td>
+                            <td>
+                                @item.Nombre
+                            </td>
+                            <td>
+                                @item.Apellido
+                            </td>
+                            <td>
+                                @item.UserName
+                            </td>
+                            @foreach (var role in item.RoleNames)
+                            {
+                                <td>
+                                    @role
+                                </td>
+                            }
+
+                            <td>
+                                @if (item.Isbloqued == true)
+                                {
+                                    @Html.ActionLink("Desbloquear", "BloquearUsuario", "Account", new { _username = item.UserName, bloqueado = false }, new { @class = "btn btn-danger" })
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Bloquear", "BloquearUsuario", "Account", new { _username = item.UserName, bloqueado = true }, new { @class = "btn btn-success" })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
         <div class="box-footer">
@@ -84,3 +88,11 @@
         </div>
     </div>
 </section>
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#Usuarios").DataTable();
+        });
+    </script>
+}

@@ -20,58 +20,61 @@
                 </ul>
             </div>
         </div>
-        <div class="box-body table-responsive no-padding">
-            <table class="table table-bordered">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Rut)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FullName)
-                    </th>
-                    
-                    <th>
-                        @Html.DisplayNameFor(model => model.Comuna)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Ciudad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Telefono)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Email)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-            {
+        <div class="box-body table-responsive">
+            <br />
+            <table id="Clientes" class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Rut)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.FullName)
-                        </td>                       
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Comuna)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Ciudad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Telefono)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Editar", "Crud", new { id = item.Id }, new { @class = "btn btn-default" })
-                        </td>
-                    </tr>
-                }
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rut)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
 
+                        <th>
+                            @Html.DisplayNameFor(model => model.Comuna)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Ciudad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Telefono)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rut)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comuna)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Ciudad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Crud", new { id = item.Id }, new { @class = "btn btn-default" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
         <div class="box-footer">
@@ -79,3 +82,12 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#Clientes").DataTable();
+        });
+    </script>
+}

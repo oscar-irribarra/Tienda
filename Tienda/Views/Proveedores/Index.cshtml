@@ -22,45 +22,48 @@
                 </ul>
             </div>
         </div>
-        <div class="box-body table-responsive no-padding">
-            <table class="table table-bordered">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Rut)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Nombre)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Correo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Telefono)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-            {
+        <div class="box-body table-responsive">
+            <br />
+            <table id="Proveedores" class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Rut)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Correo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Telefono)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Editar", "Crud", new { id = item.Id }, new { @class = "btn btn-default" })
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rut)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Correo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Telefono)
+                        </th>
+                        <th></th>
                     </tr>
-                }
-
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rut)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Correo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefono)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Editar", "Crud", new { id = item.Id }, new { @class = "btn btn-default" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
         <div class="box-footer">
@@ -71,3 +74,11 @@
 
 </section>
 
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#Proveedores").DataTable();
+        });
+    </script>
+}

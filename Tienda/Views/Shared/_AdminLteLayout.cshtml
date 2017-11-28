@@ -19,6 +19,8 @@
     <!-- jvectormap -->
     <link rel="stylesheet" href="~/Content/Css/jquery-jvectormap.css">
     <link rel="stylesheet" href="~/Content/Css/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="~/Content/Css/bootstrap3-wysihtml5.min.css">
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -164,6 +166,20 @@
                                 <li><a href="@Url.Action("Index","Proveedores")"><i class="fa fa-circle-o"></i>Proveedores</a></li>
                             </ul>
                         </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa ion-person-add"></i> <span>Reportes</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("Reportes","Gestion")"><i class="fa fa-circle-o"></i>Reportes</a></li>
+                                <li><a href="@Url.Action("Catalogo","Inicio")"><i class="fa fa-circle-o"></i>Catalogo</a></li>
+                                <li><a href="@Url.Action("Index","Inicio")"><i class="fa fa-circle-o"></i>Index</a></li>
+
+                            </ul>
+                        </li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
@@ -193,6 +209,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")   
     @Scripts.Render("~/bundles/AdminLteJs")
+    <script src="~/Content/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/Scripts/DataTables/dataTables.bootstrap.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
