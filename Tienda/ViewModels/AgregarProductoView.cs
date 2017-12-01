@@ -16,7 +16,6 @@ namespace Tienda.ViewModels
         public int Barcode { get; set; }
 
         
-
         public List<AgregarProductoView> DetalleCart { get; set; }
 
         public int IdProducto { get; set; }
@@ -25,5 +24,6 @@ namespace Tienda.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "El campo {1} debe ser mayor a {1}")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public double Precio { get; set; }
+        
     }
 }

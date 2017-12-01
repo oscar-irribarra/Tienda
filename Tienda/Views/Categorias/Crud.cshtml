@@ -6,7 +6,7 @@
 }
 
 
-@using (Html.BeginForm( "Guardar", "Categorias", FormMethod.Post ))
+@using (Html.BeginForm("Guardar", "Categorias", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <section class="content">
@@ -53,7 +53,7 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
 
-<script>
+    <script>
 
         $(document).ready(function () {
             $(".frm_negocio").hide();
@@ -62,6 +62,6 @@
         function ComprobarId() {
             ($("#Id").val() != 0) ? $(".frm_negocio").hide() : $(".frm_negocio").show();
         }
-        
-</script>
+
+    </script>
 }

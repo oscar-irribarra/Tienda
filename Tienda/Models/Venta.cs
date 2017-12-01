@@ -33,7 +33,7 @@ namespace Tienda.Models
 
         [Required]
         public bool EsOnline { get; set; }
-
+        
         [Required]
         public string VendedorId { get; set; }
         public virtual ApplicationUser Vendedor { get; set; }

@@ -1,0 +1,72 @@
+﻿@model Tienda.ViewModels.tsbproductoModel
+@{
+    ViewBag.Title = "IniciarPago";
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th style="width:10px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+      
+        @foreach (var item in Model.DetalleCart)
+        {
+            <tr>
+                <td>
+                    @item.Nombre
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-md-4 .col-xs-6 .col-sm-4">
+                          
+                        </div>
+                        <div class="col-md-4 .col-xs-6 .col-sm-4">
+                            @item.Cantidad
+                        </div>
+                        <div class="col-md-4 .col-xs-6 .col-sm-4">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @(item.Precio * item.Cantidad)
+                </td>
+              
+            </tr>
+        }
+
+        <tr>
+            <td colspan="2" align="right">
+                <strong>Total</strong>
+            </td>
+            <td>
+                @Model.DetalleCart.Sum(d => d.Precio * d.Cantidad)
+            </td>            
+        </tr>
+    </tbody>
+</table>
+<div id="_frm"></div>
+@section scripts
+{
+    <script>
+        $('#_frm').html("Espere un momento :)");
+        var tipo = $(".divtipo").attr("id");
+        $(document).ready(function () {
+               $.ajax({
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                url: '@Url.Action("FinalizarCompra")',
+                success: function (data) {
+                    $('#_frm').html(data);
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        });                     
+    </script>
+}

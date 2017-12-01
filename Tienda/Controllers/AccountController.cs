@@ -432,7 +432,7 @@ namespace Tienda.Controllers
                 smtp.Credentials = credential;
                 smtp.Host = SEmpresa.host;
                 smtp.Port = SEmpresa.port;
-                smtp.EnableSsl = true;
+                smtp.EnableSsl = false;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 await smtp.SendMailAsync(message);
             }
