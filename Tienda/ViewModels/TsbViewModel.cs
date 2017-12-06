@@ -17,5 +17,6 @@ namespace Tienda.ViewModels
         public TsbViewModel tbviewModel { get; set; }
         public string Mensaje { get; set; }
         public string Tipo { get; set; }
+        public string Result { get; set; }
     }
 }

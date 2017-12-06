@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class VentasController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();

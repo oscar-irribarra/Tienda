@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
 using Tienda.Models;
-using System.Data.Entity;
-using System.Net;
 using Tienda.ViewModels;
-using Webpay.Transbank.Library;
-using Webpay.Transbank.Library.Wsdl.Normal;
-using Webpay.Transbank.Library.Wsdl.Nullify;
 
 namespace Tienda.Controllers
 {
@@ -116,13 +112,12 @@ namespace Tienda.Controllers
             };
 
             Session["CostoCesta"] = cesta.Sum(x => x.Precio * x.Cantidad);
-
+            
             return View(_view);
         }
-        //INIT
+        
         public PartialViewResult FinalizarCompra()
         {
-            var rm = new ResponseModel();
             Random random = new Random();
             var DetalleCart = (List<AgregarProductoView>)Session["Cart"];
             var suma = 0;
@@ -130,7 +125,6 @@ namespace Tienda.Controllers
             {
                 suma += ((int)item.Precio * item.Cantidad);
             }
-
             var rmc = new ResponseModelcomercio
             {
                 AuthorizedAmount = suma.ToString(),
@@ -139,7 +133,9 @@ namespace Tienda.Controllers
                 Urlreturn = "/inicio/Mostrarvoucher",
                 Urlfin = "/inicio/catalogo"
             };
-            var tbknormal = new TransBank.tbk_normal();
+
+            var tbknormal = new TransBank.Tbk_normal();
+            var rm = new ResponseModel();
             rm = tbknormal.tskmethod(rmc);
             if (rm.Response)
             {
@@ -168,34 +164,20 @@ namespace Tienda.Controllers
         }
 
         //RESULT
-        public PartialViewResult Mostrarvoucher()
+        public RedirectResult Mostrarvoucher()
         {
             var rmc = new ResponseModelcomercio { Tokentransaccion = Session["token"].ToString(), Action = "result" };
             var rm = new ResponseModel();
-            var tbknormal = new TransBank.tbk_normal();
+            var tbknormal = new TransBank.Tbk_normal();
             rm = tbknormal.tskmethod(rmc);
 
             if (rm.Response)
-            {
-                var _view = new tsbproductoModel
-                {
-                    DetalleCart = (List<AgregarProductoView>)Session["Cart"],
-                    tbviewModel = new TsbViewModel
-                    {
-                        action = rm.Url,
-                        token = rm.Token,
-                    },
-                    Mensaje = rm.Message,
-                };
-                return PartialView("_Formtransbank", _view);
+            {            
+                return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));                                
             }
             else
-            {
-                var _view = new tsbproductoModel
-                {
-                    Mensaje = rm.Message
-                };
-                return PartialView("_Formerror", _view);
+            {            
+                return Redirect("~/inicio/iniciarPago");
             }
         }
     }

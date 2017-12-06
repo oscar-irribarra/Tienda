@@ -25,8 +25,6 @@ namespace Tienda.Models
         public virtual ICollection<Arriendo> Arriendo { get; set; }
         public virtual ICollection<Contacto> Contacto { get; set; }
 
-        //Factura
-        //public virtual ICollection<Caf> Caf { get; set; }    
     }
 
     static class Estados

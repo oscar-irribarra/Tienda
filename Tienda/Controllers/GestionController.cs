@@ -7,6 +7,7 @@ using Tienda.Models;
 using System.Data.Entity;
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Admin+","+Rol.Vendedor)]
     public class GestionController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();

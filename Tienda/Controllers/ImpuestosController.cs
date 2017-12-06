@@ -8,6 +8,7 @@ using Tienda.Models;
 
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class ImpuestosController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();

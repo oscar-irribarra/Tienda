@@ -15,7 +15,7 @@
             <br/>
             <section id="loginForm">
                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
+                 {
                     @Html.AntiForgeryToken()
                     <h4>Use una cuenta local para iniciar sesión.</h4>
                     <hr />
@@ -49,23 +49,15 @@
                     </div>
                     <br />
                     <br />
-                    @*<p>
-                            @Html.ActionLink("Registrar como nuevo usuario", "Register")
-                        </p>*@
-                    @*//Habilite esta opción después de habilitar la confirmación de la cuenta para la función de restablecimiento de contraseña*@
-                    <p>
-                        @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
-                    </p>
+                    <p>@Html.ActionLink("Registrar como nuevo usuario", "Register")</p>
+                
+                    <p> @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")</p>
                 }
             </section>
-        </div>
-        @*<div class="col-md-4">
-                <section id="socialLoginForm">
-                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                </section>
-            </div>*@
+        </div>      
     </div>
 </div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

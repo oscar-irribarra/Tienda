@@ -18,7 +18,7 @@ namespace Tienda.Models
             new Roles{ Id = 1, Nombre = Rol.Admin },
             new Roles{ Id = 2, Nombre = Rol.Vendedor }
             };
-            return lista.Where(x=>x.Id != 0).OrderBy(d => d.Nombre).ToList();
+            return lista.OrderBy(d => d.Nombre).ToList();
         }
     }
     static class Rol

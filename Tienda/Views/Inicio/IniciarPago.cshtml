@@ -53,7 +53,7 @@
 @section scripts
 {
     <script>
-        $('#_frm').html("Espere un momento :)");
+        $('#_frm').html("Espere un momento mientras procesamos su compra");
         var tipo = $(".divtipo").attr("id");
         $(document).ready(function () {
                $.ajax({
@@ -64,7 +64,7 @@
                     $('#_frm').html(data);
                 },
                 error: function (data) {
-                    alert(data);
+                    alert("Error, intente nuevamente");
                 }
             });
         });                     

@@ -83,9 +83,12 @@
                             using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                             {
                                 @Html.AntiForgeryToken()
+                                if (!User.IsInRole("Usuario"))
+                                {
                                 <li>
                                     <a href="@Url.Action("Index", "Gestion")" class="btn btn-primary">Administrar Negocio</a>
                                 </li>
+                                }                            
 
                                 <li>
                                     <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-danger">Cerrar Sesión</a>

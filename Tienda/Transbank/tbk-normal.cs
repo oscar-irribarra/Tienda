@@ -7,7 +7,7 @@ using Webpay.Transbank.Library.Wsdl.Normal;
 using Webpay.Transbank.Library.Wsdl.Nullify;
 namespace Tienda.TransBank
 {
-    public class tbk_normal
+    public class Tbk_normal
     {
         /** Crea Dictionary con datos Integración Pruebas */
         private Dictionary<string, string> certificate = cert_normal.certificate();
@@ -39,24 +39,24 @@ namespace Tienda.TransBank
             ///** Crea Dictionary con descripción */
             Dictionary<string, string> description = new Dictionary<string, string>();
 
-            description.Add("VD", "Venta Deb&iacute;to");
+            description.Add("VD", "Venta Debito");
             description.Add("VN", "Venta Normal");
             description.Add("VC", "Venta en cuotas");
-            description.Add("SI", "cuotas sin inter&eacute;s");
-            description.Add("S2", "2 cuotas sin inter&eacute;s");
-            description.Add("NC", "N cuotas sin inter&eacute;s");
+            description.Add("SI", "3 cuotas sin interés");
+            description.Add("S2", "2 cuotas sin interés");
+            description.Add("NC", "N Cuotas sin interés");
 
             ///** Crea Dictionary con codigos de resultado */
             Dictionary<string, string> codes = new Dictionary<string, string>();
 
-            codes.Add("0", "Transacci&oacute;n aprobada");
-            codes.Add("-1", "Rechazo de transacci&oacute;n");
-            codes.Add("-2", "Transacci&oacute;n debe reintentarse");
-            codes.Add("-3", "Error en transacci&oacute;n");
-            codes.Add("-4", "Rechazo de transacci&oacute;n");
+            codes.Add("0", "Transacción aprobada");
+            codes.Add("-1", "Rechazo de transacción");
+            codes.Add("-2", "Transacción debe reintentarse");
+            codes.Add("-3", "Error en transacción");
+            codes.Add("-4", "Rechazo de transacción");
             codes.Add("-5", "Rechazo por error de tasa");
-            codes.Add("-6", "Excede cupo m&aacute;ximo mensual");
-            codes.Add("-7", "Excede l&iacute;mite diario por transacci&oacute;n");
+            codes.Add("-6", "Excede cupo máximo mensual.");
+            codes.Add("-7", "Excede límite diario por transacción");
             codes.Add("-8", "Rubro no autorizado");
             
             string buyOrder;
@@ -100,7 +100,7 @@ namespace Tienda.TransBank
                             rm.Message = "webpay no disponible";
                         }
 
-                        rm.Request = "REQUEST: " + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request); ;
+                        rm.Request = "REQUEST: " + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request); 
                         rm.Result = "RESULT: " + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(result);
                         rm.Url = result.url;
                         rm.Token = result.token;
@@ -124,7 +124,6 @@ namespace Tienda.TransBank
                         request.Add("token", token.ToString());
 
                         transactionResultOutput result = webpay.getNormalTransaction().getTransactionResult(token);
-
                         rm.Request = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request);
                         rm.Result = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(result);
 
@@ -136,7 +135,6 @@ namespace Tienda.TransBank
                             HttpContext.Current.Response.Write("<script>localStorage.setItem('commercecode', " + result.detailOutput[0].commerceCode + ")</script>");
                             HttpContext.Current.Response.Write("<script>localStorage.setItem('amount', " + result.detailOutput[0].amount + ")</script>");
                             HttpContext.Current.Response.Write("<script>localStorage.setItem('buyOrder', " + result.detailOutput[0].buyOrder + ")</script>");
-
                         }
                         else
                         {

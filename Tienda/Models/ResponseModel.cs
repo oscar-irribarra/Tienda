@@ -17,6 +17,9 @@ namespace Tienda.Models
         public bool Response { get; set; }
         public string Result { get; set; }
         public string Request { get; set; }
+        /// <summary>
+        /// Url Generada por transkbank [pagina de pago]   
+        /// </summary>
         public string Url { get; set; }
         /// <summary>
         /// -> Token obtenido de transbank 

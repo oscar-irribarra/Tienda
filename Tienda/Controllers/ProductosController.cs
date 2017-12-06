@@ -8,7 +8,7 @@ using Tienda.ViewModels;
 
 namespace Tienda.Controllers
 {
-
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class ProductosController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -80,7 +80,7 @@ namespace Tienda.Controllers
                     {
                         productoview.DetalleProductofrm.ProductoId = productoview.Productofrm.Id;
                         _context.DetalleProductos.Add(productoview.DetalleProductofrm);
-                        if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                        if (IndexValidacion.SaveChanges(_context).Response)
                         {
                             var detalleInBD = _context.DetalleProductos.SingleOrDefault(x => x.ProductoId == productoview.Productofrm.Id);
                             detalleInBD.ImagenFile = productoview.DetalleProductofrm.ImagenFile;
@@ -89,15 +89,15 @@ namespace Tienda.Controllers
                         else
                         {
                             productoview.DetalleProductofrm.ImagenFile = productoview.DetalleProductofrm.ImagenFile;
-                            ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Mensaje);
+                            ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Message);
 
                         }
                     }
-                    if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                    if (IndexValidacion.SaveChanges(_context).Response)
                     {
                         return RedirectToAction("Index", "Productos");
                     }
-                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Mensaje);
+                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Message);
                 }
                 else
                 {
@@ -121,11 +121,11 @@ namespace Tienda.Controllers
                         ImagenHelper.SubirImagen(detalleInBD);
                     }
 
-                    if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                    if (IndexValidacion.SaveChanges(_context).Response)
                     {
                         return RedirectToAction("Index", "Productos");
                     }
-                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Mensaje);
+                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Message);
                 }
             }
             ViewData["Productofrm.CategoriaID"] = new SelectList(_context.Categorias.OrderBy(c => c.Nombre), "Id", "Nombre", productoview.Productofrm.CategoriaId);

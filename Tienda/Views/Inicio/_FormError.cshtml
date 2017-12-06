@@ -1,3 +1,11 @@
 ﻿@model Tienda.ViewModels.tsbproductoModel
 
-<h1>@Model.Mensaje</h1>
+@if (Model.Mensaje != null)
+{
+    <h1>@Model.Mensaje</h1>
+
+}
+else
+{
+    <h1>@Model.Request</h1>
+}
