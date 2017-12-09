@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
+using System.Web.Hosting;
 using Tienda.Models;
 using Webpay.Transbank.Library;
 using Webpay.Transbank.Library.Wsdl.Normal;
@@ -8,33 +11,28 @@ using Webpay.Transbank.Library.Wsdl.Nullify;
 namespace Tienda.TransBank
 {
     public class Tbk_normal
-    {
-        /** Crea Dictionary con datos Integración Pruebas */
-        private Dictionary<string, string> certificate = cert_normal.certificate();
-
+    {       
         /** Crea Dictionary con datos de entrada */
         private Dictionary<string, string> request = new Dictionary<string, string>();
-        public ResponseModel tskmethod(ResponseModelcomercio rmc)
+        public ResponseModel Tskmethod(ResponseModelcomercio rmc)
         {
-            var rm = new ResponseModel();
 
-            Configuration configuration = new Configuration();
-            configuration.Environment = certificate["environment"];
-            configuration.CommerceCode = certificate["commerce_code"];
-            configuration.PublicCert = certificate["public_cert"];
-            configuration.WebpayCert = certificate["webpay_cert"];
-            configuration.Password = certificate["password"];
+            //String certFolder = HttpContext.Current.Server.MapPath("~//Content/597020000541/");
+            var certFolder = HostingEnvironment.MapPath("~//");
+          
+            Configuration configuration = new Configuration
+            {
+                Environment = "INTEGRACION",
+                CommerceCode = "597020000541",
+                PublicCert = certFolder+ "Content/597020000541/tbk.pem",
+                WebpayCert = certFolder + "Content/597020000541/597020000541.pfx",
+                Password = "transbank123"
+            };
 
-            /** Creacion Objeto Webpay */
-            Webpay.Transbank.Library.Webpay webpay = new Webpay.Transbank.Library.Webpay(configuration);
+            Webpay.Transbank.Library.Webpay webpay = new Webpay.Transbank.Library.Webpay(configuration);        
 
             /** Información de Host para crear URL */
-            String httpHost = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_HOST"].ToString();
-            String selfURL = System.Web.HttpContext.Current.Request.ServerVariables["URL"].ToString();
-
-
-            /** Crea URL de Aplicación */
-            string sample_baseurl = "http://" + httpHost;
+           
 
             ///** Crea Dictionary con descripción */
             Dictionary<string, string> description = new Dictionary<string, string>();
@@ -47,18 +45,26 @@ namespace Tienda.TransBank
             description.Add("NC", "N Cuotas sin interés");
 
             ///** Crea Dictionary con codigos de resultado */
-            Dictionary<string, string> codes = new Dictionary<string, string>();
+            Dictionary<string, string> codes = new Dictionary<string, string>
+            {
+                { "0", "Transacción aprobada" },
+                { "-1", "Rechazo de transacción" },
+                { "-2", "Transacción debe reintentarse" },
+                { "-3", "Error en transacción" },
+                { "-4", "Rechazo de transacción" },
+                { "-5", "Rechazo por error de tasa" },
+                { "-6", "Excede cupo máximo mensual." },
+                { "-7", "Excede límite diario por transacción" },
+                { "-8", "Rubro no autorizado" }
+            };
 
-            codes.Add("0", "Transacción aprobada");
-            codes.Add("-1", "Rechazo de transacción");
-            codes.Add("-2", "Transacción debe reintentarse");
-            codes.Add("-3", "Error en transacción");
-            codes.Add("-4", "Rechazo de transacción");
-            codes.Add("-5", "Rechazo por error de tasa");
-            codes.Add("-6", "Excede cupo máximo mensual.");
-            codes.Add("-7", "Excede límite diario por transacción");
-            codes.Add("-8", "Rubro no autorizado");
-            
+            String httpHost = HttpContext.Current.Request.ServerVariables["HTTP_HOST"].ToString();
+            String selfURL = HttpContext.Current.Request.ServerVariables["URL"].ToString();
+
+            /** Crea URL de Aplicación */
+            string sample_baseurl = "http://" + httpHost;
+            var rm = new ResponseModel();
+
             string buyOrder;
 
             switch (rmc.Action)
@@ -109,8 +115,11 @@ namespace Tienda.TransBank
                     catch (Exception ex)
                     {
                         rm.Request = "REQUEST: " + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request);
-                        rm.Message = "RESULT: Ocurrío; un error en la transacción (Validar correcta configuracíon de parametros). " + ex.Message + "";
+                        rm.Result = "RESULT: Ocurrío; un error en la transacción (Validar correcta configuracíon de parametros). " + ex.Message + "";
+                        
+                        rm.Message = certFolder + "Content/597020000541/tbk.pem";
                         rm.Response = false;
+                     
                     }
                     break;
 

@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using Tienda.Models;
 using System.Data.Entity;
+using System.Net;
+using Newtonsoft.Json.Linq;
+
 namespace Tienda.Controllers
 {
     [Authorize(Roles = Rol.Admin+","+Rol.Vendedor)]
@@ -21,30 +24,7 @@ namespace Tienda.Controllers
             var _empresa = _context.Empresas.ToList();
             return View();
         }
-        //[HttpPost]
-        public ActionResult GuardarComentario([Bind(Include = "nombre,correo,telefono,mensaje")] string nombre, string correo, string telefono, string mensaje)
-        {
-            var productos = _context.Productos.Where(p => p.TipoProductoId == Tipo_negocio.Seguridad).ToList();
-                 
-            var contacto = new Contacto
-                {
-                    Nombre = nombre,
-                    Correo = correo,
-                    Telefono = telefono,
-                    Contenido = mensaje,
-                    EstadoId = Estados.EnCurso,
-                    Ip = Request.ServerVariables["REMOTE_ADDR"],
-                    Fecha = DateTime.Now,
-                };
-
-                _context.Contactos.Add(contacto);
-                _context.SaveChanges();
-
-
-                return RedirectToAction("Index","Inicio",productos);
-            
-
-        }
+       
         public ActionResult Crud(int id = 0)
         {
             if (id == 0)

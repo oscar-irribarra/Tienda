@@ -25,8 +25,9 @@ namespace Tienda.Models
         [MaxLength(100)] 
         [EmailAddress(ErrorMessage = "Ingrese un {0} Valido")]
         public string Correo { get; set; }
-        
-        public int? Telefono { get; set; }   
+
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }   
         
         public virtual ICollection<Adquisicion> Adquisicion { get; set; }    
     }

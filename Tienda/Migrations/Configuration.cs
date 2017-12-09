@@ -57,7 +57,7 @@ namespace Tienda.Migrations
                 );
                      
             context.Clientes.AddOrUpdate(x => x.Id,
-                new Cliente { Id = 1, Rut = "0", Telefono = 0, Nombre = "Venta a Publico", Apellido = "!", Email = "S/E", Comuna = "S/C", Ciudad = "S/C" }
+                new Cliente { Id = 1, Rut = "0", Telefono = "0", Nombre = "Venta a Publico", Apellido = "!", Email = "S/E"}
                 );
 
         }

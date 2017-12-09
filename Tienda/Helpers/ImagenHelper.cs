@@ -20,7 +20,7 @@ namespace Tienda.Helpers
                 if (file != null)
                 {
                     path = Path.Combine(HttpContext.Current.Server.MapPath(folder), nombre);
-                    file.SaveAs(path);
+                    file.SaveAs(path);                   
                     using (MemoryStream ms = new MemoryStream())
                     {
                         file.InputStream.CopyTo(ms);

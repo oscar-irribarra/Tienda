@@ -26,14 +26,10 @@ namespace Tienda.Models
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [MaxLength(100)]
         public string Apellido { get; set; }
-        
-        [MaxLength(100)]
-        public string Comuna { get; set; }
-        
-        [MaxLength(100)]
-        public string Ciudad { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
-        public int Telefono { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
         [MaxLength(100)]
         public string Email { get; set; }
 

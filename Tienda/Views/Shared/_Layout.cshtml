@@ -1,149 +1,135 @@
-﻿@using Microsoft.AspNet.Identity
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+﻿<!DOCTYPE html>
 
-    <title>@ViewBag.Title</title>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="application/x-javascript">
-        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <title>@ViewBag.Title</title>
     <link href="~/Content/Css/bootstrap.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-
-    <link href="~/Content/Elegant/css/style.css" rel="stylesheet" />
-    <!-- js -->
-    <script src="~/Content/Scripts/jquery-1.10.2.min.js"></script>
-    <link href='//fonts.googleapis.com/css?family=Oleo+Script:400,700' rel='stylesheet' type='text/css'>
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-    <link href="//fonts.googleapis.com/css?family=Oswald:300,400,700" rel="stylesheet">
-    <script src="~/Content/Elegant/js/move-top.js"></script>
-    <script src="~/Content/Elegant/js/easing.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function ($) {
-            $(".scroll").click(function (event) {
-                event.preventDefault();
-                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
-            });
-        });
-    </script>
 </head>
-<body>
 
-    <div class="banner-figures">
-        <div class="banner" style="margin-bottom:10px;">
-            <div class="container banner-drop">
-                <div class="header">
-                    <div class="header-left logo">
-                        <h1><a href="@Url.Action("Index", "Inicio")">Sostel Talca</a></h1>
-                    </div>
-                    <div class="header-right">
-                        <nav>
-                            <ul>
-                                <li>
-                                    <a href="#about" class="scroll"><span>¿Quienes Somos?</span></a>
-                                </li>
-                                <li>
-                                    <a href="#services" class="scroll"><span>Servicios</span></a>
-                                </li>
-                                <li>
-                                    <a href="#products" class="scroll"><span>Productos</span></a>
-                                </li>
-                                <li>
-                                    <a href="#contact" class="scroll"><span>Contacto</span></a>
-                                </li>
-                                @if (!User.Identity.IsAuthenticated)
+<body>
+    <style>
+        html, body {
+            height: 100%;
+        }        
+        nav .container-fluid {
+            background: #2b2b2b;
+            padding: 1.0em 0;
+        }
+
+        .navbar-nav a {
+            font-size: 15px;
+        }
+
+        .navbar-brand {
+            font-family: 'Oleo Script', cursive;
+        }
+        #menu {
+            border-radius: 10px;
+            box-shadow: -4px 6px 8px -4px rgba(0,0,0,0.9);
+            padding-top: 2%;
+            border: solid 1px darkgray;
+            margin-left: 2%;
+            margin-bottom: 50px;
+        }
+        .thumbnail {
+            box-shadow: -4px 6px 8px -4px rgba(0,0,0,0.9);
+            width: 90%;
+            margin: auto;
+        }
+
+        #Catalogo {
+            margin-top: 20px;
+        }
+
+        .thumbnail a {
+            text-align: center;
+        }
+
+        .container {
+            margin-bottom: 100px;
+        }
+
+        .footer {
+            background: #2b2b2b;
+            text-align: center;
+            color: white;
+            position: relative;
+            
+            text-align: center;
+            padding: 1.5em 0;
+        }
+    </style>
+    <nav class="navbar navbar-inverse" style="border-radius: 0px;">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index", "Inicio")"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Sostel</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="@Url.Action("Login", "Account")">Iniciar sesión</a>
+                        </li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  @Tienda.Helpers.IdentityExtensions.GetDisplayName(User.Identity)<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @if (!User.IsInRole("Usuario"))
                                 {
                                     <li>
-                                        <a href="@Url.Action("Login", "Account")"><span>Iniciar sesión</span></a>
+                                        <a href="@Url.Action("Index", "Gestion")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  Administrar Negocio</a>
                                     </li>
                                 }
 
+                                <li role="separator" class="divider"></li>                                                          
+                                <li>
+                                    <a href="@Url.Action("LogOff", "Account")"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>  Cerrar Sesión</a>
+                                </li>
                             </ul>
-                        </nav>
-                        <div class="menu-icon animated wow zoomIn" data-wow-duration="1000ms" data-wow-delay="800ms"><span></span></div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="name">
-                    <br />
-                    <h2>Sostel</h2>
-                    <p>Sociedad de Comercio y Telecomunicaciones Limitada</p>
-                </div>
-                <div class="social-icons animated wow bounceInDown" data-wow-duration="1000ms" data-wow-delay="800ms">
-                    <ul class="top-links">
+                        </li>
+                    }
 
-
-                        @if (Request.IsAuthenticated)
-                        {
-                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                if (!User.IsInRole("Usuario"))
-                                {
-                                <li>
-                                    <a href="@Url.Action("Index", "Gestion")" class="btn btn-primary">Administrar Negocio</a>
-                                </li>
-                                }                            
-
-                                <li>
-                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-danger">Cerrar Sesión</a>
-                                </li>
-                            }
-                        }
-                    </ul>
-                </div>
+                </ul>
             </div>
-            <div class="banner-btm-grid-w3ls">
-
-                <div class="clearfix"></div>
-            </div>
+            <!-- /.navbar-collapse -->
         </div>
-        <script>
-            (function ($) {
-                $(".menu-icon").on("click", function () {
-                    $(this).toggleClass("open");
-                    $(".container").toggleClass("nav-open");
-                    $("nav ul li").toggleClass("animate");
-                });
+        <!-- /.container-fluid -->
+    </nav>
 
-            })(jQuery);
-        </script>
+
+
+    <div class="container">
+
+        <div id="contenido" class="col-md-12">
+            @RenderBody()
+
+        </div>
 
     </div>
-
-    @RenderBody()
-
-
 
     <div class="footer">
-        <div class="container">
-            <p> © @DateTime.Now.Year Elegant Resume.</p>
 
-            <h5 style='font-size: 8px'> All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></h5>
+        <p> © @DateTime.Now.Year Sostel.cl</p>
 
-        </div>
+
     </div>
-
-
-    <!-- here stars scrolling icon -->
-    <script type="text/javascript">
-            $(document).ready(function () {
-
-                var defaults = {
-                    containerID: 'toTop', // fading element id
-                    containerHoverID: 'toTopHover', // fading element hover id
-                    scrollSpeed: 1200,
-                    easingType: 'linear'
-                };
-                $().UItoTop({ easingType: 'easeOutQuart' });
-            });
-    </script>
-
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

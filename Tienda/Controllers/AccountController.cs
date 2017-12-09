@@ -261,9 +261,23 @@ namespace Tienda.Controllers
                     Nombre = model.Nombre,
                     Apellido = model.Apellido,
                     EmailConfirmed = true,
-                    Isbloqued = model.Isbloqued
+                    Isbloqued = model.Isbloqued,   
+                    PhoneNumber = model.Telefono
+                };
+
+                var cliente = new Cliente
+                {
+                    Rut = model.Rut,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    Email = model.Email,
+                    Telefono = model.Telefono
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                var ct = new ClientesController();
+
+                if(result != null)
+                    ct.Guardar(cliente);
 
                 if (result.Succeeded)
                 {
@@ -496,8 +510,8 @@ namespace Tienda.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

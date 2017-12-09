@@ -92,6 +92,10 @@ namespace Tienda.Models
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
     }
 
     public class ResetPasswordViewModel

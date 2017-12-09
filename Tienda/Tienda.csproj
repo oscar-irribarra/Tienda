@@ -278,9 +278,13 @@
     <Compile Include="Migrations\201711150715235_CambioTipoTelefonoContacto.Designer.cs">
       <DependentUpon>201711150715235_CambioTipoTelefonoContacto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.cs" />
-    <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.Designer.cs">
-      <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
+    <Compile Include="Migrations\201711150756511_CambioModelo.cs" />
+    <Compile Include="Migrations\201711150756511_CambioModelo.Designer.cs">
+      <DependentUpon>201711150756511_CambioModelo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711150810114_cambiomodeloclienteproveedor.cs" />
+    <Compile Include="Migrations\201711150810114_cambiomodeloclienteproveedor.Designer.cs">
+      <DependentUpon>201711150810114_cambiomodeloclienteproveedor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201711151555586_Inidicesclienteproveedor.cs" />
     <Compile Include="Migrations\201711151555586_Inidicesclienteproveedor.Designer.cs">
@@ -297,6 +301,10 @@
     <Compile Include="Migrations\201711262329508_EsonlineTablaVentas.cs" />
     <Compile Include="Migrations\201711262329508_EsonlineTablaVentas.Designer.cs">
       <DependentUpon>201711262329508_EsonlineTablaVentas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712082112432_eliminaratributosclientes.cs" />
+    <Compile Include="Migrations\201712082112432_eliminaratributosclientes.Designer.cs">
+      <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -489,6 +497,9 @@
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="Content\597020000541\597020000541.pfx" />
+    <Content Include="Content\597020000541\tbk.pem" />
+    <Content Include="Content\597020000541.pfx" />
     <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\Scripts\error-jquery.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.js" />
@@ -589,7 +600,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutIndex.cshtml" />
     <Content Include="Views\Inicio\About.cshtml" />
     <Content Include="Views\Inicio\Contact.cshtml" />
     <Content Include="Views\Inicio\Index.cshtml" />
@@ -636,6 +647,7 @@
     <Content Include="Views\Adquisiciones\Detalles.cshtml" />
     <Content Include="Views\Adquisiciones\Crud.cshtml" />
     <Content Include="Views\Adquisiciones\PuntodeAdquisicion.cshtml" />
+    <Content Include="Content\tbk.pem" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Tienda2017Demo - Web Deploy.pubxml" />
     <Content Include="Views\Error\_ErrorPage.cshtml" />
@@ -648,8 +660,9 @@
     <Content Include="Views\Inicio\_ItemCesta.cshtml" />
     <Content Include="Views\Gestion\Reportes.cshtml" />
     <Content Include="Views\Inicio\_Formtransbank.cshtml" />
-    <Content Include="Views\Inicio\_FormError.cshtml" />
+    <Content Include="Views\Inicio\_Formerror.cshtml" />
     <Content Include="Views\Inicio\IniciarPago.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -704,8 +717,11 @@
     <EmbeddedResource Include="Migrations\201711150715235_CambioTipoTelefonoContacto.resx">
       <DependentUpon>201711150715235_CambioTipoTelefonoContacto.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711150815015_cambiomodeloclienteproveedor.resx">
-      <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711150756511_CambioModelo.resx">
+      <DependentUpon>201711150756511_CambioModelo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150810114_cambiomodeloclienteproveedor.resx">
+      <DependentUpon>201711150810114_cambiomodeloclienteproveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711151555586_Inidicesclienteproveedor.resx">
       <DependentUpon>201711151555586_Inidicesclienteproveedor.cs</DependentUpon>
@@ -718,6 +734,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711262329508_EsonlineTablaVentas.resx">
       <DependentUpon>201711262329508_EsonlineTablaVentas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712082112432_eliminaratributosclientes.resx">
+      <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

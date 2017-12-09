@@ -52,7 +52,7 @@
 <div id="_frm"></div>
 @section scripts
 {
-    <script>
+    @*<script>
         $('#_frm').html("Espere un momento mientras procesamos su compra");
         var tipo = $(".divtipo").attr("id");
         $(document).ready(function () {
@@ -64,9 +64,9 @@
                     $('#_frm').html(data);
                 },
                 error: function (data) {
-                    alert("Error, intente nuevamente");
+                    $('#_frm').html(data);
                 }
             });
         });                     
-    </script>
+    </script>*@
 }

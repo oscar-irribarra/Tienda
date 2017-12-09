@@ -7,13 +7,13 @@ namespace Tienda.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class cambiomodeloclienteproveedor : IMigrationMetadata
+    public sealed partial class eliminaratributosclientes : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(cambiomodeloclienteproveedor));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(eliminaratributosclientes));
         
         string IMigrationMetadata.Id
         {
-            get { return "201711150815015_cambiomodeloclienteproveedor"; }
+            get { return "201712082112432_eliminaratributosclientes"; }
         }
         
         string IMigrationMetadata.Source

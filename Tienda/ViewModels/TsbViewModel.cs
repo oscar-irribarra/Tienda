@@ -14,9 +14,10 @@ namespace Tienda.ViewModels
     public class tsbproductoModel
     {
         public List<AgregarProductoView> DetalleCart { get; set; }
-        public TsbViewModel tbviewModel { get; set; }
+        public TsbViewModel TbviewModel { get; set; }
         public string Mensaje { get; set; }
         public string Tipo { get; set; }
         public string Result { get; set; }
+        public string Request { get; set; }
     }
 }

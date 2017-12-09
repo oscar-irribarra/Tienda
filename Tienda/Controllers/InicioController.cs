@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -99,68 +100,81 @@ namespace Tienda.Controllers
             return GetCartItems();
         }
 
+        //public ActionResult IniciarPago()
+        //{
+        //    var cesta = (List<AgregarProductoView>)Session["Cart"];
+
+        //    if (cesta == null)
+        //        return RedirectToAction("Catalogo");
+
+        //    Session["CostoCesta"] = cesta.Sum(x => x.Precio * x.Cantidad);
+
+        //    return FinalizarCompra();
+        //}
+
         public ActionResult IniciarPago()
         {
-            var cesta = (List<AgregarProductoView>)Session["Cart"];
-
-            if (cesta == null)
-                return RedirectToAction("Catalogo");
-
-            var _view = new tsbproductoModel
-            {
-                DetalleCart = cesta,
-            };
-
-            Session["CostoCesta"] = cesta.Sum(x => x.Precio * x.Cantidad);
-            
-            return View(_view);
-        }
-        
-        public PartialViewResult FinalizarCompra()
-        {
             Random random = new Random();
+
             var DetalleCart = (List<AgregarProductoView>)Session["Cart"];
             var suma = 0;
             foreach (var item in DetalleCart)
             {
                 suma += ((int)item.Precio * item.Cantidad);
             }
+
             var rmc = new ResponseModelcomercio
             {
                 AuthorizedAmount = suma.ToString(),
                 BuyOrder = random.Next(0, 1000).ToString(),
                 SessionId = random.Next(0, 1000).ToString(),
-                Urlreturn = "/inicio/Mostrarvoucher",
-                Urlfin = "/inicio/catalogo"
+                Urlreturn = "/inicio/mostrarvoucher",
+                Urlfin = "/inicio/catalogo",
             };
 
             var tbknormal = new TransBank.Tbk_normal();
             var rm = new ResponseModel();
-            rm = tbknormal.tskmethod(rmc);
+            rm = tbknormal.Tskmethod(rmc);
+
+            //if (rm.Response)
+            //{
+            //    var _view = new tsbproductoModel
+            //    {
+            //        Mensaje = rm.Message,
+            //        Result = rm.Result,
+            //        Request = rm.Request
+            //    };
+
+            //    return View("_Formerror", _view);
+            //}
+            //else
+            //{
+            //    var _view = new tsbproductoModel
+            //    {
+            //        Mensaje = rm.Message,
+            //        Result = rm.Result,
+            //        Request = rm.Request
+            //    };
+            //    return View("_Formerror", _view);
+            //}
+
             if (rm.Response)
             {
                 Session["token"] = rm.Token;
 
-                var _view = new tsbproductoModel
-                {
-                    DetalleCart = (List<AgregarProductoView>)Session["Cart"],
-                    tbviewModel = new TsbViewModel
-                    {
-                        action = rm.Url,
-                        token = rm.Token
-                    },
-                    Mensaje = rm.Message
-                };
-                return PartialView("_Formtransbank", _view);
+                return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));
             }
             else
             {
                 var _view = new tsbproductoModel
                 {
-                    Mensaje = rm.Message
+                    Mensaje = rm.Message,
+                    Result = rm.Result
                 };
-                return PartialView("_Formerror", _view);
+                return View("_Formerror", _view);
             }
+
+
         }
 
         //RESULT
@@ -169,16 +183,55 @@ namespace Tienda.Controllers
             var rmc = new ResponseModelcomercio { Tokentransaccion = Session["token"].ToString(), Action = "result" };
             var rm = new ResponseModel();
             var tbknormal = new TransBank.Tbk_normal();
-            rm = tbknormal.tskmethod(rmc);
+            rm = tbknormal.Tskmethod(rmc);
 
             if (rm.Response)
-            {            
-                return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));                                
+            {
+                return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));
             }
             else
-            {            
+            {
                 return Redirect("~/inicio/iniciarPago");
             }
+        }
+
+        public ActionResult Guardar(string nombre, string correo, string telefono, string mensaje)
+        {
+            var response = Request["g-recaptcha-response"];
+            string secretKey = "6LdASDwUAAAAAI9pNFRnFk-yqZVpZfVXcWstds2c";
+            var client = new WebClient();
+            var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify? secret ={0}&response={1}", secretKey, response));
+            var obj = JObject.Parse(result);
+            var status = (bool)obj.SelectToken("success");
+
+            if (status)
+            {
+
+                var contacto = new Contacto
+                {
+                    Nombre = nombre,
+                    Correo = correo,
+                    Telefono = telefono,
+                    Contenido = mensaje,
+                    EstadoId = Estados.EnCurso,
+                    Ip = Request.ServerVariables["REMOTE_ADDR"],
+                    Fecha = DateTime.Now,
+                };
+
+                _context.Contactos.Add(contacto);
+                _context.SaveChanges();
+
+            }
+            else
+            {
+                ViewBag.Message = "Google reCaptcha validation failed";
+
+            }
+
+
+            return View("Index");
+
+
         }
     }
 }

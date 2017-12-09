@@ -53,8 +53,6 @@ namespace Tienda.Controllers
                     clienteInDb.Telefono = cliente.Telefono;
                     clienteInDb.Apellido = cliente.Apellido;
                     clienteInDb.Email = cliente.Email;
-                    clienteInDb.Comuna = cliente.Comuna;
-                    clienteInDb.Ciudad = cliente.Ciudad;
                 }
 
                 if (IndexValidacion.SaveChanges(_context).Response)
