@@ -117,7 +117,7 @@
     </Reference>
     <Reference Include="Webpay.Transbank.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Downloads\webpay-sdk-net-2.0.1\webpay-sdk-net-2.0.1\libwebpay\Webpay.Transbank.Library.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\Webpay.Transbank.Library\Webpay.Transbank.Library\Webpay.Transbank.Library\bin\Debug\Webpay.Transbank.Library.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -499,7 +499,6 @@
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Content\597020000541\597020000541.pfx" />
     <Content Include="Content\597020000541\tbk.pem" />
-    <Content Include="Content\597020000541.pfx" />
     <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\Scripts\error-jquery.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.js" />
@@ -647,7 +646,6 @@
     <Content Include="Views\Adquisiciones\Detalles.cshtml" />
     <Content Include="Views\Adquisiciones\Crud.cshtml" />
     <Content Include="Views\Adquisiciones\PuntodeAdquisicion.cshtml" />
-    <Content Include="Content\tbk.pem" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Tienda2017Demo - Web Deploy.pubxml" />
     <Content Include="Views\Error\_ErrorPage.cshtml" />
@@ -738,6 +736,9 @@
     <EmbeddedResource Include="Migrations\201712082112432_eliminaratributosclientes.resx">
       <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

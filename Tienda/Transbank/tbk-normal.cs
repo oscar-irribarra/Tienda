@@ -16,17 +16,17 @@ namespace Tienda.TransBank
         private Dictionary<string, string> request = new Dictionary<string, string>();
         public ResponseModel Tskmethod(ResponseModelcomercio rmc)
         {
-
+            var logFileNameWithPath = HttpContext.Current.Server.MapPath(@"~\Content\597020000541\");
             //String certFolder = HttpContext.Current.Server.MapPath("~//Content/597020000541/");
             var certFolder = HostingEnvironment.MapPath("~//");
-          
+
             Configuration configuration = new Configuration
             {
                 Environment = "INTEGRACION",
                 CommerceCode = "597020000541",
-                PublicCert = certFolder+ "Content/597020000541/tbk.pem",
-                WebpayCert = certFolder + "Content/597020000541/597020000541.pfx",
-                Password = "transbank123"
+                PublicCert = logFileNameWithPath+ "tbk.pem",
+                WebpayCert = logFileNameWithPath + "597020000541.pfx",
+                Password = "transbank123",
             };
 
             Webpay.Transbank.Library.Webpay webpay = new Webpay.Transbank.Library.Webpay(configuration);        
