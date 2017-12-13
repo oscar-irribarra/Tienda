@@ -37,9 +37,12 @@
                             Cliente
                         </th>
                         <th>
+                            Cliente Rut
+                        </th>
+                        <th>
                             Estado Venta
                         </th>
-                        <th>Vendedor</th>
+                        <th>Tipo</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -58,10 +61,20 @@
                                 @Html.DisplayFor(modelItem => item.Cliente.FullName)
                             </td>
                             <td>
+                                @Html.DisplayFor(modelItem => item.Cliente.Rut)
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Vendedor.FullName)
+                                @if (item.EsOnline)
+                                {
+                                    <label>Online</label>
+                                }
+                                else
+                                {
+                                    <label>Local</label>
+                                }
                             </td>
                             <td>
                                 @Html.ActionLink("Detalles", "Detalles", "Ventas", new { id = item.Id }, new { @class = "btn btn-default" })

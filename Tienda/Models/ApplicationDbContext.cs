@@ -49,9 +49,14 @@ namespace Tienda.Models
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<Contacto> Contactos { get; set; }
 
+        public virtual DbSet<Cotizacion> Cotizaciones { get; set; }
+        public virtual DbSet<DetalleCotizacion> DetalleCotizaciones { get; set; }
 
 
-       
+
+
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -66,6 +71,10 @@ namespace Tienda.Models
             modelBuilder.Configurations.Add(new ContactoConfiguration());
             modelBuilder.Configurations.Add(new ProductoConfiguration());         
             modelBuilder.Configurations.Add(new VentaConfiguration());
+            modelBuilder.Configurations.Add(new CotizacionConfiguration());
+
+            modelBuilder.Configurations.Add(new DetalleCotizacionConfiguration());
+
 
             modelBuilder.Entity<Empresa>()
                 .ToTable("Empresa")

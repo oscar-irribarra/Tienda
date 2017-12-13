@@ -8,14 +8,12 @@ namespace Tienda.Migrations
         public override void Up()
         {
             AlterColumn("dbo.Cliente", "Rut", c => c.String(nullable: false));
-            AlterColumn("dbo.Cliente", "Nombre", c => c.String(nullable: false));
             AlterColumn("dbo.Proveedor", "Rut", c => c.String(nullable: false));
         }
         
         public override void Down()
         {
             AlterColumn("dbo.Proveedor", "Rut", c => c.String(nullable: false, maxLength: 15));
-            AlterColumn("dbo.Cliente", "Nombre", c => c.String(nullable: false, maxLength: 100));
             AlterColumn("dbo.Cliente", "Rut", c => c.String(nullable: false, maxLength: 10));
         }
     }

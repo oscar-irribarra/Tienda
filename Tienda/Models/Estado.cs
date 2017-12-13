@@ -13,6 +13,8 @@ namespace Tienda.Models
             Venta = new HashSet<Venta>();
             Arriendo = new HashSet<Arriendo>();
             Contacto = new HashSet<Contacto>();
+            Cotizacion = new HashSet<Cotizacion>();
+
         }
         public int Id { get; set; }
 
@@ -24,6 +26,8 @@ namespace Tienda.Models
         public virtual ICollection<Venta> Venta { get; set; }
         public virtual ICollection<Arriendo> Arriendo { get; set; }
         public virtual ICollection<Contacto> Contacto { get; set; }
+        public virtual ICollection<Cotizacion> Cotizacion { get; set; }
+
 
     }
 
@@ -33,6 +37,7 @@ namespace Tienda.Models
         public const int Cancelado = 2;
         public const int Finalizada = 3;
         public const int EnCurso = 4;
+        public const int PendianteDeEntrega = 4;
     }
     static class TipoEstado
     {
@@ -40,6 +45,7 @@ namespace Tienda.Models
         public const string Cancelado = "Cancelado";
         public const string Finalizado = "Finalizado";
         public const string EnCurso = "EnCurso";
+        public const string PendianteDeEntrega = "PendianteDeEntrega";
     }
 }
 

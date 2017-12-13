@@ -11,17 +11,18 @@ using Microsoft.AspNet.Identity;
 
 namespace Tienda.Controllers
 {
-    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
+    [Authorize(Roles =  Rol.Vendedor)]
     public class VentasController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
-       
+        [Authorize(Roles =  Rol.Vendedor+","+Rol.Admin)]
+
         public ActionResult Index()
         {         
             var ventas = _context.Ventas.Include(x => x.Cliente).Include(x => x.Estado).OrderByDescending(x=>x.Id).ToList();
             return View(ventas);
         }
-
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
         public ActionResult Detalles(int? id)
         {
             if (id == null)
@@ -240,6 +241,24 @@ namespace Tienda.Controllers
                 Session["CartVentas"] = null;
 
             return RedirectToAction("PuntodeVenta");
+        }
+
+        public ActionResult FinalizarVenta(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            var _venta = _context.Ventas.SingleOrDefault(x => x.Id == id);
+
+            if (_venta == null)
+                return HttpNotFound();
+
+            _venta.EstadoId = Estados.Finalizada;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Detalles/" + id, "Ventas");
+
         }
 
 

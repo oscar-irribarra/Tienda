@@ -8,6 +8,7 @@ html, body{
     font-size: 100%;
 	font-family: 'Open Sans', sans-serif;
 }
+
 p{
 	margin:0;
 }
@@ -1063,6 +1064,10 @@ a.lightbox img:hover {
 	.header {
 		padding: 3em 0 8.5em;
 	}
+    .name {
+        margin-left: 0em;
+        padding: 3em 0em 0em 3em;
+    }
 	.header-right nav {
 		top: -24%;
 	}
@@ -1382,6 +1387,7 @@ a.lightbox img:hover {
 	.logo h1 a {
 		font-size: 1.1em;
 	}
+   
 	.name h2 {
 		font-size: 27px;
 	}
@@ -1393,8 +1399,12 @@ a.lightbox img:hover {
 		margin-top: .6em;
 	}
 	.header {
-		padding: 2em 0 5em;
+		padding: 0em 0 3em;
 	}
+    .name {
+        margin-left: 4em;
+        padding: 0em 0 3em;
+    }
 	.banner-btm-grid-w3ls {
 		top: 17.5em;
 	}
@@ -1417,7 +1427,7 @@ a.lightbox img:hover {
 	.contact-agileits-w3layouts p {
 		font-size: 13.5px;
 	}
-	
+   
 }
 @media(max-width:800px){
 	h4.title-w3ls {
@@ -1736,6 +1746,9 @@ a.lightbox img:hover {
 	.header {
 		padding: 1.2em .8em 2.2em;
 	}
+    .name {
+        margin-left: 2em;
+    }
 	.name h2 {
 		font-size: 21px;
 	}
@@ -2085,5 +2098,6 @@ a.lightbox img:hover {
 	.footer p {
 		line-height: 2.2em;
 	}
-}
+
+   
 /*--responsive--*/

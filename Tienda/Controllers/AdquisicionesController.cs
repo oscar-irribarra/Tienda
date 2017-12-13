@@ -11,16 +11,17 @@ using Microsoft.AspNet.Identity;
 
 namespace Tienda.Controllers
 {
-    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
+    [Authorize(Roles = Rol.Vendedor)]
     public class AdquisicionesController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
         public ActionResult Index()
         {
             var _adquisiciones = _context.Adquisiciones.Include(x => x.Proveedor).Include(x => x.Vendedor).Include(x => x.Documento).ToList();
             return View(_adquisiciones);
         }
-
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
         public ActionResult Detalles(int? id)
         {
             if (id == null)

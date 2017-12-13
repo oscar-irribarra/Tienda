@@ -15,11 +15,12 @@ namespace Tienda.Models
             DetalleArriendo = new HashSet<DetalleArriendo>();
             DetalleAdquisicion = new HashSet<DetalleAdquisicion>();
             DetalleProducto = new HashSet<DetalleProducto>();
+            DetalleCotizacion = new HashSet<DetalleCotizacion>();
         }
         public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
-        [MaxLength(100)]
+        [MaxLength(20,ErrorMessage = "Maximo {0} Caracteres")]
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
@@ -57,6 +58,8 @@ namespace Tienda.Models
         public virtual ICollection<DetalleAdquisicion> DetalleAdquisicion { get; set; }
         public virtual ICollection<DetalleProducto> DetalleProducto { get; set; }
         public virtual ICollection<DetalleArriendo> DetalleArriendo { get; set; }
+        public virtual ICollection<DetalleCotizacion> DetalleCotizacion { get; set; }
+
     }
 }
 

@@ -43,7 +43,7 @@ namespace Tienda.Controllers
             var productos = _context.Productos.Include(x => x.DetalleProducto).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
             return View(productos);
         }
-
+        [Authorize]
         public int AddCart(int ItemId)
         {
             var aPview = new AgregarProductoView();
@@ -100,19 +100,57 @@ namespace Tienda.Controllers
             }
             return GetCartItems();
         }
+        [Authorize]
+        public ActionResult Crud()
+        {
+            var _listaproductos = (List<AgregarProductoView>)Session["Cart"];
+            if (_listaproductos == null)
+                return RedirectToAction("Catalogo", "Inicio");
 
-        //public ActionResult IniciarPago()
-        //{
-        //    var cesta = (List<AgregarProductoView>)Session["Cart"];
+            return View();
+        }
 
-        //    if (cesta == null)
-        //        return RedirectToAction("Catalogo");
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult GuardarCotizacion(CotizacionViewModel cotizacionView)
+        {
+            if (!ModelState.IsValid)
+                return View("Crud", cotizacionView);
 
-        //    Session["CostoCesta"] = cesta.Sum(x => x.Precio * x.Cantidad);
+                       
+            var _consultaCliente = _context.Clientes.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
+            
+            var _cestaProductos = (List<AgregarProductoView>)Session["Cart"];
 
-        //    return FinalizarCompra();
-        //}
+            var _nuevaCotizacion = new Cotizacion()
+            {
+                ClienteId = _consultaCliente.Id,
+                Fecha = DateTime.Now,
+                EstadoId = Estados.Listo,
+                EmpresaId = Empresas.Sostel,
+                Comentario = cotizacionView.Comentario
+            };
+            _context.Cotizaciones.Add(_nuevaCotizacion);
 
+            foreach (var item in _cestaProductos)
+            {
+                var _nuevoDetalle = new DetalleCotizacion()
+                {
+                    CotizacionId = _nuevaCotizacion.Id,
+                    ProductoId = item.IdProducto,
+                    Cantidad = item.Cantidad
+                };             
+
+                _context.DetalleCotizaciones.Add(_nuevoDetalle);
+            }
+            Session["Cart"] = null;
+            _context.SaveChanges();
+
+            return RedirectToAction("Catalogo");
+        }
+
+        [Authorize]
         public ActionResult IniciarPago()
         {
             Random random = new Random();
@@ -136,33 +174,11 @@ namespace Tienda.Controllers
             var tbknormal = new TransBank.Tbk_normal();
             var rm = new ResponseModel();
             rm = tbknormal.Tskmethod(rmc);
-
-            //if (rm.Response)
-            //{
-            //    var _view = new tsbproductoModel
-            //    {
-            //        Mensaje = rm.Message,
-            //        Result = rm.Result,
-            //        Request = rm.Request
-            //    };
-
-            //    return View("_Formerror", _view);
-            //}
-            //else
-            //{
-            //    var _view = new tsbproductoModel
-            //    {
-            //        Mensaje = rm.Message,
-            //        Result = rm.Result,
-            //        Request = rm.Request
-            //    };
-            //    return View("_Formerror", _view);
-            //}
-
+            
             if (rm.Response)
             {
                 Session["token"] = rm.Token;
-
+              
                 return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));
             }
             else
@@ -174,8 +190,90 @@ namespace Tienda.Controllers
                 };
                 return View("_Formerror", _view);
             }
+        }
+        [Authorize]
+        public void VentaOnline()
+        {
+            var _consultaCliente = _context.Clientes.Where(x => x.Email == User.Identity.Name).SingleOrDefault();
+            var _consultaVendedor = _context.Users.Where(x => x.Rut == "0").SingleOrDefault();
+            var _cestaProductos = (List<AgregarProductoView>)Session["Cart"];
+
+            var _nuevaVenta = new Venta()
+            {
+                ClienteId = _consultaCliente.Id,
+                DocumentoId = IdTipoDocumento.Factura,
+                Fecha = DateTime.Now,
+                EstadoId = Estados.PendianteDeEntrega,
+                EmpresaId = Empresas.Sostel,
+                EsOnline = true,
+                TipoProductoId = Tipo_negocio.Seguridad,
+                VendedorId = _consultaVendedor.Id
+            };
+            _context.Ventas.Add(_nuevaVenta);
+
+            foreach (var item in _cestaProductos)
+            {
+                var _nuevoDetalle = new DetalleVenta()
+                {
+                    VentaId = _nuevaVenta.Id,
+                    ProductoId = item.IdProducto,
+                    Cantidad = item.Cantidad,
+                    Precio = item.Precio
+                };
+                var _inventario = _context.Inventarios.Where(x => x.ProductoId == item.IdProducto).FirstOrDefault();
+                _inventario.Stock -= item.Cantidad;
+
+                _context.DetalleVentas.Add(_nuevoDetalle);
+            }
+            _context.SaveChanges();
+        }
 
 
+        [Authorize]
+        public PartialViewResult Cestasum(int id)
+        {
+            List<AgregarProductoView> _cestaProductos = (List<AgregarProductoView>)Session["Cart"];
+
+            var _consultaProducto = _context.Productos.SingleOrDefault(x => x.Id == id);
+
+            if (_cestaProductos.Where(l => l.IdProducto == id).Count() >= 1)
+            {
+                foreach (var item in _cestaProductos)
+                {
+                    if (item.IdProducto == id)
+                    {
+                        var cantidad = item.Cantidad;
+                        if ((cantidad + 1) <= _consultaProducto.Inventario.Single().Stock && (cantidad + 1) > 0)
+                        {
+                            item.Cantidad+=1;
+                        }
+                    }
+                }
+            }
+            return GetCartItems();
+        }
+        [Authorize]
+        public PartialViewResult Cestarest(int id)
+        {
+            List<AgregarProductoView> _cestaProductos = (List<AgregarProductoView>)Session["Cart"];
+
+            var _consultaProducto = _context.Productos.SingleOrDefault(x => x.Id == id);
+
+            if (_cestaProductos.Where(l => l.IdProducto == id).Count() >= 1)
+            {
+                foreach (var item in _cestaProductos)
+                {
+                    if (item.IdProducto == id)
+                    {
+                        var cantidad = item.Cantidad;
+                        if ((cantidad-1) <= _consultaProducto.Inventario.Single().Stock && (cantidad-1) > 0)
+                        {
+                            item.Cantidad--;
+                        }
+                    }
+                }
+            }
+            return GetCartItems();
         }
 
         //RESULT
@@ -188,6 +286,7 @@ namespace Tienda.Controllers
 
             if (rm.Response)
             {
+                VentaOnline();
                 return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));
             }
             else

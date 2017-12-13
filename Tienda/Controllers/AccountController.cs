@@ -87,7 +87,7 @@ namespace Tienda.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Gestion");
+                    return RedirectToAction("Index", "Inicio");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

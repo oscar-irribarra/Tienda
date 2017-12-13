@@ -15,6 +15,7 @@ namespace Tienda.Models
             Venta = new HashSet<Venta>();
             Arriendo = new HashSet<Arriendo>();
             Adquisicion = new HashSet<Adquisicion>();
+            Cotizacion = new HashSet<Cotizacion>();
         }
         public int Id { get; set; }
 
@@ -58,6 +59,8 @@ namespace Tienda.Models
         public virtual ICollection<Arriendo> Arriendo { get; set; }
 
         public virtual ICollection<Adquisicion> Adquisicion { get; set; }
+        public virtual ICollection<Cotizacion> Cotizacion { get; set; }
+
     }
 
     static class Empresas

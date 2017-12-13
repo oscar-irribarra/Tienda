@@ -16,6 +16,13 @@ namespace Tienda.ViewModels
         public bool Ispublica { get; set; }
     }
 
+    public class CotizacionViewModel
+    {
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [DataType(DataType.MultilineText)]
+        public string Comentario { get; set; }
+    }
+
     public class AdquisionViewModel
     {
         [Required(ErrorMessage = "El campo {0} es obligatorio")]

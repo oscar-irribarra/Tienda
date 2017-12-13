@@ -211,6 +211,8 @@
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="EntityConfigurations\CotizacionConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DetalleCotizacionConfiguration.cs" />
     <Compile Include="EntityConfigurations\TipoProductoConfiguration.cs" />
     <Compile Include="EntityConfigurations\AdquisicionConfiguration.cs" />
     <Compile Include="EntityConfigurations\ArriendoConfiguration.cs" />
@@ -282,9 +284,9 @@
     <Compile Include="Migrations\201711150756511_CambioModelo.Designer.cs">
       <DependentUpon>201711150756511_CambioModelo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711150810114_cambiomodeloclienteproveedor.cs" />
-    <Compile Include="Migrations\201711150810114_cambiomodeloclienteproveedor.Designer.cs">
-      <DependentUpon>201711150810114_cambiomodeloclienteproveedor.cs</DependentUpon>
+    <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.cs" />
+    <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.Designer.cs">
+      <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201711151555586_Inidicesclienteproveedor.cs" />
     <Compile Include="Migrations\201711151555586_Inidicesclienteproveedor.Designer.cs">
@@ -306,9 +308,23 @@
     <Compile Include="Migrations\201712082112432_eliminaratributosclientes.Designer.cs">
       <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712130406261_tablasdecotizacion.cs" />
+    <Compile Include="Migrations\201712130406261_tablasdecotizacion.Designer.cs">
+      <DependentUpon>201712130406261_tablasdecotizacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712130407495_cambiodenombretablacotizacion.cs" />
+    <Compile Include="Migrations\201712130407495_cambiodenombretablacotizacion.Designer.cs">
+      <DependentUpon>201712130407495_cambiodenombretablacotizacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712130410311_agregartablasaBD.cs" />
+    <Compile Include="Migrations\201712130410311_agregartablasaBD.Designer.cs">
+      <DependentUpon>201712130410311_agregartablasaBD.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\DatosCorreo.cs" />
+    <Compile Include="Models\DetalleCotizacion.cs" />
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\TipoProducto.cs" />
@@ -661,6 +677,8 @@
     <Content Include="Views\Inicio\_Formerror.cshtml" />
     <Content Include="Views\Inicio\IniciarPago.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Inicio\Crud.cshtml" />
+    <Content Include="Views\Gestion\Mensajes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -718,8 +736,8 @@
     <EmbeddedResource Include="Migrations\201711150756511_CambioModelo.resx">
       <DependentUpon>201711150756511_CambioModelo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711150810114_cambiomodeloclienteproveedor.resx">
-      <DependentUpon>201711150810114_cambiomodeloclienteproveedor.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711150815015_cambiomodeloclienteproveedor.resx">
+      <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711151555586_Inidicesclienteproveedor.resx">
       <DependentUpon>201711151555586_Inidicesclienteproveedor.cs</DependentUpon>
@@ -735,6 +753,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712082112432_eliminaratributosclientes.resx">
       <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712130406261_tablasdecotizacion.resx">
+      <DependentUpon>201712130406261_tablasdecotizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712130407495_cambiodenombretablacotizacion.resx">
+      <DependentUpon>201712130407495_cambiodenombretablacotizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712130410311_agregartablasaBD.resx">
+      <DependentUpon>201712130410311_agregartablasaBD.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

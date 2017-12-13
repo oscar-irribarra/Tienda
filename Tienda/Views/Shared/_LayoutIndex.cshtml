@@ -36,71 +36,81 @@
 <body>
     <style>
         #map {
-        height: 636px;
+            height: 636px;
+        }
+
+        nav .container-fluid {
+            background: #2b2b2b;
         }
     </style>
     <div class="banner-figures">
         <div class="banner" style="margin-bottom:10px;">
-            <div class="container banner-drop">
-                <div class="header">
-                    <div class="header-left logo">
-                        <h1><a href="@Url.Action("Index", "Inicio")">Sostel Talca</a></h1>
+            <nav class="navbar navbar-inverse" style="border-radius: 0px;">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="@Url.Action("Index", "Inicio")"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Sostel</a>
                     </div>
-                    <div class="header-right">
-                        <nav>
-                            <ul>
-                                <li>
-                                    <a href="#about" class="scroll"><span>¿Quienes Somos?</span></a>
-                                </li>
-                                <li>
-                                    <a href="#services" class="scroll"><span>Servicios</span></a>
-                                </li>
-                                <li>
-                                    <a href="#contact" class="scroll"><span>Contacto</span></a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("catalogo", "Inicio")"><span>Catalogo</span></a>
-                                </li>
-                                @if (!User.Identity.IsAuthenticated)
-    {
-                            <li>
-                                <a href="@Url.Action("Login", "Account")"><span>Iniciar sesión</span></a>
-                            </li>
-}
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="color:aquamarine;">
 
-                            </ul>
-                        </nav>
-                        <div class="menu-icon animated wow zoomIn" data-wow-duration="1000ms" data-wow-delay="800ms"><span></span></div>
+
+
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="@Url.Action("Catalogo", "Inicio")">Catalogo</a>
+                            </li>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a href="@Url.Action("Login", "Account")">Iniciar sesión</a>
+                                </li>
+                            }
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  @Tienda.Helpers.IdentityExtensions.GetDisplayName(User.Identity)<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        @if (!User.IsInRole("Usuario"))
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Index", "Gestion")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  Administrar Negocio</a>
+                                            </li>
+                                        }
+
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="@Url.Action("LogOff", "Account")"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>  Cerrar Sesión</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+
+                        </ul>
                     </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <div class="container">
+                <div class="header">
+
                     <div class="clearfix"></div>
                 </div>
                 <div class="name">
-                    <br />
+
                     <h2>Sostel</h2>
                     <p>Sociedad de Comercio y Telecomunicaciones Limitada</p>
                 </div>
                 <div class="social-icons animated wow bounceInDown" data-wow-duration="1000ms" data-wow-delay="800ms">
-                    <ul class="top-links">
-
-
-                        @if (Request.IsAuthenticated)
-                        {
-                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                if (!User.IsInRole("Usuario"))
-                                {
-                                <li>
-                                    <a href="@Url.Action("Index", "Gestion")" class="btn btn-primary">Administrar Negocio</a>
-                                </li>
-                                }                            
-
-                                <li>
-                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-danger">Cerrar Sesión</a>
-                                </li>
-                            }
-                        }
-                    </ul>
+                    <ul class="top-links"></ul>
                 </div>
             </div>
             <div class="banner-btm-grid-w3ls">
@@ -137,16 +147,16 @@
 
     <!-- here stars scrolling icon -->
     <script type="text/javascript">
-            $(document).ready(function () {
+        $(document).ready(function () {
 
-                var defaults = {
-                    containerID: 'toTop', // fading element id
-                    containerHoverID: 'toTopHover', // fading element hover id
-                    scrollSpeed: 1200,
-                    easingType: 'linear'
-                };
-                $().UItoTop({ easingType: 'easeOutQuart' });
-            });
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            $().UItoTop({ easingType: 'easeOutQuart' });
+        });
     </script>
 
     @Scripts.Render("~/bundles/bootstrap")

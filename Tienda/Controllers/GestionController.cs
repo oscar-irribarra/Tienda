@@ -55,8 +55,19 @@ namespace Tienda.Controllers
 
             return RedirectToAction("Index","gestion");
         }
-        [AllowAnonymous]
 
+        public ActionResult Mensajes()
+        {
+            var mensaje = _context.Contactos.ToList();
+            return View(mensaje);
+        }
+
+        public ActionResult Cotizaciones()
+        {
+            var _cotizaciones = _context.Cotizaciones.ToList();
+            return View(_cotizaciones);
+        }
+        
         public ActionResult Reportes()
         {
             return View();
@@ -74,7 +85,7 @@ namespace Tienda.Controllers
             public double decimal3 { get; set; }
             public string color { get; set; }
         }
-        [AllowAnonymous]
+
         public JsonResult Get(int a)
         {
             List<chart> lista = new List<chart>();
