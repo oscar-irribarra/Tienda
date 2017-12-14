@@ -203,6 +203,7 @@
     <Compile Include="Controllers\ArriendosController.cs" />
     <Compile Include="Controllers\CategoriasController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\CotizacionController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
@@ -679,6 +680,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Inicio\Crud.cshtml" />
     <Content Include="Views\Gestion\Mensajes.cshtml" />
+    <Content Include="Views\Cotizacion\Index.cshtml" />
+    <Content Include="Views\Cotizacion\Detalles.cshtml" />
+    <Content Include="Views\Inicio\_Listaproductos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

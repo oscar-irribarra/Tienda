@@ -41,7 +41,8 @@ namespace Tienda.Controllers
             var lista = (List<AgregarProductoView>)Session["Cart"];
             ViewBag.cartCount = (lista == null) ? 0 : lista.Count();
             var productos = _context.Productos.Include(x => x.DetalleProducto).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
-            return View(productos);
+            var categorias = _context.Categorias.Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+            return View(categorias);
         }
         [Authorize]
         public int AddCart(int ItemId)
@@ -99,6 +100,17 @@ namespace Tienda.Controllers
                 _cestaProductos.RemoveAll(x => x.IdProducto == itemId);
             }
             return GetCartItems();
+        }
+
+        public PartialViewResult CargarLista(int? id)
+        {
+            var _view = _context.Productos.Include(x => x.DetalleProducto).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+
+            if (id != null)
+            {
+               _view = _context.Productos.Where(x => x.CategoriaId == id).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+            }
+            return PartialView("_ListaProductos",_view);
         }
         [Authorize]
         public ActionResult Crud()
@@ -226,6 +238,7 @@ namespace Tienda.Controllers
                 _context.DetalleVentas.Add(_nuevoDetalle);
             }
             _context.SaveChanges();
+             Helpers.EmailHelper.EnviarEmail2(_nuevaVenta.Cliente.Email,"Mensaje de compra","Used realizo una compra", DatosCorreo.EmailVentas);
         }
 
 
