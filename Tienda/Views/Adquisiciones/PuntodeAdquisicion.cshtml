@@ -82,34 +82,43 @@
                     </thead>
                     <tbody>
                         @foreach (var item in Model.DetalleCart)
-                    {
-                            <tr>
-                                <td>
-                                    @item.IdProducto
-                                </td>
-                                <td>
-                                    @item.Nombre
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-2 .col-xs-6 .col-sm-4">
+    {
+                    <tr>
+                        <td>
+                            @item.IdProducto
+                        </td>
+                        <td>
+                            @item.Nombre
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-2 .col-xs-6 .col-sm-4">
 
-                                        </div>
-                                        <div class="col-md-2 .col-xs-6 .col-sm-4">
-                                            @item.Cantidad
-                                        </div>
+                                </div>
+                                <div class="col-md-2 .col-xs-6 .col-sm-4">
+                                    @item.Cantidad
+                                </div>
 
-                                    </div>
-                                </td>
-                                <td>
-                                    @item.Precio
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Eliminar", "EliminarProducto", new { id = item.IdProducto }, new { @class = "btn btn-danger", onclick = "return confirm ('Esta seguro que desea eliminar este producto')" })
-                                </td>
-                            </tr>
-                        }
+                            </div>
+                        </td>
+                        <td>
+                            @string.Format("{0:c0}", @item.Precio)
 
+                        </td>
+                        <td>
+                            @Html.ActionLink("Eliminar", "EliminarProducto", new { id = item.IdProducto }, new { @class = "btn btn-danger", onclick = "return confirm ('Esta seguro que desea eliminar este producto')" })
+                        </td>
+                    </tr>
+}
+                        <tr>
+                            <td colspan="3" align="right">
+                                <strong>Total</strong>
+                            </td>
+                            <td>
+                                @string.Format("{0:c0}", @Model.DetalleCart.Sum(d => d.Precio * d.Cantidad))
+
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

@@ -145,7 +145,7 @@ namespace Tienda.Controllers
             var userManager = new UserManager<ApplicationUser>(userStore);
 
             //Get all the usernames
-            foreach (var _user in userStore.Users.Where(x => x.UserName != User.Identity.Name).ToList())
+            foreach (var _user in userStore.Users.Where(x => x.UserName != User.Identity.Name).Where(x => x.UserName != "Venta Online").ToList())
             {
                 var r = new RolesViewModel
                 {
@@ -163,7 +163,7 @@ namespace Tienda.Controllers
                 _user.RoleNames = userManager.GetRoles(userStore.Users.First(s => s.UserName == _user.UserName).Id);
             }
 
-            var user = UserManager.Users.ToList();
+            var user = UserManager.Users.Where(x=>x.UserName != "Venta Online").ToList();
             return View(userRoles);
         }
 
@@ -273,28 +273,47 @@ namespace Tienda.Controllers
                     Email = model.Email,
                     Telefono = model.Telefono
                 };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                var ct = new ClientesController();
-
-                if(result != null)
-                    ct.Guardar(cliente);
-
-                if (result.Succeeded)
+                try
                 {
-                    var rol = Roles.GetRoles().Single(x => x.Id == model.RoleID);
-                    result = await UserManager.AddToRoleAsync(user.Id, rol.Nombre);
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var ct = new ClientesController();
 
-                    if (model.RoleID == 0)
+                    if (result != null)
+                        ct.Guardar(cliente);
+
+                    if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToAction("Catalogo", "Inicio");
+                        var rol = Roles.GetRoles().Single(x => x.Id == model.RoleID);
+                        result = await UserManager.AddToRoleAsync(user.Id, rol.Nombre);
+
+                        if (model.RoleID == 0)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            return RedirectToAction("Catalogo", "Inicio");
+                        }
+
+                        return RedirectToAction("Index", "Account");
                     }
+                    ViewData["RoleID"] = new SelectList(Roles.GetRoles(), "Id", "Nombre", model.RoleID);
 
-                    return RedirectToAction("Index", "Account");
+                    AddErrors(result);
                 }
-                ViewData["RoleID"] = new SelectList(Roles.GetRoles(), "Id", "Nombre", model.RoleID);
+                catch (System.Exception ex)
+                {
+                    var rm = string.Empty;
+                    if (ex.InnerException != null && ex.InnerException.InnerException != null
+               && ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError("", "Este rut ya se encuentra registrado");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", ex.Message);
+                    }
+                 
 
-                AddErrors(result);
+                }
+
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario

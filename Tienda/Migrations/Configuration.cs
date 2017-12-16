@@ -60,11 +60,11 @@ namespace Tienda.Migrations
                 new Cliente { Id = 1, Rut = "0", Telefono = "0", Nombre = "Venta a Publico", Apellido = "!", Email = "S/E"}
                 );
 
-            context.Users.AddOrUpdate(x => x.Id,
-               new ApplicationUser { Email = "", EmailConfirmed = true, PasswordHash = "AIHFWNlOPw1xxIAu0bax1vd5qITpFyQJVSyN0PjHwL/B9ELF6qUWJIB59WmpQ9T1lg==", SecurityStamp= "7935c1b4-ebed-4c2d-825a-8a4462531847",
-               PhoneNumber = "", PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, LockoutEndDateUtc = null, AccessFailedCount = 0,
-               UserName = "Venta Online", Nombre="Venta", Apellido ="Online", Rut = "0", Isbloqued = false}
-               );
+            //context.Users.AddOrUpdate(x => x.Id,
+            //   new ApplicationUser { Email = "", EmailConfirmed = true, PasswordHash = "AIHFWNlOPw1xxIAu0bax1vd5qITpFyQJVSyN0PjHwL/B9ELF6qUWJIB59WmpQ9T1lg==", SecurityStamp= "7935c1b4-ebed-4c2d-825a-8a4462531847",
+            //   PhoneNumber = "", PhoneNumberConfirmed = false, TwoFactorEnabled = false, LockoutEnabled = false, LockoutEndDateUtc = null, AccessFailedCount = 0,
+            //   UserName = "Venta Online", Nombre="Venta", Apellido ="Online", Rut = "0", Isbloqued = false}
+            //   );
 
         }
     }

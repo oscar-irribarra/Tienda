@@ -76,6 +76,7 @@ namespace Tienda.Controllers
                 EmpresaId = Empresas.Sostel,
                 TipoProductoId = _TipoProducto,
                 VendedorId = User.Identity.GetUserId(),
+                Precio = arriendoView.Precio
             };
             _context.Arriendos.Add(_nuevoArriendo);
 

@@ -26,6 +26,9 @@ namespace Tienda.Models
         public int ClienteId { get; set; }
 
         [Required]
+        public double Precio { get; set; }
+
+        [Required]
         public int EstadoId { get; set; }
 
         [Required]

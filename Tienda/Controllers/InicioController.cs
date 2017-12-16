@@ -19,6 +19,11 @@ namespace Tienda.Controllers
         public ActionResult Index()
         {
             var productos = _context.Productos.Include(x => x.DetalleProducto).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+            var lista = (List<AgregarProductoView>)Session["Cart"];
+
+            if (lista != null)
+                ViewBag.cartCount = lista.Count();
+
             return View(productos);
         }
 
@@ -108,9 +113,9 @@ namespace Tienda.Controllers
 
             if (id != null)
             {
-               _view = _context.Productos.Where(x => x.CategoriaId == id).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+                _view = _context.Productos.Where(x => x.CategoriaId == id).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
             }
-            return PartialView("_ListaProductos",_view);
+            return PartialView("_ListaProductos", _view);
         }
         [Authorize]
         public ActionResult Crud()
@@ -130,9 +135,9 @@ namespace Tienda.Controllers
             if (!ModelState.IsValid)
                 return View("Crud", cotizacionView);
 
-                       
+
             var _consultaCliente = _context.Clientes.Where(x => x.Email == User.Identity.Name).FirstOrDefault();
-            
+
             var _cestaProductos = (List<AgregarProductoView>)Session["Cart"];
 
             var _nuevaCotizacion = new Cotizacion()
@@ -152,13 +157,12 @@ namespace Tienda.Controllers
                     CotizacionId = _nuevaCotizacion.Id,
                     ProductoId = item.IdProducto,
                     Cantidad = item.Cantidad
-                };             
+                };
 
                 _context.DetalleCotizaciones.Add(_nuevoDetalle);
             }
             Session["Cart"] = null;
             _context.SaveChanges();
-
             return RedirectToAction("Catalogo");
         }
 
@@ -186,11 +190,11 @@ namespace Tienda.Controllers
             var tbknormal = new TransBank.Tbk_normal();
             var rm = new ResponseModel();
             rm = tbknormal.Tskmethod(rmc);
-            
+
             if (rm.Response)
             {
                 Session["token"] = rm.Token;
-              
+
                 return Redirect(string.Format("{0}?token_ws={1}", rm.Url, rm.Token));
             }
             else
@@ -237,8 +241,9 @@ namespace Tienda.Controllers
 
                 _context.DetalleVentas.Add(_nuevoDetalle);
             }
+            Session["Cart"] = null;
             _context.SaveChanges();
-             Helpers.EmailHelper.EnviarEmail2(_nuevaVenta.Cliente.Email,"Mensaje de compra","Used realizo una compra", DatosCorreo.EmailVentas);
+            Helpers.EmailHelper.EnviarEmail2(_nuevaVenta.Cliente.Email, "Mensaje de compra", "Used realizo una compra", DatosCorreo.EmailVentas);
         }
 
 
@@ -258,7 +263,7 @@ namespace Tienda.Controllers
                         var cantidad = item.Cantidad;
                         if ((cantidad + 1) <= _consultaProducto.Inventario.Single().Stock && (cantidad + 1) > 0)
                         {
-                            item.Cantidad+=1;
+                            item.Cantidad += 1;
                         }
                     }
                 }
@@ -279,7 +284,7 @@ namespace Tienda.Controllers
                     if (item.IdProducto == id)
                     {
                         var cantidad = item.Cantidad;
-                        if ((cantidad-1) <= _consultaProducto.Inventario.Single().Stock && (cantidad-1) > 0)
+                        if ((cantidad - 1) <= _consultaProducto.Inventario.Single().Stock && (cantidad - 1) > 0)
                         {
                             item.Cantidad--;
                         }
@@ -341,7 +346,7 @@ namespace Tienda.Controllers
 
             }
             return View("Index");
-        }        
+        }
 
     }
 }

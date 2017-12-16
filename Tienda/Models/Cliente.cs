@@ -12,7 +12,6 @@ namespace Tienda.Models
             Venta = new HashSet<Venta>();
             Arriendo = new HashSet<Arriendo>();
             Cotizacion = new HashSet<Cotizacion>();
-
         }
         public int Id { get; set; }
 

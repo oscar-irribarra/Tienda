@@ -1,7 +1,7 @@
 ﻿@model Tienda.Models.RegisterViewModel
 @{
     ViewBag.Title = "Registrarse";
-    if(User.IsInRole("Admin"))
+    if (User.IsInRole("Admin"))
     {
         Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
     }
@@ -11,13 +11,13 @@
 {
     @Html.AntiForgeryToken()
     <section class="content">
-        @if(User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin"))
         {
-        <ol class="breadcrumb box">
-            <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
-            <li><a href="@Url.Action("Index","Account")">Usuarios</a></li>
-            <li class="active">Formulario</li>
-        </ol>
+            <ol class="breadcrumb box">
+                <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+                <li><a href="@Url.Action("Index","Account")">Usuarios</a></li>
+                <li class="active">Formulario</li>
+            </ol>
         }
         <div class="box">
             <div class="box-header with-border">
@@ -29,15 +29,15 @@
                 <div class="box-body">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     @if (User.IsInRole("Admin"))
-    {
-                <div class="form-group frm_negocio">
-                    @Html.LabelFor(model => model.RoleID, "Cargo", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.RoleID, null, "Seleccione...", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-}
+                    {
+                        <div class="form-group frm_negocio">
+                            @Html.LabelFor(model => model.RoleID, "Cargo", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.RoleID, null, "Seleccione...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
                     <div class="form-group">
                         @Html.LabelFor(model => model.Rut, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -98,6 +98,16 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("input#Rut")
+            .rut({ validateOn: 'keyup change' })
+            .on('rutInvalido', function () {
+                $(this).parents(".control-group").addClass("error")
+            })
+            .on('rutValido', function () {
+                $(this).parents(".control-group").removeClass("error")
+            });
+    </script>
 }
 
 

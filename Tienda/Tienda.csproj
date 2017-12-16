@@ -321,6 +321,10 @@
     <Compile Include="Migrations\201712130410311_agregartablasaBD.Designer.cs">
       <DependentUpon>201712130410311_agregartablasaBD.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712160358028_nuevosatributosarriendousuario.cs" />
+    <Compile Include="Migrations\201712160358028_nuevosatributosarriendousuario.Designer.cs">
+      <DependentUpon>201712160358028_nuevosatributosarriendousuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizacion.cs" />
@@ -766,6 +770,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712130410311_agregartablasaBD.resx">
       <DependentUpon>201712130410311_agregartablasaBD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712160358028_nuevosatributosarriendousuario.resx">
+      <DependentUpon>201712160358028_nuevosatributosarriendousuario.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

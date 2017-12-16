@@ -45,5 +45,10 @@ namespace Tienda.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime FechaFin { get; set; }
+
+
+        [Required(ErrorMessage = "El campo {0} es Obligatorio")]
+        [DisplayFormat(DataFormatString = "{0:c0}")]
+        public double Precio { get; set; }
     }
 }

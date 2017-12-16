@@ -201,7 +201,35 @@
 
     <script>
         $(document).ready(function () {
-            ComprobarProducto();           
+            ComprobarProducto();
+        
+            $("#Productofrm_TipoProductoId").change(function () {
+                $("#Productofrm_CategoriaId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCategorias")', // we are calling json method
+
+                dataType: 'json',
+
+                data: { id: $("#Productofrm_TipoProductoId").val() },
+              
+                success: function (states) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+
+                    $.each(states, function (i, state) {
+                        $("#Productofrm_CategoriaId").append('<option value="' + state.Value + '">' +
+                         state.Text + '</option>');
+                    // here we are adding option for States
+
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve categories.' + ex);
+                }
+            });
+            return false;
+        })
         });
         function ComprobarProducto() {
             $("#Productofrm_FechaVencimiento").attr("required", true);
@@ -213,7 +241,7 @@
             $("#Productofrm_TipoProductoId").change(function () { metodo(); });
 
             ($("#Productofrm_TipoProductoId").find('option:selected').val() == 2) ? metodo() : false;
-        }      
+        }
 
         function metodo() {
             if ($("#Productofrm_TipoProductoId").find('option:selected').val() == 1) {
@@ -234,6 +262,9 @@
                 $("#DetalleProductofrm_Descripcion").attr("required", bool);
             }
         }
+
+        //Dropdownlist Selectedchange event
+
 
     </script>
     @Scripts.Render("~/bundles/jqueryval")
