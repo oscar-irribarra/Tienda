@@ -1,0 +1,105 @@
+﻿@model Tienda.Models.Venta
+
+@{
+    ViewBag.Title = "Detallecompras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Detallecompras</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>
+                        <asp:Label ID="lb_numeropad" runat="server" Text=""></asp:Label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Cliente.Rut)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Cliente.Rut)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Estado.Nombre)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Estado.Nombre)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Fecha)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Fecha)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.EsOnline)
+                                </dt>
+
+                                <dd>
+                                    @if (Model.EsOnline)
+                                    {
+                                        <label>Online</label>
+                                    }
+                                    else
+                                    {
+                                        <label>Local</label>
+                                    }
+                                </dd>
+
+                            </dl>
+                        </div>
+                        <div class="col-md-7">
+                            <table class="table table-bordered">
+                                <tr>
+
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unitario</th>
+                                    <th>Monto</th>
+                                </tr>
+                                @foreach (var item in Model.DetalleVenta)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cantidad)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Producto.Precio)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:c0}", (item.Producto.Precio * item.Cantidad))
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="3" align="right"><strong>Total</strong></td>
+                                    <td colspan="4" align="right">@string.Format("{0:c0}", @Model.DetalleVenta.Sum(x => x.Cantidad * x.Producto.Precio))</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("Volver", "MisCompras", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+
+    </div></div>
+
+

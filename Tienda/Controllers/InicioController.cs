@@ -1,11 +1,18 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using Tienda.Models;
 using Tienda.ViewModels;
 
@@ -39,6 +46,27 @@ namespace Tienda.Controllers
                 return HttpNotFound();
             }
             return View(producto);
+        }
+
+        public ActionResult MisCompras()
+        {
+            var ventas = _context.Ventas.Include(x=>x.Cliente).Where(x => x.Cliente.Email == User.Identity.Name).ToList();
+           
+            return View(ventas);
+        }
+
+        public ActionResult Detallecompras(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var detalleventas = _context.Ventas.Where(x=>x.Cliente.Email == User.Identity.Name).SingleOrDefault(x => x.Id == id);
+            if (detalleventas == null)
+            {
+                return HttpNotFound();
+            }
+            return View(detalleventas);
         }
 
         public ActionResult Catalogo()
@@ -113,7 +141,7 @@ namespace Tienda.Controllers
 
             if (id != null)
             {
-                _view = _context.Productos.Where(x => x.CategoriaId == id).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+                _view = _context.Productos.Include(x => x.DetalleProducto).Where(x => x.CategoriaId == id).Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
             }
             return PartialView("_ListaProductos", _view);
         }
@@ -241,11 +269,74 @@ namespace Tienda.Controllers
 
                 _context.DetalleVentas.Add(_nuevoDetalle);
             }
-            Session["Cart"] = null;
+           
             _context.SaveChanges();
-            Helpers.EmailHelper.EnviarEmail2(_nuevaVenta.Cliente.Email, "Mensaje de compra", "Used realizo una compra", DatosCorreo.EmailVentas);
+            Session["Cart"] = null;
+
+
+            Helpers.EmailHelper.EnviarEmail2(_nuevaVenta.Cliente.Email, "Mensaje de compra", comprobanteenviado(_nuevaVenta), "Su compra se a realizado correctamente, Pase a retirar sus productos a nuestro local ubicado en 24 1/2 Ote ; 20 1/2 Norte 3321, Talca. ", DatosCorreo.EmailVentas);
         }
 
+        private StringReader comprobanteenviado(Venta _nuevaVenta)
+        {
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    string companyName = "ASPSnippets";
+                    int orderNo = 2303;
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("<table width='100%' cellspacing='0' cellpadding='2'>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>Order Sheet</b></td></tr>");
+                    sb.Append("<tr><td colspan = '2'></td></tr>");
+                    sb.Append("<tr><td><b>Order No:</b>");
+                    sb.Append(orderNo);
+                    sb.Append("</td><td><b>Date: </b>");
+                    sb.Append(DateTime.Now);
+                    sb.Append(" </td></tr>");
+                    sb.Append("<tr><td colspan = '2'><b>Company Name :</b> ");
+                    sb.Append(companyName);
+                    sb.Append("</td></tr>");
+                    sb.Append("</table>");
+                    sb.Append("<br />");
+                    sb.Append("<table border = '1'>");
+                    sb.Append("<tr>");
+
+                    sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>Id</th>");
+                    sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>Producto</th>");
+                    sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>Precio</th>");
+                    sb.Append("<th style = 'background-color: #D20B0C;color:#ffffff'>Cantidad</th>");
+
+
+                    sb.Append("</th>");
+                    var a = _context.DetalleVentas.Include(x=>x.Producto).Where(x => x.VentaId == _nuevaVenta.Id).ToList();
+                    sb.Append("</tr>");
+                    foreach (var item in a)
+                    {
+                        sb.Append("<tr>");
+
+                        sb.Append("<td>");
+                        sb.Append(item.Id);
+                        sb.Append("</td>");
+                        sb.Append("<td>");
+                        sb.Append(item.Producto.Nombre);
+                        sb.Append("</td>");
+                        sb.Append("<td>");
+                        sb.Append(item.Precio);
+                        sb.Append("</td>");
+                        sb.Append("<td>");
+                        sb.Append(item.Cantidad);
+                        sb.Append("</td>");
+                        sb.Append("</tr>");
+                    }
+                    sb.Append("</table>");
+                    StringReader sr = new StringReader(sb.ToString());
+
+                  
+                    return sr;
+                }
+            }
+        }
 
         [Authorize]
         public PartialViewResult Cestasum(int id)

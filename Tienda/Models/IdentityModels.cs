@@ -17,7 +17,7 @@ namespace Tienda.Models
     {
         [Required(ErrorMessage = "El campo {0} es olbligatorio")]
         [MaxLength(15, ErrorMessage = "El campo {0} debe tener menos de {1} Caracteres")]
-        [Index("Usuario_Rut_Index", IsUnique = true)]
+        //[Index("Usuario_Rut_Index", IsUnique = true)]
         public string Rut { get; set; }
         [Required(ErrorMessage = "El campo {0} es olbligatorio")]
         [MaxLength(100, ErrorMessage = "El campo {0} debe tener menos de {1} Caracteres")]

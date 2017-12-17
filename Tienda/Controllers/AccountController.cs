@@ -135,7 +135,7 @@ namespace Tienda.Controllers
                     return View(model);
             }
         }
-      
+        
         [Authorize(Roles = Rol.Admin)]
         public ActionResult Index()
         {

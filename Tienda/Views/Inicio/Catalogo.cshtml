@@ -20,8 +20,8 @@
         <div class="nav-divider divider"></div>
         <ul class="nav nav-list" style="margin-left: 15px;">
             @foreach (var item in Model)
-            {              
-                    <li><a class="divcategoria" id="@item.Id">@item.Nombre</a></li>                
+            {
+                <li><a class="divcategoria" id="@item.Id">@item.Nombre</a></li>
             }
         </ul>
         <br />
@@ -29,7 +29,7 @@
     </div>
     <div class="col-md-9">
         <div id="cargarLista"></div>
-   
+
     </div>
 </div>
 
@@ -39,10 +39,10 @@
 
 @section scripts
 {
-<script>
+    <script>
     $(document).ready(function () {
         Getcategoria(null);
-        
+
             $(document).delegate('.divAddCart', 'click', function () {
             var getItemId = $(this).attr("id");
             var getUserName = $('.divName').html();
@@ -67,14 +67,14 @@
         });
 
         function Getcategoria(a)
-        {        
+        {
               $.ajax({
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 url: '@Url.Action("CargarLista")',
                 data: "{ 'id':' " + a + "' }",
                 success: function (data) {
-                    $('#cargarLista').html(data)
+                    $('#cargarLista').html(data);
                 },
                 error: function (data) {
 
@@ -160,5 +160,5 @@
             });
         });
     });
-</script>
+    </script>
 }

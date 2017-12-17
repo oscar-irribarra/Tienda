@@ -24,6 +24,8 @@ namespace Tienda.ViewModels
         [Range(1, int.MaxValue, ErrorMessage = "El campo {1} debe ser mayor a {1}")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public double Precio { get; set; }
+
+        public List<Producto> listaproductos { get; set; }
         
     }
 }

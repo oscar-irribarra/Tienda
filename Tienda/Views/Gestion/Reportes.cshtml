@@ -5,13 +5,30 @@
 }
 
 <section class="content">
-   
+
     <ul class="nav nav-pills nav-justified box">
-        <li role="presentation" id="boton1"><a >Productos VA</a></li>
-        <li role="presentation" id="boton2"><a >Ventas Local VS Online</a></li>
-        <li role="presentation" id="boton3"><a >Ventas Vs Arriendos</a></li> 
+        <li role="presentation" id="boton1"><a>Productos VA</a></li>
+        <li role="presentation" id="boton2"><a>Ventas Local VS Online</a></li>
+        <li role="presentation" id="boton3"><a>Ventas Vs Arriendos</a></li>
+
     </ul>
-        
+  
+    <select id="meses">
+        <option value="0">Global</option>
+        <option value="1">Enero</option>
+        <option value="2">Febrero</option>
+        <option value="3">Marzo</option>
+        <option value="4">Abril</option>
+        <option value="5">Mayo</option>
+        <option value="6">Junio</option>
+        <option value="7">Julio</option>
+        <option value="8">Agosto</option>
+        <option value="9">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+    </select>
+    <br />
     <div id="chartdiv"></div>
 
 </section>
@@ -26,9 +43,6 @@
             top: 10px;
             right: 0;
         }
-        .amcharts-chart-div a {
-            display: none !important;
-        }
     </style>
     <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -39,32 +53,36 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            var b = 0;
             $("a[title='JavaScript charts']").remove();
             GetReporte(1);
             $('#boton1').on('click', function () {
                 $("li").removeClass("active");
                 $(this).addClass("active");
-                GetReporte(1);
+                b = $("#meses").val();
+                GetReporte(1,b);
             });
             $('#boton2').on('click', function () {
                 $("li").removeClass("active");
                 $(this).addClass("active");
-                GetReporte(2);
+                b = $("#meses").val();
+                GetReporte(2,b);
             });
             $('#boton3').on('click', function () {
                 $("li").removeClass("active");
                 $(this).addClass("active");
-                GetReporte(3);
-            });
+                b = $("#meses").val();
+                GetReporte(3,b);
+            });          
         });
       
-        function GetReporte(a)
+        function GetReporte(a,b=0)
         {
             $.ajax({
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 url: '@Url.Action("Get")',
-                data: "{ 'a':' " + a + "' }",
+                data: "{'a':'" + a + "','b':'" + b + "'}",
                 success: function (data) {
                     switch (a) {
                         case 1:
@@ -75,7 +93,7 @@
                             break;
                         case 3:
                             Reporte_VA(data);
-                            break;
+                            break;                      
                         default:
                             Reporte_V_OnlineLocal(data);
                             break;
@@ -122,7 +140,8 @@
                     "labelRotation": 45
                 },
                 "export": {
-                    "enabled": true
+                    "enabled": true,
+                    
                 }
 
             });
@@ -229,5 +248,7 @@
                 chart.validateNow();
             });
         }
+
+        
     </script>
 }

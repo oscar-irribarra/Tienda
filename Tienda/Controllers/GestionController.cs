@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Tienda.Controllers
 {
-    [Authorize(Roles = Rol.Admin+","+Rol.Vendedor)]
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class GestionController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -24,7 +24,7 @@ namespace Tienda.Controllers
             var _empresa = _context.Empresas.ToList();
             return View();
         }
-       
+
         public ActionResult Crud(int id = 0)
         {
             if (id == 0)
@@ -53,7 +53,7 @@ namespace Tienda.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index","gestion");
+            return RedirectToAction("Index", "gestion");
         }
 
         public ActionResult Mensajes()
@@ -67,7 +67,7 @@ namespace Tienda.Controllers
             var _cotizaciones = _context.Cotizaciones.ToList();
             return View(_cotizaciones);
         }
-        
+
         public ActionResult Reportes()
         {
             return View();
@@ -86,64 +86,95 @@ namespace Tienda.Controllers
             public string color { get; set; }
         }
 
-        public JsonResult Get(int a)
+        public JsonResult Get(int a, int b)
         {
             List<chart> lista = new List<chart>();
             switch (a)
             {
                 case 1:
-                    VentasYarriendosTotales(lista);
+                    VentasYarriendosTotales(lista,b);
                     break;
                 case 2:
-                    PorcentajeLocalVsOnline(lista);
+                    PorcentajeLocalVsOnline(lista,b);
                     break;
                 case 3:
-                    VentasVsArriendos(lista);
-                    break;
+                    VentasVsArriendos(lista,b);
+                    break;                
                 default:
-                    PorcentajeLocalVsOnline(lista);
+                    PorcentajeLocalVsOnline(lista,b);
                     break;
             }
-                      
+
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
-        private void PorcentajeLocalVsOnline(List<chart> lista)
+        private void PorcentajeLocalVsOnline(List<chart> lista,int b)
         {
-            var consultalocal = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == false).Count();
-            var consultaonline = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == true).Count();                       
-            lista.Add(new chart{ nombre = "Ventas Locales", valor = consultalocal });
-            lista.Add(new chart{ nombre = "Ventas Online", valor = consultaonline });
+            var consultalocal = 0;
+            var consultaonline = 0;
+            if (b == 0)
+            {
+                consultalocal = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == false).Count();
+                consultaonline = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == true).Count();
+            }
+            else
+            {
+                consultalocal = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == false).Where(x=>x.Fecha.Month == b).Count();
+                consultaonline = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == true).Where(x => x.Fecha.Month == b).Count();
+            }
+            
+            lista.Add(new chart { nombre = "Ventas Locales", valor = consultalocal });
+            lista.Add(new chart { nombre = "Ventas Online", valor = consultaonline });
         }
 
-        private void VentasVsArriendos(List<chart> lista)
+        private void VentasVsArriendos(List<chart> lista, int b)
         {
-            var consultaarriendo = _context.Arriendos.Include(x => x.DetalleArriendo).Count();
-            var consultaVentas = _context.Ventas.Include(x => x.DetalleVenta).Count();            
-            lista.Add(new chart{nombre = "Ventas",valor = consultaVentas});
-            lista.Add(new chart{nombre = "Arriendos",valor = consultaarriendo});
+            var consultaarriendo = 0;
+            var consultaVentas = 0;
+            if (b == 0)
+            {
+                consultaarriendo = _context.Arriendos.Include(x => x.DetalleArriendo).Count();
+                consultaVentas = _context.Ventas.Include(x => x.DetalleVenta).Count();
+            }
+            else
+            {
+                consultaarriendo = _context.Arriendos.Include(x => x.DetalleArriendo).Where(x => x.FechaInicio.Month == b).Count();
+                consultaVentas = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.Fecha.Month == b).Count();
+            }
+            
+            lista.Add(new chart { nombre = "Ventas", valor = consultaVentas });
+            lista.Add(new chart { nombre = "Arriendos", valor = consultaarriendo });
         }
 
-        private void VentasYarriendosTotales(List<chart> lista)
+        private void VentasYarriendosTotales(List<chart> lista, int b)
         {
             Random r = new Random();
-            string[] colores  = { "#C0392B ", "#E74C3C", "#9B59B6", "#8E44AD", "#2980B9", "#3498DB", "#1ABC9C", "#16A085", "#27AE60", "#2ECC71", "#F1C40F", "#F39C12", "#E67E22", "#D35400" };
+            string[] colores = { "#C0392B ", "#E74C3C", "#9B59B6", "#8E44AD", "#2980B9", "#3498DB", "#1ABC9C", "#16A085", "#27AE60", "#2ECC71", "#F1C40F", "#F39C12", "#E67E22", "#D35400" };
             var consultav = _context.DetalleVentas.Include(x => x.Producto).ToList();
             var consultaa = _context.DetalleArriendos.Include(x => x.Producto).ToList();
+
+            if (b != 0)
+            {
+                consultav = _context.DetalleVentas.Include(x => x.Producto).Where(x => x.Venta.Fecha.Month == b).ToList();
+                consultaa = _context.DetalleArriendos.Include(x => x.Producto).Where(x => x.Arriendo.FechaInicio.Month == b).ToList();
+            }
+
             
-            var consultap = _context.Productos.Where(x=>x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
+
+            var consultap = _context.Productos.Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
             foreach (var item in consultap)
             {
-               var a= consultav.Where(x => x.ProductoId == item.Id).Count();
-               var b= consultaa.Where(x => x.ProductoId == item.Id).Count();
+                var a = consultav.Where(x => x.ProductoId == item.Id).Sum(x=>x.Cantidad);
+                var c = consultaa.Where(x => x.ProductoId == item.Id).Sum(x => x.Cantidad);
                 lista.Add(new chart
                 {
                     nombre = item.Nombre,
-                    entero1 = a+b,
+                    entero1 = a + c,
                     color = colores[r.Next(colores.Length)]
                 });
             }
         }
-                     
+
+       
     }
 }
