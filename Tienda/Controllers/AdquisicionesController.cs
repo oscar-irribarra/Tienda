@@ -58,8 +58,9 @@ namespace Tienda.Controllers
 
             if (_consultaProveedores == null)
             {
-                ModelState.AddModelError("", "Este proveedor no se encuentra registrado");
-                return View("Crud", adqView);
+                var _nuevoproveedor = new Proveedor { Nombre = adqView.Nombre, Correo = adqView.Correo, Rut = adqView.Rut, Telefono = adqView.Telefono };
+                _context.Proveedores.Add(_nuevoproveedor);
+                _consultaProveedores = _nuevoproveedor;
             }
 
             var _cestaProductos = (List<AgregarProductoView>)Session["CartAdquisicion"];

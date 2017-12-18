@@ -37,6 +37,7 @@
                                         @Html.DisplayNameFor(model => model.EsOnline)
                                     </th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
 
                                 @foreach (var item in Model)
@@ -65,7 +66,11 @@
                                             }
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Detalles", "Detallecompras", new { id = item.Id },new { @class = "btn btn-default" })
+                                            @Html.ActionLink("Detalles", "Detallecompras", new { id = item.Id }, new { @class = "btn btn-default" })
+                                       
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Anular", "Inicio", new { id = item.Id }, new { @class = "btn btn-default hidden" })
                                         </td>
                                     </tr>
                                 }

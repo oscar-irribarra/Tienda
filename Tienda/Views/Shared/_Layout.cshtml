@@ -13,7 +13,8 @@
     <style>
         html, body {
             height: 100%;
-        }        
+        }
+
         nav .container-fluid {
             background: #2b2b2b;
             padding: 1.0em 0;
@@ -26,6 +27,7 @@
         .navbar-brand {
             font-family: 'Oleo Script', cursive;
         }
+
         #menu {
             border-radius: 10px;
             box-shadow: -4px 6px 8px -4px rgba(0,0,0,0.9);
@@ -34,6 +36,7 @@
             margin-left: 2%;
             margin-bottom: 50px;
         }
+
         .thumbnail {
             box-shadow: -4px 6px 8px -4px rgba(0,0,0,0.9);
             width: 90%;
@@ -57,7 +60,6 @@
             text-align: center;
             color: white;
             position: relative;
-            
             text-align: center;
             padding: 1.5em 0;
         }
@@ -72,7 +74,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="@Url.Action("Index", "Inicio")"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>  Sostel</a>
+                <a class="navbar-brand" href="@Url.Action("Index", "Inicio")"><span aria-hidden="true"><img src="https://image.flaticon.com/icons/svg/138/138310.svg" style="width:25px; margin-left:10px;" /></span>  Sostel</a>  Sostel</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -96,8 +98,10 @@
                                         <a href="@Url.Action("Index", "Gestion")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  Administrar Negocio</a>
                                     </li>
                                 }
-
-                                <li role="separator" class="divider"></li>                                                          
+                                <li>
+                                    <a href="@Url.Action("MisCompras", "Inicio")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  Mis Compras</a>
+                                </li>
+                                <li role="separator" class="divider"></li>
                                 <li>
                                     <a href="@Url.Action("LogOff", "Account")"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>  Cerrar Sesión</a>
                                 </li>

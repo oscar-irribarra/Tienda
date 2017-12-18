@@ -16,6 +16,7 @@ namespace Tienda.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext _context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -53,7 +54,7 @@ namespace Tienda.Controllers
                 _userManager = value;
             }
         }
-        
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -98,7 +99,7 @@ namespace Tienda.Controllers
                     return View(model);
             }
         }
-           
+
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Requerir que el usuario haya iniciado sesión con nombre de usuario y contraseña o inicio de sesión externo
@@ -108,7 +109,7 @@ namespace Tienda.Controllers
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-               
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
@@ -135,7 +136,7 @@ namespace Tienda.Controllers
                     return View(model);
             }
         }
-        
+
         [Authorize(Roles = Rol.Admin)]
         public ActionResult Index()
         {
@@ -163,7 +164,7 @@ namespace Tienda.Controllers
                 _user.RoleNames = userManager.GetRoles(userStore.Users.First(s => s.UserName == _user.UserName).Id);
             }
 
-            var user = UserManager.Users.Where(x=>x.UserName != "Venta Online").ToList();
+            var user = UserManager.Users.Where(x => x.UserName != "Venta Online").ToList();
             return View(userRoles);
         }
 
@@ -188,7 +189,7 @@ namespace Tienda.Controllers
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return RedirectToAction("Index", "Account");
         }
-                   
+
         public ActionResult Update()
         {
             var user = UserManager.FindByNameAsync(User.Identity.Name);
@@ -202,7 +203,7 @@ namespace Tienda.Controllers
             };
             return View(userView);
         }
-                  
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Update(RegisterViewModel model)
@@ -237,49 +238,69 @@ namespace Tienda.Controllers
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
         }
-                 
+
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewData["RoleID"] = new SelectList(Roles.GetRoles().Where(x=>x.Id != 0), "Id", "Nombre");
+            ViewData["RoleID"] = new SelectList(Roles.GetRoles().Where(x => x.Id != 0), "Id", "Nombre");
 
             return View();
         }
-               
-        [HttpPost]     
+
+        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
-                {
-                    Rut = model.Rut,
-                    UserName = model.Email,
-                    Email = model.Email,
-                    Nombre = model.Nombre,
-                    Apellido = model.Apellido,
-                    EmailConfirmed = true,
-                    Isbloqued = model.Isbloqued,   
-                    PhoneNumber = model.Telefono
-                };
-
-                var cliente = new Cliente
-                {
-                    Rut = model.Rut,
-                    Nombre = model.Nombre,
-                    Apellido = model.Apellido,
-                    Email = model.Email,
-                    Telefono = model.Telefono
-                };
                 try
                 {
+                    var user = new ApplicationUser
+                    {
+                        Rut = model.Rut,
+                        UserName = model.Email,
+                        Email = model.Email,
+                        Nombre = model.Nombre,
+                        Apellido = model.Apellido,
+                        EmailConfirmed = true,
+                        Isbloqued = model.Isbloqued,
+                        PhoneNumber = model.Telefono
+                    };
+                    var _consultacliente = _context.Clientes.Where(x => x.Rut == model.Rut).SingleOrDefault();
+                    if (_consultacliente == null)
+                    {
+                        var cliente = new Cliente
+                        {
+                            Rut = model.Rut,
+                            Nombre = model.Nombre,
+                            Apellido = model.Apellido,
+                            Email = model.Email,
+                            Telefono = model.Telefono
+                        };
+                    }
+
+
                     var result = await UserManager.CreateAsync(user, model.Password);
                     var ct = new ClientesController();
 
                     if (result != null)
-                        ct.Guardar(cliente);
+                    {
+                        if (_consultacliente == null)
+                        {
+                            var cliente = new Cliente
+                            {
+                                Rut = model.Rut,
+                                Nombre = model.Nombre,
+                                Apellido = model.Apellido,
+                                Email = model.Email,
+                                Telefono = model.Telefono
+                            };
+                            ct.Guardar(cliente);
+                        }
+
+                    }
+
 
                     if (result.Succeeded)
                     {
@@ -310,7 +331,7 @@ namespace Tienda.Controllers
                     {
                         ModelState.AddModelError("", ex.Message);
                     }
-                 
+
 
                 }
 
@@ -319,7 +340,7 @@ namespace Tienda.Controllers
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
         }
-               
+
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -329,13 +350,13 @@ namespace Tienda.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
-                
+
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
-               
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -357,7 +378,7 @@ namespace Tienda.Controllers
 
                 //await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                await EmailHelper.EnviarEmail(user.Email, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>",DatosCorreo.EmailSoporte);
+                await EmailHelper.EnviarEmail(user.Email, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>", DatosCorreo.EmailSoporte);
 
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -408,7 +429,7 @@ namespace Tienda.Controllers
             AddErrors(result);
             return View();
         }
-               
+
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()

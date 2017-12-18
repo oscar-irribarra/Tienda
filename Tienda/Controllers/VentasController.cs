@@ -59,13 +59,15 @@ namespace Tienda.Controllers
 
             if (ventaView.Ispublica)
                 ventaView.Rut = "0";
-
+            
             var _consultaCliente = _context.Clientes.Where(x => x.Rut == ventaView.Rut).FirstOrDefault();
 
             if (_consultaCliente == null)
             {
-                ModelState.AddModelError("", "Este cliente no se encuentra registrado");
-                return View("Crud", ventaView);
+                var _nuevocliente = new Cliente { Nombre = ventaView.Nombre, Apellido = ventaView.Apellido, Rut = ventaView.Rut, Telefono = ventaView.Telefono, Email = ventaView.Email };
+                _context.Clientes.Add(_nuevocliente);
+
+                _consultaCliente = _nuevocliente;
             }
 
             var _cestaProductos = (List<AgregarProductoView>)Session["CartVentas"];

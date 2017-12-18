@@ -193,6 +193,39 @@ namespace Tienda.Controllers
             _context.SaveChanges();
             return RedirectToAction("Catalogo");
         }
+        [Authorize]
+        public ActionResult CancelarCompra(int? id)
+        {
+            Random random = new Random();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var _detalleventa = _context.DetalleVentas.Where(x => x.VentaId == id).Where(x=>x.Venta.EstadoId == Estados.EnCurso).Where(x=>x.Venta.EsOnline == true).ToList();
+
+            if (_detalleventa == null)
+            {
+                return HttpNotFound();
+            }
+
+            var suma = 0;
+            foreach (var item in _detalleventa)
+            {
+                suma += ((int)item.Precio * item.Cantidad);
+            }
+            var rmc = new ResponseModelcomercio
+            {
+                AuthorizedAmount = suma.ToString(),
+                BuyOrder = random.Next(0, 1000).ToString(),
+                SessionId = random.Next(0, 1000).ToString(),
+                Urlreturn = "/inicio/mostrarvoucher",
+                Urlfin = "/inicio/catalogo",
+                Action = "nullify",
+                Commercecode = "597020000541"
+            };
+            
+            return View();
+        }
 
         [Authorize]
         public ActionResult IniciarPago()
@@ -409,7 +442,7 @@ namespace Tienda.Controllers
             var response = Request["g-recaptcha-response"];
             string secretKey = "6LdASDwUAAAAAI9pNFRnFk-yqZVpZfVXcWstds2c";
             var client = new WebClient();
-            var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify? secret ={0}&response={1}", secretKey, response));
+            var result = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}", secretKey, response));
             var obj = JObject.Parse(result);
             var status = (bool)obj.SelectToken("success");
 
@@ -431,12 +464,8 @@ namespace Tienda.Controllers
                 _context.SaveChanges();
 
             }
-            else
-            {
-                ViewBag.Message = "Google reCaptcha validation failed";
 
-            }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
     }

@@ -55,8 +55,8 @@ namespace Tienda.Controllers
 
             if (_consultaCliente == null)
             {
-                ModelState.AddModelError("", "Este cliente no se encuentra registrado");
-                return View("Crud", arriendoView);
+                var _nuevoclinete = new Cliente { Rut = arriendoView.Rut, Nombre = arriendoView.Nombre, Apellido = arriendoView.Apellido, Email = arriendoView.Email, Telefono = arriendoView.Telefono };
+                _context.Clientes.Add(_nuevoclinete);
             }
 
             var _cestaProductos = (List<AgregarProductoView>)Session["CartArriendos"];
@@ -239,6 +239,24 @@ namespace Tienda.Controllers
                 Session["CartArriendos"] = null;
 
             return RedirectToAction("PuntodeArriendo");
+        }
+
+        public ActionResult FinalizarArriendo(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            var _arriendo = _context.Arriendos.SingleOrDefault(x => x.Id == id);
+
+            if (_arriendo == null)
+                return HttpNotFound();
+
+            _arriendo.EstadoId = Estados.Finalizada;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Detalles/" + id, "Arriendos");
+
         }
     }
 }
