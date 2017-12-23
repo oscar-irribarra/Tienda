@@ -10,7 +10,8 @@
         <li role="presentation" id="boton1"><a>Productos VA</a></li>
         <li role="presentation" id="boton2"><a>Ventas Local VS Online</a></li>
         <li role="presentation" id="boton3"><a>Ventas Vs Arriendos</a></li>
-
+        <li role="presentation" id="boton4"><a>Ventas x Mes</a></li>
+        <li role="presentation" id="boton5"><a>Adquisiciones x Mes</a></li>
     </ul>
   
     <select id="meses">
@@ -54,7 +55,7 @@
 
         $(document).ready(function () {
             var b = 0;
-            $("a[title='JavaScript charts']").remove();
+            $('#boton1').addClass("active");
             GetReporte(1);
             $('#boton1').on('click', function () {
                 $("li").removeClass("active");
@@ -73,7 +74,19 @@
                 $(this).addClass("active");
                 b = $("#meses").val();
                 GetReporte(3,b);
-            });          
+            });    
+            $('#boton4').on('click', function () {
+                $("li").removeClass("active");
+                $(this).addClass("active");
+                b = 0;
+                GetReporte(4, b);
+            }); 
+            $('#boton5').on('click', function () {
+                $("li").removeClass("active");
+                $(this).addClass("active");
+                b = 0;
+                GetReporte(5, b);
+            }); 
         });
       
         function GetReporte(a,b=0)
@@ -93,7 +106,13 @@
                             break;
                         case 3:
                             Reporte_VA(data);
-                            break;                      
+                            break;      
+                        case 4:
+                            myreporte(data)
+                            break;  
+                        case 5:
+                            myreporte(data)
+                            break;
                         default:
                             Reporte_V_OnlineLocal(data);
                             break;
@@ -246,6 +265,85 @@
 
                 target[property] = this.value;
                 chart.validateNow();
+            });
+        }
+
+        function reportventas(data)
+        {
+
+            var chart = AmCharts.makeChart("chartdiv", {
+                "type": "serial",
+                "theme": "light",
+                "dataProvider": data,
+                "valueAxes": [{
+                    "gridColor": "#FFFFFF",
+                    "gridAlpha": 0.2,
+                    "dashLength": 0
+                }],
+                "gridAboveGraphs": true,
+                "startDuration": 1,
+                "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillAlphas": 0.8,
+                    "lineAlpha": 0.2,
+                    "type": "column",
+                    "valueField": "visits"
+                }],
+                "chartCursor": {
+                    "categoryBalloonEnabled": false,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "country",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "gridAlpha": 0,
+                    "tickPosition": "start",
+                    "tickLength": 20
+                },
+                "export": {
+                    "enabled": true
+                }
+
+            });
+        }
+
+        function myreporte(data)
+        {
+            var chart = AmCharts.makeChart("chartdiv", {
+                "type": "serial",
+                "theme": "light",
+                "dataProvider": data,
+                "valueAxes": [{
+                    "gridColor": "#FFFFFF",
+                    "gridAlpha": 0.2,
+                    "dashLength": 0
+                }],
+                "gridAboveGraphs": true,
+                "startDuration": 1,
+                "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillAlphas": 0.8,
+                    "lineAlpha": 0.2,
+                    "type": "column",
+                    "valueField": "valor"
+                }],
+                "chartCursor": {
+                    "categoryBalloonEnabled": false,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "nombre",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "gridAlpha": 0,
+                    "tickPosition": "start",
+                    "tickLength": 20
+                },
+                "export": {
+                    "enabled": true
+                }
+
             });
         }
 

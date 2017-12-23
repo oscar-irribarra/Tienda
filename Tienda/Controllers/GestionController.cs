@@ -92,23 +92,68 @@ namespace Tienda.Controllers
             switch (a)
             {
                 case 1:
-                    VentasYarriendosTotales(lista,b);
+                    VentasYarriendosTotales(lista, b);
                     break;
                 case 2:
-                    PorcentajeLocalVsOnline(lista,b);
+                    PorcentajeLocalVsOnline(lista, b);
                     break;
                 case 3:
-                    VentasVsArriendos(lista,b);
-                    break;                
+                    VentasVsArriendos(lista, b);
+                    break;
+                case 4:
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        var suma = 0.0;
+                        try
+                        {
+                            suma = _context.DetalleVentas.Where(x => x.Venta.Fecha.Month == i).Sum(x => x.Precio);
+                        }
+                        catch (Exception)
+                        {
+
+                            suma = 0;
+                        }
+                        var asd = i;
+
+                        string[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Nobiembre", "Diciembre" };
+
+                        lista.Add(new chart { nombre = meses[asd - 1], valor = suma });
+                    }
+                    break;
+                case 5:
+                    for (int i = 1; i <= 12; i++)
+                    {
+                        var suma = 0.0;
+                        try
+                        {
+                            suma = _context.DetalleAdquisiciones.Where(x => x.Adquisicion.Fecha.Month == i).Sum(x => x.Precio);
+                        }
+                        catch (Exception)
+                        {
+
+                            suma = 0;
+                        }
+                        var asd = i;
+
+                        string[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Nobiembre", "Diciembre" };
+
+                        lista.Add(new chart { nombre = meses[asd - 1], valor = suma });
+                    }
+                    break;
                 default:
-                    PorcentajeLocalVsOnline(lista,b);
+                    PorcentajeLocalVsOnline(lista, b);
                     break;
             }
 
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
+        private void cantidadventa_año(List<chart> lista)
+        {
 
-        private void PorcentajeLocalVsOnline(List<chart> lista,int b)
+
+        }
+
+        private void PorcentajeLocalVsOnline(List<chart> lista, int b)
         {
             var consultalocal = 0;
             var consultaonline = 0;
@@ -119,10 +164,10 @@ namespace Tienda.Controllers
             }
             else
             {
-                consultalocal = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == false).Where(x=>x.Fecha.Month == b).Count();
+                consultalocal = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == false).Where(x => x.Fecha.Month == b).Count();
                 consultaonline = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.EsOnline == true).Where(x => x.Fecha.Month == b).Count();
             }
-            
+
             lista.Add(new chart { nombre = "Ventas Locales", valor = consultalocal });
             lista.Add(new chart { nombre = "Ventas Online", valor = consultaonline });
         }
@@ -141,7 +186,7 @@ namespace Tienda.Controllers
                 consultaarriendo = _context.Arriendos.Include(x => x.DetalleArriendo).Where(x => x.FechaInicio.Month == b).Count();
                 consultaVentas = _context.Ventas.Include(x => x.DetalleVenta).Where(x => x.Fecha.Month == b).Count();
             }
-            
+
             lista.Add(new chart { nombre = "Ventas", valor = consultaVentas });
             lista.Add(new chart { nombre = "Arriendos", valor = consultaarriendo });
         }
@@ -159,12 +204,12 @@ namespace Tienda.Controllers
                 consultaa = _context.DetalleArriendos.Include(x => x.Producto).Where(x => x.Arriendo.FechaInicio.Month == b).ToList();
             }
 
-            
+
 
             var consultap = _context.Productos.Where(x => x.TipoProductoId == Tipo_negocio.Seguridad).ToList();
             foreach (var item in consultap)
             {
-                var a = consultav.Where(x => x.ProductoId == item.Id).Sum(x=>x.Cantidad);
+                var a = consultav.Where(x => x.ProductoId == item.Id).Sum(x => x.Cantidad);
                 var c = consultaa.Where(x => x.ProductoId == item.Id).Sum(x => x.Cantidad);
                 lista.Add(new chart
                 {
@@ -175,6 +220,6 @@ namespace Tienda.Controllers
             }
         }
 
-       
+
     }
 }
