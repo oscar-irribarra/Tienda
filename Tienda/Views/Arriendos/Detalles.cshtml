@@ -52,7 +52,17 @@
                         </dt>
                         <dd>
                             @Html.DisplayFor(model => model.Vendedor.FullName)
-                        </dd>                      
+                        </dd>
+                        @if (Model.Estado.Nombre == "EnCurso")
+                        {
+                            <dt>
+                                Productos Entregados
+                            </dt>
+                            <dd>
+                                @Html.ActionLink("Finalizar", "FinalizarArriendo", new { id = Model.Id }, new { @class = "btn btn-primary" })
+
+                            </dd>
+                        }
                     </dl>
                 </div>
                 <div class="box-footer">
@@ -76,8 +86,8 @@
                     <table class="table table-bordered">
                         <tr>
                             <th>Producto</th>
-                            <th>Cantidad</th>                        
-                        
+                            <th>Cantidad</th>
+
                         </tr>
                         @foreach (var item in Model.DetalleArriendo)
                         {
@@ -88,11 +98,11 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Cantidad)
-                                </td>                               
-                             
+                                </td>
+
                             </tr>
                         }
-                      
+
                     </table>
                 </div>
 

@@ -1,0 +1,7 @@
+﻿@model Tienda.ViewModels.tsbproductoModel
+
+<form action="@Model.TbviewModel.action" method='post'>
+    <input type='hidden' name='token_ws' value="@Model.TbviewModel.token">
+    <input type='submit' value='Continuar &raquo;'>
+    <h4>@Model.Mensaje</h4>
+</form>

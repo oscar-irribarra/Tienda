@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<Tienda.Models.Producto>
 @{
     ViewBag.Title = "Sostel";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
 }
 
 
@@ -30,7 +31,7 @@
                 <div class="col-md-6 news-right" style="height:310px;">
                     <a href="#one"><h4>Venta de Artefactos de Seguridad</h4></a>
                     <p class="para-w3-agile">Nuestros servicio de venta ofrece una amplia gama de prouctos pensados para su seguridad, entre nuestros productos se encuentran radiostransmisores y camaras de seguridad.</p>
-                 
+
                 </div>
                 <div class="clearfix"> </div>
             </div>
@@ -48,84 +49,10 @@
                     </div>
                 </div>
                 <div class="clearfix"> </div>
-            </div>        
+            </div>
             <div class="clearfix"> </div>
         </div>
         <div class="skills-bar">
-        </div>
-    </div>
-</div>
-<div class="products" id="products">
-    <div class="container">
-        <span class="about-top-w3">Nuestros Productos</span>
-        <h4 class="title-w3ls">Productos Mas Vendidos</h4>
-        <h3 class="title-w3ls label label-info">**Click en la imagen para mas detalles :)</h3>
-        <div class="row">
-            <br />
-            @foreach (var item in Model)
-            {
-                <div class="lightbox-target" id="@item.Nombre">
-                    @if (item.DetalleProducto.FirstOrDefault(x=>x.ImagenUrl != null) != null)
-                    {
-                        <img alt="@item.Nombre" src="@Url.Content(item.DetalleProducto.FirstOrDefault().ImagenUrl)" class="img-thumbnail " style="width:150px;height:200px;max-width: 100%; max-height: 100%;" />
-
-                    }
-
-                    <p class="pop" ;">
-                        <b>Nombre:</b>
-
-                        @Html.DisplayFor(model => item.Nombre)
-                        <br />
-                        <b>
-                            Precio:
-                        </b>
-
-                        @string.Format("{0:c0}",item.Precio)
-                        <br />
-                        <b>
-                            Marca:
-                        </b>
-
-                        @Html.DisplayFor(model => item.DetalleProducto.SingleOrDefault().Marca)
-                        <br />
-                        <b>
-                            Modelo:
-                        </b>
-
-                        @Html.DisplayFor(model => item.DetalleProducto.SingleOrDefault().Modelo)
-                        <br />
-                        <b>
-                            Color:
-                        </b>
-
-                        @Html.DisplayFor(model => item.DetalleProducto.SingleOrDefault().Color)
-                        <br />
-                        <b>
-                            Descripcion:
-                        </b>
-                        @Html.DisplayFor(model => item.DetalleProducto.SingleOrDefault().Descripcion)
-                        <br />
-
-                    </p>
-
-                    <a class="lightbox-close" href="#products"> </a>
-
-                    <div class="clearfix"> </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="thumbnail" style="width:100%;height:100%;">
-                        <a href="#@item.Nombre">
-                            <h3 class="para-w3-agile"><span class="center-block text-center thin">@item.Nombre</span></h3>
-                            @if (item.DetalleProducto.FirstOrDefault(x => x.ImagenUrl != null) != null)
-                            {
-                                <img alt="@item.Nombre" src="@Url.Content(item.DetalleProducto.FirstOrDefault().ImagenUrl)" class="img-thumbnail " style="width:200px;height:210px;" />
-                            }
-                            <h3 class="text-center para-w3-agile"><span class="thin">@string.Format("{0:c0}",item.Precio)</span></h3>
-                            <br />
-                        </a>
-                    </div>
-                </div>
-            }
         </div>
     </div>
 </div>
@@ -134,16 +61,20 @@
     <div class="container">
         <span class="about-top-w3">Envianos tus consultas</span>
         <h4 class="title-w3ls">Contacto</h4>
+
         <div class="col-md-5 contact-agileits-w3layouts">
-            @using (Html.BeginForm("GuardarComentario", "Gestion", FormMethod.Post))
+            @using (Html.BeginForm("Guardar", "Inicio", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <input type="text" name="nombre" id="nombre" placeholder="Nombre" required="" />
                 <input type="email" name="correo" id="correo" placeholder="Correo" required="" />
                 <input type="text" Name="telefono" id="telefono" placeholder="Telefono" required="" />
                 <textarea name="mensaje" placeholder="Mensaje" id="mensaje" required=""></textarea>
-                <input type="submit" value="Enviar">
-            }
+                <div class="g-recaptcha"
+                     data-sitekey="6LdASDwUAAAAALdYLstcuZ3w9Eq64kMKLUTgkm_N"></div>
+                <input type="submit" value="Enviar" />
+            }                            
+           <p><span>@ViewBag.Message</span></p>
             <h5 class="sub">Información</h5>
             <p><span>Dirección</span> : 24 1/2 Ote ; 20 1/2  Norte  3321, Talca.</p>
             <p><span>Telefono</span> : +569 95987821</p>

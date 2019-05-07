@@ -11,15 +11,17 @@ using Microsoft.AspNet.Identity;
 
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Vendedor)]
     public class AdquisicionesController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
         public ActionResult Index()
         {
             var _adquisiciones = _context.Adquisiciones.Include(x => x.Proveedor).Include(x => x.Vendedor).Include(x => x.Documento).ToList();
             return View(_adquisiciones);
         }
-
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
         public ActionResult Detalles(int? id)
         {
             if (id == null)
@@ -56,8 +58,9 @@ namespace Tienda.Controllers
 
             if (_consultaProveedores == null)
             {
-                ModelState.AddModelError("", "Este proveedor no se encuentra registrado");
-                return View("Crud", adqView);
+                var _nuevoproveedor = new Proveedor { Nombre = adqView.Nombre, Correo = adqView.Correo, Rut = adqView.Rut, Telefono = adqView.Telefono };
+                _context.Proveedores.Add(_nuevoproveedor);
+                _consultaProveedores = _nuevoproveedor;
             }
 
             var _cestaProductos = (List<AgregarProductoView>)Session["CartAdquisicion"];

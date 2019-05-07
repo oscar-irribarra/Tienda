@@ -21,50 +21,53 @@
                 </ul>
             </div>
         </div>
-        <div class="box-body table-responsive no-padding">
-            <table class="table table-hover">
-                <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        Fecha
-                    </th>
-                    <th>
-                        Proveedor
-                    </th>
-                    <th>
-                        Estado
-                    </th>
-                    <th>Vendedor</th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+        <div class="box-body table-responsive">
+            <br />
+            <table id="Adquisiciones" class="table table-bordered">
+                <thead>
                     <tr>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Fecha)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Estado.Nombre)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Vendedor.FullName)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Detalles", "Detalles", "Adquisiciones", new { id = item.Id }, new { @class = "btn btn-default" })
-                        </td>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Fecha
+                        </th>
+                        <th>
+                            Proveedor
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                        <th>Vendedor</th>
+                        <th></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
 
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Proveedor.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Vendedor.FullName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Detalles", "Detalles", "Adquisiciones", new { id = item.Id }, new { @class = "btn btn-default" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
         <div class="box-footer">
@@ -75,4 +78,11 @@
 
 </section>
 
+@section Scripts{
 
+    <script>
+        $(document).ready(function () {
+            $("#Adquisiciones").DataTable();
+        });
+    </script>
+}

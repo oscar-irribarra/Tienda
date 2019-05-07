@@ -11,6 +11,7 @@ namespace Tienda.Models
         {
             Venta = new HashSet<Venta>();
             Arriendo = new HashSet<Arriendo>();
+            Cotizacion = new HashSet<Cotizacion>();
         }
         public int Id { get; set; }
 
@@ -26,14 +27,10 @@ namespace Tienda.Models
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
         [MaxLength(100)]
         public string Apellido { get; set; }
-        
-        [MaxLength(100)]
-        public string Comuna { get; set; }
-        
-        [MaxLength(100)]
-        public string Ciudad { get; set; }
+
         [Required(ErrorMessage = "El campo {0} es Obligatorio")]
-        public int Telefono { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        public string Telefono { get; set; }
         [MaxLength(100)]
         public string Email { get; set; }
 
@@ -41,6 +38,8 @@ namespace Tienda.Models
         public string FullName { get { return string.Format("{0} {1}", Nombre, Apellido); } }
 
         public virtual ICollection<Venta> Venta { get; set; }     
-        public virtual ICollection<Arriendo> Arriendo { get; set; }  
+        public virtual ICollection<Arriendo> Arriendo { get; set; }
+        public virtual ICollection<Cotizacion> Cotizacion { get; set; }
+
     }
 }

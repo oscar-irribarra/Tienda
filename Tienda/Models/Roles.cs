@@ -14,6 +14,7 @@ namespace Tienda.Models
         {
             var lista = new List<Roles>
             {
+            new Roles{ Id = 0, Nombre = Rol.Usuario },
             new Roles{ Id = 1, Nombre = Rol.Admin },
             new Roles{ Id = 2, Nombre = Rol.Vendedor }
             };
@@ -24,5 +25,7 @@ namespace Tienda.Models
     {
         public const string Admin = "Admin";
         public const string Vendedor = "Vendedor";
+        public const string Usuario = "Usuario";
+
     }
 }

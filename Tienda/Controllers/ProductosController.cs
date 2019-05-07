@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -8,7 +9,7 @@ using Tienda.ViewModels;
 
 namespace Tienda.Controllers
 {
-
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class ProductosController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -71,6 +72,9 @@ namespace Tienda.Controllers
             {
                 if (productoview.Productofrm.Id == 0)
                 {
+                    if (productoview.Cantidad < 0)
+                        productoview.Cantidad = 0;
+
                     _context.Productos.Add(productoview.Productofrm);
 
                     var inventario = new Inventario { ProductoId = productoview.Productofrm.Id, Stock = productoview.Cantidad };
@@ -80,7 +84,7 @@ namespace Tienda.Controllers
                     {
                         productoview.DetalleProductofrm.ProductoId = productoview.Productofrm.Id;
                         _context.DetalleProductos.Add(productoview.DetalleProductofrm);
-                        if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                        if (IndexValidacion.SaveChanges(_context).Response)
                         {
                             var detalleInBD = _context.DetalleProductos.SingleOrDefault(x => x.ProductoId == productoview.Productofrm.Id);
                             detalleInBD.ImagenFile = productoview.DetalleProductofrm.ImagenFile;
@@ -89,15 +93,15 @@ namespace Tienda.Controllers
                         else
                         {
                             productoview.DetalleProductofrm.ImagenFile = productoview.DetalleProductofrm.ImagenFile;
-                            ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Mensaje);
+                            ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Message);
 
                         }
                     }
-                    if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                    if (IndexValidacion.SaveChanges(_context).Response)
                     {
                         return RedirectToAction("Index", "Productos");
                     }
-                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Mensaje);
+                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Message);
                 }
                 else
                 {
@@ -121,11 +125,11 @@ namespace Tienda.Controllers
                         ImagenHelper.SubirImagen(detalleInBD);
                     }
 
-                    if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                    if (IndexValidacion.SaveChanges(_context).Response)
                     {
                         return RedirectToAction("Index", "Productos");
                     }
-                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Mensaje);
+                    ModelState.AddModelError("Codigoproducto", IndexValidacion.SaveChanges(_context).Message);
                 }
             }
             ViewData["Productofrm.CategoriaID"] = new SelectList(_context.Categorias.OrderBy(c => c.Nombre), "Id", "Nombre", productoview.Productofrm.CategoriaId);
@@ -133,7 +137,16 @@ namespace Tienda.Controllers
             ViewData["Productofrm.TipoProductoID"] = new SelectList(_context.TipoProductos.OrderBy(i => i.Id), "Id", "Nombre", productoview.Productofrm.TipoProductoId);
             return View("Crud", productoview);
         }
+        public JsonResult GetCategorias(int? id)
+        {
+            var categorias = new SelectList(_context.Categorias.OrderBy(c => c.Nombre), "Id", "Nombre");
 
+            if (id != null)
+            {
+                categorias = new SelectList(_context.Categorias.Where(x => x.TipoProductoId == id).OrderBy(c => c.Nombre), "Id", "Nombre");
+            }
+            return Json(categorias);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

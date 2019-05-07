@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Configuration;
 using Tienda.Models;
-using System.Data.Entity;
 
 namespace Tienda.Helpers
 {
@@ -17,7 +11,7 @@ namespace Tienda.Helpers
         public static void CheckSuperUser()
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var email = SEmpresa.email;
+            var email = DatosCorreo.EmailSoporte;
            
             var rol = Rol.Admin;
             var userASP = userManager.FindByName(email);

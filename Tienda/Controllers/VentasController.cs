@@ -11,22 +11,26 @@ using Microsoft.AspNet.Identity;
 
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Vendedor)]
     public class VentasController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
-       
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
+
         public ActionResult Index()
-        {         
-            var ventas = _context.Ventas.Include(x => x.Cliente).Include(x => x.Estado).OrderByDescending(x=>x.Id).ToList();
+        {
+            var ventas = _context.Ventas.Include(x => x.Cliente).Include(x => x.Estado).OrderByDescending(x => x.Id).ToList();
+
+
             return View(ventas);
         }
-
+        [Authorize(Roles = Rol.Vendedor + "," + Rol.Admin)]
         public ActionResult Detalles(int? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadGateway);
 
-            var _detalleventas = _context.Ventas.SingleOrDefault(x=>x.Id == id);
+            var _detalleventas = _context.Ventas.SingleOrDefault(x => x.Id == id);
 
             if (_detalleventas == null)
                 return HttpNotFound();
@@ -39,7 +43,7 @@ namespace Tienda.Controllers
             var _listaproductos = (List<AgregarProductoView>)Session["CartVentas"];
             if (_listaproductos == null)
                 return RedirectToAction("PuntodeVenta", "Ventas");
-            
+
             ViewData["DocumentoId"] = new SelectList(_context.Documentos.ToList(), "Id", "Nombre");
 
             return View();
@@ -55,20 +59,22 @@ namespace Tienda.Controllers
 
             if (ventaView.Ispublica)
                 ventaView.Rut = "0";
-
+            
             var _consultaCliente = _context.Clientes.Where(x => x.Rut == ventaView.Rut).FirstOrDefault();
 
             if (_consultaCliente == null)
             {
-                ModelState.AddModelError("", "Este cliente no se encuentra registrado");
-                return View("Crud", ventaView);
+                var _nuevocliente = new Cliente { Nombre = ventaView.Nombre, Apellido = ventaView.Apellido, Rut = ventaView.Rut, Telefono = ventaView.Telefono, Email = ventaView.Email };
+                _context.Clientes.Add(_nuevocliente);
+
+                _consultaCliente = _nuevocliente;
             }
-            
+
             var _cestaProductos = (List<AgregarProductoView>)Session["CartVentas"];
 
             var _TipoProducto = _cestaProductos.First().IdTipoProducto;
-            
-            if(User.Identity.GetUserId() == null)
+
+            if (User.Identity.GetUserId() == null)
                 return View("Crud", ventaView);
 
             var _nuevaVenta = new Venta()
@@ -78,19 +84,20 @@ namespace Tienda.Controllers
                 Fecha = DateTime.Now,
                 EstadoId = Estados.Finalizada,
                 EmpresaId = Empresas.Sostel,
+                EsOnline = false,
                 TipoProductoId = _TipoProducto,
                 VendedorId = User.Identity.GetUserId()
             };
             _context.Ventas.Add(_nuevaVenta);
-           
+
             foreach (var item in _cestaProductos)
-            {        
+            {
                 var _nuevoDetalle = new DetalleVenta()
                 {
                     VentaId = _nuevaVenta.Id,
                     ProductoId = item.IdProducto,
                     Cantidad = item.Cantidad,
-                    Precio = item.Precio         
+                    Precio = item.Precio
                 };
                 var _inventario = _context.Inventarios.Where(x => x.ProductoId == item.IdProducto).FirstOrDefault();
                 _inventario.Stock -= item.Cantidad;
@@ -101,7 +108,7 @@ namespace Tienda.Controllers
             Session["ConteoVentas"] = null;
             _context.SaveChanges();
 
-            return RedirectToAction("Detalles/"+_nuevaVenta.Id, "Ventas");
+            return RedirectToAction("Detalles/" + _nuevaVenta.Id, "Ventas");
         }
 
         public ActionResult PuntodeVenta()
@@ -109,6 +116,7 @@ namespace Tienda.Controllers
             var view = new AgregarProductoView
             {
                 DetalleCart = (List<AgregarProductoView>)Session["CartVentas"],
+                listaproductos = _context.Productos.ToList()
             };
             return View(view);
         }
@@ -219,7 +227,7 @@ namespace Tienda.Controllers
 
             return RedirectToAction("PuntodeVenta");
         }
-      
+
         public ActionResult EliminarProducto(int? id)
         {
             if (id == null)
@@ -238,6 +246,24 @@ namespace Tienda.Controllers
                 Session["CartVentas"] = null;
 
             return RedirectToAction("PuntodeVenta");
+        }
+
+        public ActionResult FinalizarVenta(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            var _venta = _context.Ventas.SingleOrDefault(x => x.Id == id);
+
+            if (_venta == null)
+                return HttpNotFound();
+
+            _venta.EstadoId = Estados.Finalizada;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Detalles/" + id, "Ventas");
+
         }
 
 

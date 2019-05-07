@@ -6,6 +6,7 @@ using Tienda.Models;
 
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class ProveedoresController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -68,7 +69,7 @@ namespace Tienda.Controllers
                     _proveedorInDB.Telefono = proveedor.Telefono;
                 }
 
-                if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                if (IndexValidacion.SaveChanges(_context).Response)
                 {
                     return RedirectToAction("Index", "Proveedores");
                 }

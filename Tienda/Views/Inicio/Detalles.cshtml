@@ -1,73 +1,69 @@
 ﻿@model Tienda.Models.Producto
 @{
-    Layout = null;
+
 }
 
-<div>
-    <h4>Producto</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Imagen)
-                </dt>
 
-                <dd>
-                    <img alt="@Html.DisplayFor(model => model.Imagen)" src="@Html.DisplayFor(model => model.Imagen)" class="img-thumbnail " style="width:400px;height:200px;max-width: 100%; max-height: 100%;" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>
+                        <asp:Label ID="lb_numeropad" runat="server" Text=""></asp:Label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            @if (!(Model.DetalleProducto.Select(dt => dt.ImagenUrl).FirstOrDefault() == null))
+                            {
 
-                </dd>
+                                <img alt="@Model.Id" src="@Url.Content(Model.DetalleProducto.SingleOrDefault().ImagenUrl)" class="img-thumbnail " style="width:400px;height:200px;max-width: 100%; max-height: 100%;" />
 
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Categoria.Nombre)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Categoria.Nombre)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Nombre)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Nombre)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Barcode)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Barcode)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Precio)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Precio)
-                </dd>
-
-            </dl>
+                            }
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Categoria.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Categoria.Nombre)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Nombre)
+                                </div>
+                            </div>      <br />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Barcode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Barcode)
+                                </div>
+                            </div>      <br />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.Precio)
+                                </div>
+                            </div>      <br />
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DetalleProducto.First().Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DisplayFor(model => model.DetalleProducto.First().Descripcion)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("Volver", "Catalogo", new { }, new { @class = "btn btn-default" })
+                </div>
+            </div>
         </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-3">
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Descripcion)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Descripcion)
-                </dd>
-            </dl>
 
-        </div>
     </div>
 </div>
-<p>
-
-    @Html.ActionLink("Volver", "Index", new { }, new { @class = "btn btn-default" })
-</p>

@@ -13,6 +13,12 @@
                 </h4>
             </div>
             <div class="modal-body">
+                <p class="bg-info">
+                    El no aumento de cantidad significa que no existe mas stock<br/>
+                    Al confirmar tanto una compra como una cotizacion le llegara una copia de esta a su correo
+                </p>
+               
+
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
@@ -20,7 +26,9 @@
                                 <th>Nombre</th>
                                 <th>Cantidad</th>
                                 <th>Precio</th>
-                                <th style="width:10px;"></th>
+                                <th style="width:10px;">
+                                    <button class="cartDel btn btn-danger btn-xs center-block" id="0"><i class="ion-trash-b"></i></button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,14 +43,17 @@
                                             <div class="col-md-4 .col-xs-6 .col-sm-4">
                                                 @if (item.Cantidad > 1)
                                                 {
-                                                    <button class="btn btn-primary btn-xs center-block" id="@item.IdProducto"><i class="ion-minus-round"></i></button>
+                                                    <button class="cartrest btn btn-primary btn-xs center-block" id="@item.IdProducto"><i class="ion-minus-round"></i></button>
                                                 }
                                             </div>
                                             <div class="col-md-4 .col-xs-6 .col-sm-4">
+
                                                 @item.Cantidad
+
+
                                             </div>
                                             <div class="col-md-4 .col-xs-6 .col-sm-4">
-                                                <button class="btn btn-primary btn-xs center-block" id="@item.IdProducto"><i class="ion-plus-round"></i></button>
+                                                <button class="cartsum btn btn-primary btn-xs center-block" id="@item.IdProducto"><i class="ion-plus-round"></i></button>
                                             </div>
                                         </div>
                                     </td>
@@ -62,13 +73,22 @@
                                 <td>
                                     @Model.DetalleCart.Sum(d => d.Precio * d.Cantidad)
                                 </td>
-                                <td>
-                                    <button class="btn btn-primary">Finalizar</button>
-                                </td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="modal-footer">
+
+
+                @if (Model.DetalleCart.Count() != 0)
+                {
+                    @Html.ActionLink("Cotizar", "Crud", "Inicio", null, new { @class = "btn btn-primary pull-left" })
+
+                    @Html.ActionLink("Comprar", "IniciarPago", "Inicio", null, new { @class = "btn btn-primary pull-right" })
+
+                }
             </div>
         </div>
     </div>

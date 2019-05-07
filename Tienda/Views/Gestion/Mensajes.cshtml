@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Tienda.Models.Contacto>
+@{
+    ViewBag.Title = "Mensajes";
+    Layout = "~/Views/Shared/_AdminLteLayout.cshtml";
+}
+
+<section class="content">
+    <ol class="breadcrumb box">
+        <li><a href="@Url.Action("Index","Gestion")">Inicio</a></li>
+        <li class="active">Mensajes</li>
+    </ol>
+    <div class="box">
+        <div class="box-header">
+            <div class="box-title">
+                <small>Mensajes</small>
+            </div>
+            <div class="box-tools">
+
+            </div>
+        </div>
+        <div class="box-body table-responsive">
+            <br />
+            <table id="Mensajes" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Telefono)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.Correo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Contenido)
+                        </th>                    
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+           
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefono)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Correo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contenido)
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer">
+
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#Mensajes").DataTable();
+        });
+    </script>
+}

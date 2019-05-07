@@ -3,25 +3,20 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Configuration;
-using System.Web.Mail;
 using System.Web.Mvc;
+using Tienda.Helpers;
 using Tienda.Models;
 using Tienda.ViewModels;
 
 namespace Tienda.Controllers
 {
-    //[AllowAnonymous]
     [Authorize]
-    //[RoutePrefix("Usuarios")]
     public class AccountController : Controller
     {
+        private ApplicationDbContext _context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -29,7 +24,7 @@ namespace Tienda.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -41,9 +36,9 @@ namespace Tienda.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -59,11 +54,7 @@ namespace Tienda.Controllers
                 _userManager = value;
             }
         }
-      
 
-        //
-        // GET: /Account/Login
-        //[Route("Ingresar")]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -71,9 +62,6 @@ namespace Tienda.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Login
-        //[Route("Ingresar")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -83,7 +71,7 @@ namespace Tienda.Controllers
             {
                 return View(model);
             }
-                var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.Email);
 
             if (user != null)
             {
@@ -99,8 +87,8 @@ namespace Tienda.Controllers
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
-                case SignInStatus.Success:                   
-                    return RedirectToAction("Index","Gestion");
+                case SignInStatus.Success:
+                    return RedirectToAction("Index", "Inicio");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -112,9 +100,6 @@ namespace Tienda.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
-      
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Requerir que el usuario haya iniciado sesión con nombre de usuario y contraseña o inicio de sesión externo
@@ -125,9 +110,7 @@ namespace Tienda.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]      
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
@@ -140,7 +123,7 @@ namespace Tienda.Controllers
             // Si un usuario introduce códigos incorrectos durante un intervalo especificado de tiempo, la cuenta del usuario 
             // se bloqueará durante un período de tiempo especificado. 
             // Puede configurar el bloqueo de la cuenta en IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -153,7 +136,7 @@ namespace Tienda.Controllers
                     return View(model);
             }
         }
-        //[Route("")]
+
         [Authorize(Roles = Rol.Admin)]
         public ActionResult Index()
         {
@@ -163,7 +146,7 @@ namespace Tienda.Controllers
             var userManager = new UserManager<ApplicationUser>(userStore);
 
             //Get all the usernames
-            foreach (var _user in userStore.Users.Where(x=>x.UserName != User.Identity.Name).ToList())
+            foreach (var _user in userStore.Users.Where(x => x.UserName != User.Identity.Name).Where(x => x.UserName != "Venta Online").ToList())
             {
                 var r = new RolesViewModel
                 {
@@ -181,47 +164,46 @@ namespace Tienda.Controllers
                 _user.RoleNames = userManager.GetRoles(userStore.Users.First(s => s.UserName == _user.UserName).Id);
             }
 
-            var user = UserManager.Users.ToList(); 
+            var user = UserManager.Users.Where(x => x.UserName != "Venta Online").ToList();
             return View(userRoles);
         }
-       [Authorize(Roles=Rol.Admin)]
+
+        [Authorize(Roles = Rol.Admin)]
         public async Task<ActionResult> BloquearUsuario(string _username, bool bloqueado = false)
         {
-                     
-                var user = await UserManager.FindByNameAsync(_username);
+
+            var user = await UserManager.FindByNameAsync(_username);
 
             if (user == null)
                 return HttpNotFound();
 
-                user.Isbloqued = bloqueado;
+            user.Isbloqued = bloqueado;
 
-                var result = await UserManager.UpdateAsync(user);
+            var result = await UserManager.UpdateAsync(user);
 
-                if (result.Succeeded)
-                {      
-                    return RedirectToAction("Index", "Account");
-                }
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Account");
+            }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return RedirectToAction("Index", "Account");
         }
-        
-        //[Route("Actualizar")]        
+
         public ActionResult Update()
         {
-            var user =  UserManager.FindByNameAsync(User.Identity.Name);           
+            var user = UserManager.FindByNameAsync(User.Identity.Name);
 
             var userView = new RegisterViewModel()
-            {             
+            {
                 Apellido = user.Result.Apellido,
                 Email = user.Result.Email,
-                Nombre = user.Result.Nombre, 
-                Rut = user.Result.Rut,                
+                Nombre = user.Result.Nombre,
+                Rut = user.Result.Rut,
             };
             return View(userView);
         }
-        
-        //[Route("Actualizar")]        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Update(RegisterViewModel model)
@@ -233,19 +215,19 @@ namespace Tienda.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(User.Identity.Name);
-            
+
                 user.UserName = model.Email;
                 user.Email = model.Email;
                 user.Nombre = model.Nombre;
                 user.Apellido = model.Apellido;
                 user.Rut = model.Rut;
                 user.Isbloqued = model.Isbloqued;
-              
+
                 var result = await UserManager.UpdateAsync(user);
 
                 if (result.Succeeded)
-                {                 
-                     AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                {
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
                     return RedirectToAction("Index", "Inicio");
                 }
@@ -255,67 +237,110 @@ namespace Tienda.Controllers
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
-        }       
+        }
 
-        //
-        // GET: /Account/Register
-        //[Route("Registrar")]
-        [Authorize(Roles = Rol.Admin)]
+        [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewData["RoleID"] = new SelectList(Roles.GetRoles(), "Id", "Nombre");
-            
+            ViewData["RoleID"] = new SelectList(Roles.GetRoles().Where(x => x.Id != 0), "Id", "Nombre");
+
             return View();
         }
 
-        //
-        // POST: /Account/Register
-        //[Route("Registrar")]
-        [HttpPost]       
-        [Authorize(Roles = Rol.Admin)]
+        [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                try
                 {
-                    Rut = model.Rut,
-                    UserName = model.Email,
-                    Email = model.Email,
-                    Nombre = model.Nombre,
-                    Apellido = model.Apellido,
-                    EmailConfirmed = true,
-                    Isbloqued = model.Isbloqued
-                };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                    var user = new ApplicationUser
+                    {
+                        Rut = model.Rut,
+                        UserName = model.Email,
+                        Email = model.Email,
+                        Nombre = model.Nombre,
+                        Apellido = model.Apellido,
+                        EmailConfirmed = true,
+                        Isbloqued = model.Isbloqued,
+                        PhoneNumber = model.Telefono
+                    };
+                    var _consultacliente = _context.Clientes.Where(x => x.Rut == model.Rut).SingleOrDefault();
+                    if (_consultacliente == null)
+                    {
+                        var cliente = new Cliente
+                        {
+                            Rut = model.Rut,
+                            Nombre = model.Nombre,
+                            Apellido = model.Apellido,
+                            Email = model.Email,
+                            Telefono = model.Telefono
+                        };
+                    }
 
-                if (result.Succeeded)
-                {
-                    var rol = Roles.GetRoles().Find(x => x.Id == model.RoleID);
-                    result = await UserManager.AddToRoleAsync(user.Id, rol.Nombre);
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Enviar correo electrónico con este vínculo
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                    return RedirectToAction("Index", "Account");
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var ct = new ClientesController();
+
+                    if (result != null)
+                    {
+                        if (_consultacliente == null)
+                        {
+                            var cliente = new Cliente
+                            {
+                                Rut = model.Rut,
+                                Nombre = model.Nombre,
+                                Apellido = model.Apellido,
+                                Email = model.Email,
+                                Telefono = model.Telefono
+                            };
+                            ct.Guardar(cliente);
+                        }
+
+                    }
+
+
+                    if (result.Succeeded)
+                    {
+                        var rol = Roles.GetRoles().Single(x => x.Id == model.RoleID);
+                        result = await UserManager.AddToRoleAsync(user.Id, rol.Nombre);
+
+                        if (model.RoleID == 0)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            return RedirectToAction("Catalogo", "Inicio");
+                        }
+
+                        return RedirectToAction("Index", "Account");
+                    }
+                    ViewData["RoleID"] = new SelectList(Roles.GetRoles(), "Id", "Nombre", model.RoleID);
+
+                    AddErrors(result);
                 }
-                ViewData["RoleID"] = new SelectList(Roles.GetRoles(), "Id", "Nombre", model.RoleID);
+                catch (System.Exception ex)
+                {
+                    var rm = string.Empty;
+                    if (ex.InnerException != null && ex.InnerException.InnerException != null
+               && ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError("", "Este rut ya se encuentra registrado");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", ex.Message);
+                    }
 
-                AddErrors(result);
+
+                }
+
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(model);
         }
 
-        //
-        // GET: /Account/ConfirmEmail
-      
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -326,18 +351,12 @@ namespace Tienda.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
-        // GET: /Account/ForgotPassword
-        //[Route("RecuperarContraseña")]
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
-        //[Route("RecuperarContraseña")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -356,10 +375,10 @@ namespace Tienda.Controllers
                 // Enviar correo electrónico con este vínculo
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-             
+
                 //await UserManager.SendEmailAsync(user.Id, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
 
-                await EnviarEmail(user.Email, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+                await EmailHelper.EnviarEmail(user.Email, "Restablecer contraseña", "Para restablecer la contraseña, haga clic <a href=\"" + callbackUrl + "\">aquí</a>", DatosCorreo.EmailSoporte);
 
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -370,7 +389,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Account/ForgotPasswordConfirmation
-        
+        [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
@@ -378,7 +397,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Account/ResetPassword
-        
+        [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
@@ -391,7 +410,7 @@ namespace Tienda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-           
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -411,33 +430,6 @@ namespace Tienda.Controllers
             return View();
         }
 
-        public static async Task EnviarEmail(string to, string subject, string body)
-        {
-            var message = new System.Net.Mail.MailMessage();
-            message.To.Add(new MailAddress(to));
-            message.From = new MailAddress(SEmpresa.email);
-            message.Subject = subject;
-            message.Body = body;
-            message.IsBodyHtml = true;
-                                      
-            using (var smtp = new SmtpClient())
-            {
-                var credential = new NetworkCredential
-                {
-                    UserName = SEmpresa.email,
-                    Password = SEmpresa.pass
-                };
-
-                smtp.Credentials = credential;
-                smtp.Host = SEmpresa.host;
-                smtp.Port = SEmpresa.port;
-                smtp.EnableSsl = true;
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                await smtp.SendMailAsync(message);
-            }
-        }
-
-        //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
@@ -447,7 +439,7 @@ namespace Tienda.Controllers
 
         //
         // POST: /Account/ExternalLogin
-        [HttpPost]  
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
@@ -457,7 +449,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Account/SendCode
-       
+
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await SignInManager.GetVerifiedUserIdAsync();
@@ -472,7 +464,7 @@ namespace Tienda.Controllers
 
         //
         // POST: /Account/SendCode
-        [HttpPost]    
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendCode(SendCodeViewModel model)
         {
@@ -491,7 +483,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Account/ExternalLoginCallback
-       
+
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -521,7 +513,7 @@ namespace Tienda.Controllers
 
         //
         // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]       
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
@@ -558,8 +550,8 @@ namespace Tienda.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -568,7 +560,7 @@ namespace Tienda.Controllers
 
         //
         // GET: /Account/ExternalLoginFailure
- 
+
         public ActionResult ExternalLoginFailure()
         {
             return View();

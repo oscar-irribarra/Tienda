@@ -19,6 +19,8 @@
     <!-- jvectormap -->
     <link rel="stylesheet" href="~/Content/Css/jquery-jvectormap.css">
     <link rel="stylesheet" href="~/Content/Css/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="~/Content/Css/bootstrap3-wysihtml5.min.css">
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -57,7 +59,7 @@
                                         <small>
                                             <b>Cargo:</b>
                                             @if (User.IsInRole("Vendedor"))
-                                            { <span>Vendedor</span> }
+                                            {<span>Vendedor</span> }
                                             else
                                             {<span>Administrador</span>}
                                         </small>
@@ -164,6 +166,23 @@
                                 <li><a href="@Url.Action("Index","Proveedores")"><i class="fa fa-circle-o"></i>Proveedores</a></li>
                             </ul>
                         </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-tasks "></i> <span>Portal</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("Index","Cotizacion")"><i class="fa fa-circle-o"></i>Cotizaciones</a></li>
+                                <li><a href="@Url.Action("Mensajes","Gestion")"><i class="fa fa-circle-o"></i>Mensajes</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Reportes","Gestion")">
+                                <i class="fa fa-bar-chart "></i> <span>Reportes</span>
+                            </a>
+                        </li>
                     }
                     @if (User.IsInRole("Admin"))
                     {
@@ -191,8 +210,10 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")   
+    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/AdminLteJs")
+    <script src="~/Content/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Content/Scripts/DataTables/dataTables.bootstrap.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

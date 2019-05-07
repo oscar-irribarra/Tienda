@@ -1,0 +1,38 @@
+﻿@model Tienda.ViewModels.CotizacionViewModel
+
+@{
+    ViewBag.Title = "Formulario";
+}
+
+@using (Html.BeginForm("GuardarCotizacion", "Inicio", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>
+                    Completar Cotizacion
+                </h4>
+            </div>
+            <div class="modal-body" style="height: 200px;">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comentario, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Comentario, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="modal-footer">
+                <input type="submit" value="Enviar" class="btn btn-default" />
+                @Html.ActionLink("Volver", "Catalogo", null, new { @class = "btn btn-default pull-right" })
+            </div>
+        </div>
+    </div>
+}

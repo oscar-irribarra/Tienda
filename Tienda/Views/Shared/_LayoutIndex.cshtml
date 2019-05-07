@@ -1,0 +1,166 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href="~/Content/Css/bootstrap.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+    <link href="~/Content/Elegant/css/style.css" rel="stylesheet" />
+    <!-- js -->
+    <script src="~/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Oleo+Script:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+    <link href="//fonts.googleapis.com/css?family=Oswald:300,400,700" rel="stylesheet">
+    <script src="~/Content/Elegant/js/move-top.js"></script>
+    <script src="~/Content/Elegant/js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+            });
+        });
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+    <style>
+        #map {
+            height: 636px;
+        }
+
+        nav .container-fluid {
+            background: #2b2b2b;
+        }
+    </style>
+    <div class="banner-figures">
+        <div class="banner" style="margin-bottom:10px;">
+            <nav class="navbar navbar-inverse" style="border-radius: 0px;">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="@Url.Action("Index", "Inicio")"><span  aria-hidden="true"><img src="https://image.flaticon.com/icons/svg/138/138310.svg" style="width:25px;"/></span>  Sostel</a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="color:aquamarine;">
+
+
+
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="@Url.Action("Catalogo", "Inicio")">Catalogo</a>
+                            </li>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a href="@Url.Action("Login", "Account")">Iniciar sesión</a>
+                                </li>
+                            }
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>  @Tienda.Helpers.IdentityExtensions.GetDisplayName(User.Identity)<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        @if (!User.IsInRole("Usuario"))
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Index", "Gestion")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>  Administrar Negocio</a>
+                                            </li>
+                                        }
+
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <a href="@Url.Action("LogOff", "Account")"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>  Cerrar Sesión</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                    <!-- /.navbar-collapse -->
+                </div>
+                <!-- /.container-fluid -->
+            </nav>
+            <div class="container">
+                <div class="header">
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="name">
+
+                    <h2>Sostel</h2>
+                    <p>Sociedad de Comercio y Telecomunicaciones Limitada</p>
+                </div>
+                <div class="social-icons animated wow bounceInDown" data-wow-duration="1000ms" data-wow-delay="800ms">
+                    <ul class="top-links"></ul>
+                </div>
+            </div>
+            <div class="banner-btm-grid-w3ls">
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <script>
+            (function ($) {
+                $(".menu-icon").on("click", function () {
+                    $(this).toggleClass("open");
+                    $(".container").toggleClass("nav-open");
+                    $("nav ul li").toggleClass("animate");
+                });
+
+            })(jQuery);
+        </script>
+
+    </div>
+
+    @RenderBody()
+
+
+
+    <div class="footer">
+        <div class="container">
+            <p> © @DateTime.Now.Year Elegant Resume.</p>
+
+            <h5 style='font-size: 8px'> All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></h5>
+            <h5 style='font-size: 8px'> <div>Iconos diseñados por <a href="https://www.flaticon.es/autores/smashicons" title="Smashicons">Smashicons</a> desde <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.com</a> con licencia <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></h5>
+
+</div>
+    </div>
+
+
+    <!-- here stars scrolling icon -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            $().UItoTop({ easingType: 'easeOutQuart' });
+        });
+    </script>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

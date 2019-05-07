@@ -47,10 +47,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.12\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Services3, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Services3.3.0.0.0\lib\net20\Microsoft.Web.Services3.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -111,6 +117,10 @@
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Webpay.Transbank.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Downloads\Webpay.Transbank.Library\Webpay.Transbank.Library\Webpay.Transbank.Library\bin\Debug\Webpay.Transbank.Library.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +206,7 @@
     <Compile Include="Controllers\ArriendosController.cs" />
     <Compile Include="Controllers\CategoriasController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
+    <Compile Include="Controllers\CotizacionController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\InicioController.cs" />
@@ -204,6 +215,8 @@
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="EntityConfigurations\CotizacionConfiguration.cs" />
+    <Compile Include="EntityConfigurations\DetalleCotizacionConfiguration.cs" />
     <Compile Include="EntityConfigurations\TipoProductoConfiguration.cs" />
     <Compile Include="EntityConfigurations\AdquisicionConfiguration.cs" />
     <Compile Include="EntityConfigurations\ArriendoConfiguration.cs" />
@@ -218,6 +231,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EmailHelper.cs" />
     <Compile Include="Helpers\IdentityExtensions.cs" />
     <Compile Include="Helpers\ImagenHelper.cs" />
     <Compile Include="Helpers\IndexValidacion.cs" />
@@ -270,6 +284,10 @@
     <Compile Include="Migrations\201711150715235_CambioTipoTelefonoContacto.Designer.cs">
       <DependentUpon>201711150715235_CambioTipoTelefonoContacto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711150756511_CambioModelo.cs" />
+    <Compile Include="Migrations\201711150756511_CambioModelo.Designer.cs">
+      <DependentUpon>201711150756511_CambioModelo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.cs" />
     <Compile Include="Migrations\201711150815015_cambiomodeloclienteproveedor.Designer.cs">
       <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
@@ -286,10 +304,40 @@
     <Compile Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.Designer.cs">
       <DependentUpon>201711232218581_nuevocampoPrecioenDetalleVenta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711262329508_EsonlineTablaVentas.cs" />
+    <Compile Include="Migrations\201711262329508_EsonlineTablaVentas.Designer.cs">
+      <DependentUpon>201711262329508_EsonlineTablaVentas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712082112432_eliminaratributosclientes.cs" />
+    <Compile Include="Migrations\201712082112432_eliminaratributosclientes.Designer.cs">
+      <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712130406261_tablasdecotizacion.cs" />
+    <Compile Include="Migrations\201712130406261_tablasdecotizacion.Designer.cs">
+      <DependentUpon>201712130406261_tablasdecotizacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712130407495_cambiodenombretablacotizacion.cs" />
+    <Compile Include="Migrations\201712130407495_cambiodenombretablacotizacion.Designer.cs">
+      <DependentUpon>201712130407495_cambiodenombretablacotizacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712130410311_agregartablasaBD.cs" />
+    <Compile Include="Migrations\201712130410311_agregartablasaBD.Designer.cs">
+      <DependentUpon>201712130410311_agregartablasaBD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712160358028_nuevosatributosarriendousuario.cs" />
+    <Compile Include="Migrations\201712160358028_nuevosatributosarriendousuario.Designer.cs">
+      <DependentUpon>201712160358028_nuevosatributosarriendousuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712170536153_quitarindiceunicoaspusers.cs" />
+    <Compile Include="Migrations\201712170536153_quitarindiceunicoaspusers.Designer.cs">
+      <DependentUpon>201712170536153_quitarindiceunicoaspusers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Cotizacion.cs" />
     <Compile Include="Models\DatosCorreo.cs" />
-    <Compile Include="Models\Respuesta.cs" />
+    <Compile Include="Models\DetalleCotizacion.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\Roles.cs" />
     <Compile Include="Models\TipoProducto.cs" />
     <Compile Include="Models\Adquisicion.cs" />
@@ -314,7 +362,10 @@
     <Compile Include="Models\Venta.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Transbank\cert-normal.cs" />
+    <Compile Include="Transbank\tbk-normal.cs" />
     <Compile Include="ViewModels\AgregarProductoView.cs" />
+    <Compile Include="ViewModels\TsbViewModel.cs" />
     <Compile Include="ViewModels\FormProductoViewModel.cs" />
     <Compile Include="ViewModels\ProductoViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -329,6 +380,113 @@
     <Content Include="Content\Css\bootstrap.min.css" />
     <Content Include="Content\Css\bootstrap3-wysihtml5.min.css" />
     <Content Include="Content\Css\font-awesome.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
+    <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.dataTables.css" />
+    <Content Include="Content\DataTables\css\autoFill.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.foundation.css" />
+    <Content Include="Content\DataTables\css\autoFill.foundation.min.css" />
+    <Content Include="Content\DataTables\css\autoFill.jqueryui.css" />
+    <Content Include="Content\DataTables\css\autoFill.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\buttons.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\buttons.dataTables.css" />
+    <Content Include="Content\DataTables\css\buttons.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\buttons.foundation.css" />
+    <Content Include="Content\DataTables\css\buttons.foundation.min.css" />
+    <Content Include="Content\DataTables\css\buttons.jqueryui.css" />
+    <Content Include="Content\DataTables\css\buttons.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.bootstrap.css" />
+    <Content Include="Content\DataTables\css\colReorder.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.dataTables.css" />
+    <Content Include="Content\DataTables\css\colReorder.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.foundation.css" />
+    <Content Include="Content\DataTables\css\colReorder.foundation.min.css" />
+    <Content Include="Content\DataTables\css\colReorder.jqueryui.css" />
+    <Content Include="Content\DataTables\css\colReorder.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap4.css" />
+    <Content Include="Content\DataTables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.foundation.css" />
+    <Content Include="Content\DataTables\css\dataTables.foundation.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.jqueryui.css" />
+    <Content Include="Content\DataTables\css\dataTables.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.material.css" />
+    <Content Include="Content\DataTables\css\dataTables.material.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.semanticui.css" />
+    <Content Include="Content\DataTables\css\dataTables.semanticui.min.css" />
+    <Content Include="Content\DataTables\css\dataTables.uikit.css" />
+    <Content Include="Content\DataTables\css\dataTables.uikit.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.bootstrap.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.dataTables.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.foundation.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.foundation.min.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.jqueryui.css" />
+    <Content Include="Content\DataTables\css\fixedColumns.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.bootstrap.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.dataTables.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.foundation.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.foundation.min.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.jqueryui.css" />
+    <Content Include="Content\DataTables\css\fixedHeader.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\jquery.dataTables.css" />
+    <Content Include="Content\DataTables\css\jquery.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\jquery.dataTables_themeroller.css" />
+    <Content Include="Content\DataTables\css\keyTable.bootstrap.css" />
+    <Content Include="Content\DataTables\css\keyTable.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.dataTables.css" />
+    <Content Include="Content\DataTables\css\keyTable.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.foundation.css" />
+    <Content Include="Content\DataTables\css\keyTable.foundation.min.css" />
+    <Content Include="Content\DataTables\css\keyTable.jqueryui.css" />
+    <Content Include="Content\DataTables\css\keyTable.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\responsive.bootstrap.css" />
+    <Content Include="Content\DataTables\css\responsive.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\responsive.dataTables.css" />
+    <Content Include="Content\DataTables\css\responsive.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\responsive.foundation.css" />
+    <Content Include="Content\DataTables\css\responsive.foundation.min.css" />
+    <Content Include="Content\DataTables\css\responsive.jqueryui.css" />
+    <Content Include="Content\DataTables\css\responsive.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.bootstrap.css" />
+    <Content Include="Content\DataTables\css\rowReorder.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.dataTables.css" />
+    <Content Include="Content\DataTables\css\rowReorder.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.foundation.css" />
+    <Content Include="Content\DataTables\css\rowReorder.foundation.min.css" />
+    <Content Include="Content\DataTables\css\rowReorder.jqueryui.css" />
+    <Content Include="Content\DataTables\css\rowReorder.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\scroller.bootstrap.css" />
+    <Content Include="Content\DataTables\css\scroller.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\scroller.dataTables.css" />
+    <Content Include="Content\DataTables\css\scroller.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\scroller.foundation.css" />
+    <Content Include="Content\DataTables\css\scroller.foundation.min.css" />
+    <Content Include="Content\DataTables\css\scroller.jqueryui.css" />
+    <Content Include="Content\DataTables\css\scroller.jqueryui.min.css" />
+    <Content Include="Content\DataTables\css\select.bootstrap.css" />
+    <Content Include="Content\DataTables\css\select.bootstrap.min.css" />
+    <Content Include="Content\DataTables\css\select.dataTables.css" />
+    <Content Include="Content\DataTables\css\select.dataTables.min.css" />
+    <Content Include="Content\DataTables\css\select.foundation.css" />
+    <Content Include="Content\DataTables\css\select.foundation.min.css" />
+    <Content Include="Content\DataTables\css\select.jqueryui.css" />
+    <Content Include="Content\DataTables\css\select.jqueryui.min.css" />
+    <Content Include="Content\DataTables\images\details_close.png" />
+    <Content Include="Content\DataTables\images\details_open.png" />
+    <Content Include="Content\DataTables\images\sort_asc.png" />
+    <Content Include="Content\DataTables\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables\images\sort_both.png" />
+    <Content Include="Content\DataTables\images\sort_desc.png" />
+    <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
+    <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\Elegant\css\style.css" />
     <Content Include="Content\Elegant\images\arr.png" />
     <Content Include="Content\Elegant\images\banner.jpg" />
@@ -365,6 +523,10 @@
     <Content Include="Content\Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\DataTables\css\mixins.scss" />
+    <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="Content\597020000541\597020000541.pfx" />
+    <Content Include="Content\597020000541\tbk.pem" />
     <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\Scripts\error-jquery.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.js" />
@@ -389,6 +551,70 @@
     <Content Include="Content\Css\bootstrap-theme.min.css.map" />
     <Content Include="Content\Css\bootstrap.css.map" />
     <Content Include="Content\Css\bootstrap.min.css.map" />
+    <Content Include="Content\Scripts\DataTables\autoFill.bootstrap.js" />
+    <Content Include="Content\Scripts\DataTables\autoFill.bootstrap.min.js" />
+    <Content Include="Content\Scripts\DataTables\autoFill.foundation.js" />
+    <Content Include="Content\Scripts\DataTables\autoFill.foundation.min.js" />
+    <Content Include="Content\Scripts\DataTables\autoFill.jqueryui.js" />
+    <Content Include="Content\Scripts\DataTables\autoFill.jqueryui.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.bootstrap.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.bootstrap.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.bootstrap4.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.bootstrap4.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.colVis.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.colVis.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.flash.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.flash.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.foundation.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.foundation.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.html5.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.html5.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.jqueryui.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.jqueryui.min.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.print.js" />
+    <Content Include="Content\Scripts\DataTables\buttons.print.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.autoFill.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.autoFill.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.bootstrap.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.bootstrap.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.bootstrap4.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.bootstrap4.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.buttons.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.buttons.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.colReorder.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.colReorder.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.fixedColumns.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.fixedColumns.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.fixedHeader.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.fixedHeader.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.foundation.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.foundation.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.jqueryui.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.jqueryui.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.keyTable.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.keyTable.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.material.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.material.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.responsive.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.responsive.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.rowReorder.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.rowReorder.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.scroller.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.scroller.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.select.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.select.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.semanticui.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.semanticui.min.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.uikit.js" />
+    <Content Include="Content\Scripts\DataTables\dataTables.uikit.min.js" />
+    <Content Include="Content\Scripts\DataTables\jquery.dataTables.js" />
+    <Content Include="Content\Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Content\Scripts\DataTables\responsive.bootstrap.js" />
+    <Content Include="Content\Scripts\DataTables\responsive.bootstrap.min.js" />
+    <Content Include="Content\Scripts\DataTables\responsive.foundation.js" />
+    <Content Include="Content\Scripts\DataTables\responsive.foundation.min.js" />
+    <Content Include="Content\Scripts\DataTables\responsive.jqueryui.js" />
+    <Content Include="Content\Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -401,7 +627,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutIndex.cshtml" />
     <Content Include="Views\Inicio\About.cshtml" />
     <Content Include="Views\Inicio\Contact.cshtml" />
     <Content Include="Views\Inicio\Index.cshtml" />
@@ -458,6 +684,18 @@
     <Content Include="Views\Inicio\Detalles.cshtml" />
     <Content Include="Views\Inicio\Catalogo.cshtml" />
     <Content Include="Views\Inicio\_ItemCesta.cshtml" />
+    <Content Include="Views\Gestion\Reportes.cshtml" />
+    <Content Include="Views\Inicio\_Formtransbank.cshtml" />
+    <Content Include="Views\Inicio\_Formerror.cshtml" />
+    <Content Include="Views\Inicio\IniciarPago.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Inicio\Crud.cshtml" />
+    <Content Include="Views\Gestion\Mensajes.cshtml" />
+    <Content Include="Views\Cotizacion\Index.cshtml" />
+    <Content Include="Views\Cotizacion\Detalles.cshtml" />
+    <Content Include="Views\Inicio\_Listaproductos.cshtml" />
+    <Content Include="Views\Inicio\MisCompras.cshtml" />
+    <Content Include="Views\Inicio\Detallecompras.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -512,6 +750,9 @@
     <EmbeddedResource Include="Migrations\201711150715235_CambioTipoTelefonoContacto.resx">
       <DependentUpon>201711150715235_CambioTipoTelefonoContacto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150756511_CambioModelo.resx">
+      <DependentUpon>201711150756511_CambioModelo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711150815015_cambiomodeloclienteproveedor.resx">
       <DependentUpon>201711150815015_cambiomodeloclienteproveedor.cs</DependentUpon>
     </EmbeddedResource>
@@ -524,10 +765,38 @@
     <EmbeddedResource Include="Migrations\201711232218581_nuevocampoPrecioenDetalleVenta.resx">
       <DependentUpon>201711232218581_nuevocampoPrecioenDetalleVenta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711262329508_EsonlineTablaVentas.resx">
+      <DependentUpon>201711262329508_EsonlineTablaVentas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712082112432_eliminaratributosclientes.resx">
+      <DependentUpon>201712082112432_eliminaratributosclientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712130406261_tablasdecotizacion.resx">
+      <DependentUpon>201712130406261_tablasdecotizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712130407495_cambiodenombretablacotizacion.resx">
+      <DependentUpon>201712130407495_cambiodenombretablacotizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712130410311_agregartablasaBD.resx">
+      <DependentUpon>201712130410311_agregartablasaBD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712160358028_nuevosatributosarriendousuario.resx">
+      <DependentUpon>201712160358028_nuevosatributosarriendousuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712170536153_quitarindiceunicoaspusers.resx">
+      <DependentUpon>201712170536153_quitarindiceunicoaspusers.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

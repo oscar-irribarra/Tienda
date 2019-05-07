@@ -5,6 +5,7 @@ using Tienda.Models;
 
 namespace Tienda.Controllers
 {
+    [Authorize(Roles = Rol.Admin + "," + Rol.Vendedor)]
     public class ClientesController : Controller
     {
         private ApplicationDbContext _context = new ApplicationDbContext();
@@ -52,11 +53,9 @@ namespace Tienda.Controllers
                     clienteInDb.Telefono = cliente.Telefono;
                     clienteInDb.Apellido = cliente.Apellido;
                     clienteInDb.Email = cliente.Email;
-                    clienteInDb.Comuna = cliente.Comuna;
-                    clienteInDb.Ciudad = cliente.Ciudad;
                 }
 
-                if (IndexValidacion.SaveChanges(_context).Respuestaex)
+                if (IndexValidacion.SaveChanges(_context).Response)
                 {
                     return RedirectToAction("Index", "Clientes");
                 }

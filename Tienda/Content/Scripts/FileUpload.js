@@ -6,7 +6,7 @@ function handleFileSelect(e) {
     var files = e.target.files;
     var filesArr = Array.prototype.slice.call(files);
     filesArr.forEach(function (f, item) {
-        if ((f.type.match("image.jpeg")) || (f.type.match("image.png"))) {
+        if (f.type.match("image.jpeg") || f.type.match("image.png")) {
             var reader = new FileReader();
             reader.readAsDataURL(f);
             $("#NombreArchivo").empty();
@@ -15,7 +15,7 @@ function handleFileSelect(e) {
         }
         else {
             alert("El archivo " + f.name + ' no puede ser cargado, solo jpg y png');
-            #("#files").val("");
+            $("#files").val("");
             return;
         }
     });

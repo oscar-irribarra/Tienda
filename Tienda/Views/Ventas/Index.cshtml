@@ -22,50 +22,66 @@
                 </ul>
             </div>
         </div>
-        <div class="box-body table-responsive no-padding">
-            <table class="table table-hover">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Id)
-                    </th>
-                    <th>
-                        Fecha
-                    </th>  
-                    <th>
-                        Cliente
-                    </th>
-                    <th>
-                        Estado Venta
-                    </th> 
-                    <th>Vendedor</th>
-                   <th></th>
-                </tr>
-
-                @foreach (var item in Model)
-                {
+        <div class="box-body table-responsive">
+            <br />
+            <table id="Ventas" class="table table-bordered">
+                <thead>
                     <tr>
-
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @string.Format("{0:dd-MM-yyyy}",item.Fecha)
-                        </td> 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cliente.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Estado.Nombre) 
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Vendedor.FullName)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Detalles","Detalles","Ventas",new { id = item.Id }, new { @class="btn btn-default" })
-                        </td>   
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            Fecha
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Cliente Rut
+                        </th>
+                        <th>
+                            Estado Venta
+                        </th>
+                        <th>Tipo</th>
+                        <th></th>
                     </tr>
-                }
-               
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @string.Format("{0:dd-MM-yyyy}", item.Fecha)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cliente.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cliente.Rut)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                            </td>
+                            <td>
+                                @if (item.EsOnline)
+                                {
+                                    <label>Online</label>
+                                }
+                                else
+                                {
+                                    <label>Local</label>
+                                }
+                            </td>
+                            <td>
+                                @Html.ActionLink("Detalles", "Detalles", "Ventas", new { id = item.Id }, new { @class = "btn btn-default" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
         <div class="box-footer">
@@ -75,3 +91,11 @@
 
 
 </section>
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#Ventas").DataTable();
+        });
+    </script>
+}
